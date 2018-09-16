@@ -2,10 +2,12 @@ package;
 
 class Mutagen {
     
-    private var:Player _player;  //reference to player 
+    private var:Player _player;     //reference to player 
+    private var:String _recipe;     //for comparison between player's "inventory" and components necessary to create mutagen
 
     public funtion new(p:Player) {
         _player = p;
+        _recipe = new Array();
     }
 
     // All mutagens must be synthesized by getting all components and pressing the synthesize button.

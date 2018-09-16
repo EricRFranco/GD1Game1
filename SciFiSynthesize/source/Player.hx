@@ -11,12 +11,15 @@ class Player extends FlxSprite  {
   public  var xvel:Float = 0; //store x velocity
   public  var yvel:Float = 0; // store y velocity
   public  var airborne:Bool = true; //is the player off the ground?
+  private var _inventory = new Array(); //Stores all components the player has picked up
+
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
     drag.x = 1000;
     drag.y = 0;
   }
+
   function move():Void {
     var _up:Bool = false;
     var _down:Bool = false;
@@ -81,4 +84,9 @@ class Player extends FlxSprite  {
     super.update(elapsed);
   }
 
+  // Is called whenever a component is picked up
+  public function addToInventory(c:Component) : Void {
+    _inventory.push(c);
+    trace(_inventory.length);
+  }
 }
