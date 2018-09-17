@@ -40,7 +40,7 @@ class Player extends FlxSprite  {
     if (rushing) {
       rush(true);  // Continues rush velocity if in rushing animation
     }
-    if (airborne){
+    else if (airborne){
       _oldy = _oldy + 4;
       if (_left && _right){
         velocity.set(0,_oldy);
@@ -108,6 +108,9 @@ class Player extends FlxSprite  {
 		}
 		else if (xvel < 0) {
 			velocity.set(xvel - 400, 0);
+		} 
+		else {
+			return;
 		}
 
 		// If rush is just now being triggered, starts timers for cooldown/continuing rush
@@ -125,6 +128,7 @@ class Player extends FlxSprite  {
   // Called when timer concludes to stop rushing velocity
   function stop_rush(Timer:FlxTimer) : Void {
 	  rushing = false;
+	  velocity.set(0, 0);
 	  just_rushed = true;
   }
 
