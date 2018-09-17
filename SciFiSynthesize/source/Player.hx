@@ -22,9 +22,9 @@ class Player extends FlxSprite  {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
     drag.x = 1000;
-    drag.y = 1000;
+    drag.y = 0; // vertical drag is handled manually by the move() function
   }
-  
+
   function move():Void {
     var _up:Bool = false;
     var _down:Bool = false;
@@ -36,13 +36,27 @@ class Player extends FlxSprite  {
     _down = FlxG.keys.anyPressed([DOWN, S]);
     _left = FlxG.keys.anyPressed([LEFT, A]);
     _right = FlxG.keys.anyPressed([RIGHT, D]);
-	
-	if (rushing) { rush(true); } // Continues rush velocity if in rushing animation
-    else if (airborne){
+
+    if (rushing) {
+      rush(true);  // Continues rush velocity if in rushing animation
+    }
+    if (airborne){
       _oldy = _oldy + 4;
-      velocity.set(_oldx,_oldy);
+      if (_left && _right){
+        velocity.set(0,_oldy);
+      }
+      else if (_left){
+        velocity.set(-speed,_oldy);
+        xvel = -speed;
+      }
+      else if (_right){
+        velocity.set(speed,_oldy);
+        xvel = speed;
+      }
+      else {
+        velocity.set(_oldx,_oldy);
+      }
       yvel = _oldy;
-      //trace( velocity);
     }
     else if (_up && _down){
       _up = _down = false;
@@ -74,51 +88,46 @@ class Player extends FlxSprite  {
       velocity.set(0,-jump);
       airborne = true;
       yvel = -jump;
-    } 
-	else {
-	  velocity.set(0, 0);
-	  xvel = 0;
-	  yvel = 0;
-	}
-  }
+    }
+}
 
   public function grounded() : Bool {
     airborne = false;
     velocity.set(xvel, 0);
     yvel = 0;
-	air_rush = true;
+	  air_rush = true;
     return true;
   }
-  
+
   // Allows the player a short burst of speed, argument tells if player is in the middle of action
   function rush(midrush:Bool) : Void {
 	var _rush = FlxG.keys.justPressed.C;
 	if ((_rush || midrush) && !just_rushed && air_rush) {
 		if (xvel > 0) {
 			velocity.set(xvel + 400, 0);
-		} 
+		}
 		else if (xvel < 0) {
 			velocity.set(xvel - 400, 0);
 		}
-		
+
 		// If rush is just now being triggered, starts timers for cooldown/continuing rush
 		if (!midrush) {
 			rushing = true;
 			new FlxTimer().start(0.075, stop_rush, 1); // Timer for rush duration
 			new FlxTimer().start(0.5, end_cooldown, 1); // Cooldown timer
 		}
-		
+
 		// If player is airborne, disallows more rushes until grounded
 		if (airborne) { air_rush = false; }
 	}
   }
-  
+
   // Called when timer concludes to stop rushing velocity
   function stop_rush(Timer:FlxTimer) : Void {
 	  rushing = false;
 	  just_rushed = true;
   }
-  
+
   // Called when timer concludes to end cooldown for rush
   function end_cooldown(Timer: FlxTimer) : Void {
 	  just_rushed = false;
