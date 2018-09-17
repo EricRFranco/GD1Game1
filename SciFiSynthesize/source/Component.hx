@@ -14,7 +14,7 @@ class Component extends FlxSprite {
         makeGraphic(20, 20, FlxColor.RED);
     }
 
-    public function GetLabel():String {
+    public function getLabel():String {
         return _label;
     }
 }

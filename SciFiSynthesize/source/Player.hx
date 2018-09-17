@@ -12,6 +12,8 @@ class Player extends FlxSprite  {
   public  var yvel:Float = 0; // store y velocity
   public  var airborne:Bool = true; //is the player off the ground?
   private var _inventory = new Array(); //Stores all components the player has picked up
+  private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
+  private var _selectedMutagen:Mutagen;
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
@@ -81,12 +83,61 @@ class Player extends FlxSprite  {
 
   override public function update( elapsed:Float ) : Void {
     move();
+    // Checking if any mutagens can be made, and if the key has been pressed to create it.
+    for(m in PlayState.allMutagens) {
+      if(hasAllComponents(m) && FlxG.keys.justPressed.E) {
+        synthesizeMutagen(m);
+        break;  // To ensure you only synthesize one mutagen at a time.
+      }
+    }
     super.update(elapsed);
   }
 
   // Is called whenever a component is picked up
   public function addToInventory(c:Component) : Void {
     _inventory.push(c);
-    trace(_inventory.length);
+  }
+
+  // Adds new mutagen to player's accessible mutagens, then removes the components used from the inventory.
+  // NEED TO ACCOMODATE FOR HAVING MORE THAN ONE OF THE SAME COMPONENT
+  public function synthesizeMutagen(m:Mutagen) : Void {
+    _mutagens.push(m);
+    selectMutagen(m);
+    for(c in _inventory) {
+      for(item in m.getRecipe()) {
+        if(c.getLabel() == item) {
+          _inventory.remove(c);
+        }
+      }
+    }
+    for(mut in _mutagens) {
+      if(mut == m)
+        trace("Mutagen synthesized.");
+    }
+  }
+
+  public function selectMutagen(m:Mutagen):Void {
+    _selectedMutagen = m;
+    m.changePlayerColor();
+  }
+
+  public function hasAllComponents(m:Mutagen):Bool {
+    var playerComponents = new Array();
+    for(x in 0...m.getRecipe().length) {
+      playerComponents.push(0);
+    }
+
+    for(i in 0...m.getRecipe().length) {
+      for(inv in _inventory) {
+        if(m.getRecipe()[i] == inv.getLabel())
+          playerComponents[i]++;
+      }
+    }
+    
+    for(i in playerComponents) {
+      if(i == 0)
+        return false;
+    }
+    return true;
   }
 }
