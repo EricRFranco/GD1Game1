@@ -40,7 +40,7 @@ class Player extends FlxSprite  {
     if (rushing) {
       rush(true);  // Continues rush velocity if in rushing animation
     }
-    if (airborne){
+    else if (airborne){
       _oldy = _oldy + 4;
       if (_left && _right){
         velocity.set(0,_oldy);
