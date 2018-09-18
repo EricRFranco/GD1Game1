@@ -14,12 +14,11 @@ class PlayState extends FlxState
 	var _spring:Component;	// Exist only to test mutagen synthesis
 	var _shoe:Component;	
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
-	public static var allMutagens = new Array<Mutagen>();
+
 	override public function create():Void
 	{
 		_player = new Player(320, 200);
 		add(_player);
-		initializeMutagens();
 		_ground = new FlxSprite();
 		_ground.makeGraphic(640,240,FlxColor.GRAY);
 		_ground.x = 0;
@@ -60,9 +59,4 @@ class PlayState extends FlxState
 		}
   	}
 
-	// Add all new mutagens here for now after they've been implemented.
-	// There might be a better way to do this but I wanted to make sure we could start implementing ASAP.
-	public function initializeMutagens() : Void {
-		allMutagens.push(new HighJump(_player));
-	}
 }

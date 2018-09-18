@@ -5,6 +5,7 @@ import flixel.util.FlxColor;
 class HighJump extends Mutagen {
     public override function new(p:Player) {
         super(p);
+        createRecipe();
     }
 
     public override function activate():Void {
@@ -24,5 +25,9 @@ class HighJump extends Mutagen {
         trace("Changing player color");
         //_player.color = FlxColor.GREEN;   // Apparently changing color this way makes the sprite disappear altogether.
     }
+
+    /*public override function getRecipe():Array<String> {
+        return _recipe;
+    }*/
 
 }

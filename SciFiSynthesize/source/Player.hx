@@ -18,11 +18,13 @@ class Player extends FlxSprite  {
   private var _inventory = new Array(); //Stores all components the player has picked up
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
+  private var _allMutagens = new Array<Mutagen>(); //Stores all possible mutagens
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
     drag.x = 1000;
     drag.y = 0; // vertical drag is handled manually by the move() function
+    addAllMutagens();
   }
 
   function move():Void {
@@ -139,15 +141,23 @@ class Player extends FlxSprite  {
 
   override public function update( elapsed:Float ) : Void {
     move();
-	rush(false);
+	  rush(false);
     // Checking if any mutagens can be made, and if the key has been pressed to create it.
-    for(m in PlayState.allMutagens) {
+    for(m in _allMutagens) {
       if(hasAllComponents(m) && FlxG.keys.justPressed.E) {
         synthesizeMutagen(m);
         break;  // To ensure you only synthesize one mutagen at a time.
       }
     }
     super.update(elapsed);
+  }
+
+  public function allMutagens() : Array<Mutagen> {
+    return _allMutagens;
+  }
+
+  public function addAllMutagens() : Void {
+    _allMutagens.push(new HighJump(this));
   }
 
   // Is called whenever a component is picked up
@@ -179,6 +189,7 @@ class Player extends FlxSprite  {
   }
 
   public function hasAllComponents(m:Mutagen):Bool {
+    trace(m.getRecipe().length);
     var playerComponents = new Array();
     for(x in 0...m.getRecipe().length) {
       playerComponents.push(0);
