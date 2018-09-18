@@ -16,11 +16,11 @@ class Mutagen {
 
     // When the player cycles through their already-created mutagens, they will activate one and deactivate all others.
     public function activate():Void {
-
+        
     }
 
     public function deactivate():Void {
-
+        
     }
 
     private function createRecipe():Void {

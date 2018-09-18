@@ -9,11 +9,13 @@ class HighJump extends Mutagen {
     }
 
     public override function activate():Void {
-
+        _player.jump *= 2;
+        trace(_player.jump);
     }
 
     public override function deactivate():Void {
-        
+        _player.jump /= 2;
+        trace(_player.jump);
     }
 
     private override function createRecipe():Void {

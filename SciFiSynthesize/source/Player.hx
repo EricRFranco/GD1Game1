@@ -184,12 +184,14 @@ class Player extends FlxSprite  {
   }
 
   public function selectMutagen(m:Mutagen):Void {
+    if(_selectedMutagen != null)
+      _selectedMutagen.deactivate();
     _selectedMutagen = m;
-    m.changePlayerColor();
+    _selectedMutagen.activate();
+    _selectedMutagen.changePlayerColor();
   }
 
   public function hasAllComponents(m:Mutagen):Bool {
-    trace(m.getRecipe().length);
     var playerComponents = new Array();
     for(x in 0...m.getRecipe().length) {
       playerComponents.push(0);
