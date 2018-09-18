@@ -7,6 +7,7 @@ class Mutagen {
 
     public function new(p:Player) {
         _player = p;
+        createRecipe();
     }
 
     public function getRecipe() : Array<String> {
