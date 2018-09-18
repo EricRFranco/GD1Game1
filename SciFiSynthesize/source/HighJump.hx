@@ -3,16 +3,15 @@ package;
 import flixel.util.FlxColor;
 
 class HighJump extends Mutagen {
-    public override function new(p:Player) {
-        super(p);
-    }
 
     public override function activate():Void {
-
+        _player.jump *= 2;
+        trace(_player.jump);
     }
 
     public override function deactivate():Void {
-        
+        _player.jump /= 2;
+        trace(_player.jump);
     }
 
     private override function createRecipe():Void {

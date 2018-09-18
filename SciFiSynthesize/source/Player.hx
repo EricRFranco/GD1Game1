@@ -18,11 +18,13 @@ class Player extends FlxSprite  {
   private var _inventory = new Array(); //Stores all components the player has picked up
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
+  private var _allMutagens = new Array<Mutagen>(); //Stores all possible mutagens
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
     drag.x = 1000;
     drag.y = 0; // vertical drag is handled manually by the move() function
+    addAllMutagens();
   }
 
   function move():Void {
@@ -89,6 +91,9 @@ class Player extends FlxSprite  {
       airborne = true;
       yvel = -jump;
     }
+    else{
+      velocity.set(0,0);
+    }
 }
 
   public function grounded() : Bool {
@@ -108,7 +113,7 @@ class Player extends FlxSprite  {
 		}
 		else if (xvel < 0) {
 			velocity.set(xvel - 400, 0);
-		} 
+		}
 		else {
 			return;
 		}
@@ -139,15 +144,29 @@ class Player extends FlxSprite  {
 
   override public function update( elapsed:Float ) : Void {
     move();
-	rush(false);
+	  rush(false);
+    var cycle:Bool = true;
     // Checking if any mutagens can be made, and if the key has been pressed to create it.
-    for(m in PlayState.allMutagens) {
+    for(m in _allMutagens) {
       if(hasAllComponents(m) && FlxG.keys.justPressed.E) {
         synthesizeMutagen(m);
+        cycle = false;
         break;  // To ensure you only synthesize one mutagen at a time.
       }
     }
+    if(cycle && FlxG.keys.justPressed.E) {
+      cycleMutagen();
+    }
     super.update(elapsed);
+  }
+
+  public function allMutagens() : Array<Mutagen> {
+    return _allMutagens;
+  }
+
+  public function addAllMutagens() : Void {
+    _allMutagens.push(new HighJump(this));
+    _allMutagens.push(new SuperRush(this));
   }
 
   // Is called whenever a component is picked up
@@ -173,9 +192,21 @@ class Player extends FlxSprite  {
     }
   }
 
+  public function cycleMutagen() {
+    var currentIndex:Int = _allMutagens.indexOf(_selectedMutagen);
+    trace("Selecting new mutagen");
+    if(currentIndex == _allMutagens.length - 1)
+      selectMutagen(_allMutagens[0]);
+    else 
+      selectMutagen(_allMutagens[currentIndex + 1]);
+  }
+
   public function selectMutagen(m:Mutagen):Void {
+    if(_selectedMutagen != null)
+      _selectedMutagen.deactivate();
     _selectedMutagen = m;
-    m.changePlayerColor();
+    _selectedMutagen.activate();
+    _selectedMutagen.changePlayerColor();
   }
 
   public function hasAllComponents(m:Mutagen):Bool {
@@ -190,7 +221,7 @@ class Player extends FlxSprite  {
           playerComponents[i]++;
       }
     }
-    
+
     for(i in playerComponents) {
       if(i == 0)
         return false;
