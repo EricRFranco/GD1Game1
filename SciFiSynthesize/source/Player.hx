@@ -91,6 +91,9 @@ class Player extends FlxSprite  {
       airborne = true;
       yvel = -jump;
     }
+    else{
+      velocity.set(0,0);
+    }
 }
 
   public function grounded() : Bool {
@@ -110,7 +113,7 @@ class Player extends FlxSprite  {
 		}
 		else if (xvel < 0) {
 			velocity.set(xvel - 400, 0);
-		} 
+		}
 		else {
 			return;
 		}
@@ -218,7 +221,7 @@ class Player extends FlxSprite  {
           playerComponents[i]++;
       }
     }
-    
+
     for(i in playerComponents) {
       if(i == 0)
         return false;
