@@ -12,7 +12,9 @@ class PlayState extends FlxState
 	var _player:Player;
 	var _ground:FlxSprite;
 	var _spring:Component;	// Exist only to test mutagen synthesis
-	var _shoe:Component;	
+	var _shoe:Component;
+	var _fan:Component;
+	var _battery:Component;	
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 
 	override public function create():Void
@@ -24,12 +26,20 @@ class PlayState extends FlxState
 		_ground.x = 0;
 		_ground.y = 240;
 		add(_ground);
+		//components for high jump on left of player
 		_spring = new Component("Spring", 200, 220);
 		add(_spring);
 		_sceneComponents.add(_spring);
-		_shoe = new Component("Shoe", 400, 220);
+		_shoe = new Component("Shoe", 150, 220);
 		add(_shoe);
 		_sceneComponents.add(_shoe);
+		//components for super rush on the right of player
+		_fan = new Component("Fan", 400, 220);
+		add(_fan);
+		_sceneComponents.add(_fan);
+		_battery = new Component("Battery", 450, 220);
+		add(_battery);
+		_sceneComponents.add(_battery);
 		super.create();
 	}
 

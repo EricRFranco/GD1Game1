@@ -142,12 +142,17 @@ class Player extends FlxSprite  {
   override public function update( elapsed:Float ) : Void {
     move();
 	  rush(false);
+    var cycle:Bool = true;
     // Checking if any mutagens can be made, and if the key has been pressed to create it.
     for(m in _allMutagens) {
       if(hasAllComponents(m) && FlxG.keys.justPressed.E) {
         synthesizeMutagen(m);
+        cycle = false;
         break;  // To ensure you only synthesize one mutagen at a time.
       }
+    }
+    if(cycle && FlxG.keys.justPressed.E) {
+      cycleMutagen();
     }
     super.update(elapsed);
   }
@@ -158,6 +163,7 @@ class Player extends FlxSprite  {
 
   public function addAllMutagens() : Void {
     _allMutagens.push(new HighJump(this));
+    _allMutagens.push(new SuperRush(this));
   }
 
   // Is called whenever a component is picked up
@@ -181,6 +187,15 @@ class Player extends FlxSprite  {
       if(mut == m)
         trace("Mutagen synthesized.");
     }
+  }
+
+  public function cycleMutagen() {
+    var currentIndex:Int = _allMutagens.indexOf(_selectedMutagen);
+    trace("Selecting new mutagen");
+    if(currentIndex == _allMutagens.length - 1)
+      selectMutagen(_allMutagens[0]);
+    else 
+      selectMutagen(_allMutagens[currentIndex + 1]);
   }
 
   public function selectMutagen(m:Mutagen):Void {

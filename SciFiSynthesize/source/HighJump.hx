@@ -24,8 +24,4 @@ class HighJump extends Mutagen {
         //_player.color = FlxColor.GREEN;   // Apparently changing color this way makes the sprite disappear altogether.
     }
 
-    /*public override function getRecipe():Array<String> {
-        return _recipe;
-    }*/
-
 }
