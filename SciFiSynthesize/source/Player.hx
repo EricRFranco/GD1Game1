@@ -20,6 +20,9 @@ class Player extends FlxSprite  {
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
   private var _allMutagens = new Array<Mutagen>(); //Stores all possible mutagens
+  public  var hp:Int = 3;
+  public  var _alive:Bool = true;
+  
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
@@ -230,5 +233,12 @@ class Player extends FlxSprite  {
         return false;
     }
     return true;
+  }
+  
+  public function takeDamage():Void {
+	  hp -= 1;
+	  if (hp <= 0) {
+		  _alive = false;
+	  }
   }
 }
