@@ -17,9 +17,23 @@ class PlayState extends FlxState
 	var _battery:Component;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
+	public var _meleeAttacks = new FlxTypedGroup<Melee>();
+	public var _rangedAttacks = new FlxTypedGroup<Bullet>();
 	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
 	{
+		for (x in 0...5){
+			var temp = new Melee(-1,-1);
+			temp.kill();
+			_meleeAttacks.add(temp);
+		}
+		add(_meleeAttacks);
+		for (x in 0...20){
+			var temp = new Bullet(-1,-1);
+			temp.kill();
+			_rangedAttacks.add(temp);
+		}
+		add(_rangedAttacks);
 		_player = new Player(200, 200);
 		add(_player);
 		_ground = new FlxSprite();
@@ -59,7 +73,7 @@ class PlayState extends FlxState
 		if(FlxG.overlap(_player, _sceneComponents)) {
 			onOverlapComponent();
 		}
-		
+
 		if (FlxG.overlap(_player, _enemies)) {
 			for (enemy in _enemies) {
 				if (FlxG.overlap(_player, enemy)) {

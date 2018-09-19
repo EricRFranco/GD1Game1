@@ -7,7 +7,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 class Player extends FlxSprite  {
-  public  var speed:Float = 100;
+  public  var speed:Float = 300;
   public  var jump:Float = 200;
   public  var xvel:Float = 0; //store x velocity
   public  var yvel:Float = 0; // store y velocity
@@ -197,7 +197,7 @@ class Player extends FlxSprite  {
     trace("Selecting new mutagen");
     if(currentIndex == _allMutagens.length - 1)
       selectMutagen(_allMutagens[0]);
-    else 
+    else
       selectMutagen(_allMutagens[currentIndex + 1]);
   }
 
