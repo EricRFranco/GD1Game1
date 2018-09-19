@@ -15,10 +15,14 @@ class Player extends FlxSprite  {
   public  var rushing:Bool = false; // True if player is in rushing animation, false otherwise
   public  var just_rushed:Bool = false; // Marks cooldown for rush
   public  var air_rush:Bool = true; // Restricts player to one rush while airborne
+  public var canPush:Bool = false;
   private var _inventory = new Array(); //Stores all components the player has picked up
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
   private var _allMutagens = new Array<Mutagen>(); //Stores all possible mutagens
+  public  var hp:Int = 3;
+  public  var _alive:Bool = true;
+  
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
@@ -154,6 +158,7 @@ class Player extends FlxSprite  {
         break;  // To ensure you only synthesize one mutagen at a time.
       }
     }
+    //Cycle through mutagens if no mutagen can be synthesized.
     if(cycle && FlxG.keys.justPressed.E) {
       cycleMutagen();
     }
@@ -167,6 +172,7 @@ class Player extends FlxSprite  {
   public function addAllMutagens() : Void {
     _allMutagens.push(new HighJump(this));
     _allMutagens.push(new SuperRush(this));
+    _allMutagens.push(new PushBoxes(this));
   }
 
   // Is called whenever a component is picked up
@@ -227,5 +233,12 @@ class Player extends FlxSprite  {
         return false;
     }
     return true;
+  }
+  
+  public function takeDamage():Void {
+	  hp -= 1;
+	  if (hp <= 0) {
+		  _alive = false;
+	  }
   }
 }
