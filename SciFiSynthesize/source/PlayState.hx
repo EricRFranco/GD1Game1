@@ -14,15 +14,16 @@ class PlayState extends FlxState
 	var _spring:Component;	// Exist only to test mutagen synthesis
 	var _shoe:Component;
 	var _fan:Component;
-	var _battery:Component;	
+	var _battery:Component;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
-
+	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
+	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
 	{
-		_player = new Player(320, 200);
+		_player = new Player(200, 200);
 		add(_player);
 		_ground = new FlxSprite();
-		_ground.makeGraphic(640,240,FlxColor.GRAY);
+		_ground.makeGraphic(1600,200,FlxColor.GRAY);
 		_ground.x = 0;
 		_ground.y = 240;
 		add(_ground);
@@ -40,20 +41,40 @@ class PlayState extends FlxState
 		_battery = new Component("Battery", 450, 220);
 		add(_battery);
 		_sceneComponents.add(_battery);
+		_enemies.add(new Enemy(1500,200,2));
+		add(_enemies);
 		super.create();
 	}
 
 
 	override public function update(elapsed:Float):Void
 	{
-		if (FlxG.collide(_player,_ground)){
+		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
 			_ground.velocity.set(0,0);
 			_ground.x=0;
 			_ground.y= 240;
 		}
+
 		if(FlxG.overlap(_player, _sceneComponents)) {
 			onOverlapComponent();
+		}
+		
+		if (FlxG.overlap(_player, _enemies)) {
+			for (enemy in _enemies) {
+				if (FlxG.overlap(_player, enemy)) {
+					if (_player.rushing) {
+						enemy.takeDamage(3);
+						if (!enemy.alive) {
+							remove(enemy);
+							_enemies.remove(enemy);
+						}
+					}
+				}
+			}
+		}
+		for (x in _enemies){
+			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
 		super.update(elapsed);
 	}
