@@ -24,6 +24,7 @@ class Melee extends FlxSprite {
   }
   public function fullReset() : Void {
     currentFrame = 0;
+    alreadyHit = false;
   }
   public function hit() : Void {
     alreadyHit = true;
