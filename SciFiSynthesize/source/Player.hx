@@ -7,7 +7,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 class Player extends FlxSprite  {
-  public  var speed:Float = 100;
+  public  var speed:Float = 300;
   public  var jump:Float = 200;
   public  var xvel:Float = 0; //store x velocity
   public  var yvel:Float = 0; // store y velocity
@@ -15,6 +15,7 @@ class Player extends FlxSprite  {
   public  var rushing:Bool = false; // True if player is in rushing animation, false otherwise
   public  var just_rushed:Bool = false; // Marks cooldown for rush
   public  var air_rush:Bool = true; // Restricts player to one rush while airborne
+  public var canPush:Bool = false;
   private var _inventory = new Array(); //Stores all components the player has picked up
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
@@ -161,6 +162,7 @@ class Player extends FlxSprite  {
         break;  // To ensure you only synthesize one mutagen at a time.
       }
     }
+    //Cycle through mutagens if no mutagen can be synthesized.
     if(cycle && FlxG.keys.justPressed.E) {
       cycleMutagen();
     }
@@ -174,6 +176,7 @@ class Player extends FlxSprite  {
   public function addAllMutagens() : Void {
     _allMutagens.push(new HighJump(this));
     _allMutagens.push(new SuperRush(this));
+    _allMutagens.push(new PushBoxes(this));
   }
 
   // Is called whenever a component is picked up
@@ -204,7 +207,7 @@ class Player extends FlxSprite  {
     trace("Selecting new mutagen");
     if(currentIndex == _allMutagens.length - 1)
       selectMutagen(_allMutagens[0]);
-    else 
+    else
       selectMutagen(_allMutagens[currentIndex + 1]);
   }
 
