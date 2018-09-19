@@ -6,5 +6,13 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 
 class Box extends FlxSprite {
-    
+
+    public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
+        super(X,Y,SimpleGraphic);
+        makeGraphic(50,50,FlxColor.GREEN);
+    }
+
+    override public function update(elapsed:Float) {
+        super.update(elapsed);
+    }
 }

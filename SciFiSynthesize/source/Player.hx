@@ -15,6 +15,7 @@ class Player extends FlxSprite  {
   public  var rushing:Bool = false; // True if player is in rushing animation, false otherwise
   public  var just_rushed:Bool = false; // Marks cooldown for rush
   public  var air_rush:Bool = true; // Restricts player to one rush while airborne
+  public var canPush:Bool = false;
   private var _inventory = new Array(); //Stores all components the player has picked up
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
@@ -154,6 +155,7 @@ class Player extends FlxSprite  {
         break;  // To ensure you only synthesize one mutagen at a time.
       }
     }
+    //Cycle through mutagens if no mutagen can be synthesized.
     if(cycle && FlxG.keys.justPressed.E) {
       cycleMutagen();
     }
