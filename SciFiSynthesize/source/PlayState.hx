@@ -89,6 +89,7 @@ class PlayState extends FlxState
 		
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
+			_player.knockback(false);
 			if (_player.rushing) {
 				for (enemy in _enemies) {
 					if (FlxG.overlap(_player, enemy)) {
