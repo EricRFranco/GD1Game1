@@ -12,9 +12,9 @@ class Player extends FlxSprite  {
   public  var xvel:Float = 0; //store x velocity
   public  var yvel:Float = 0; // store y velocity
   public  var airborne:Bool = true; //is the player off the ground?
-  public var rushing:Bool = false; // True if player is in rushing animation, false otherwise
-  public var just_rushed:Bool = false; // Marks cooldown for rush
-  public var air_rush:Bool = true; // Restricts player to one rush while airborne
+  public  var rushing:Bool = false; // True if player is in rushing animation, false otherwise
+  public  var just_rushed:Bool = false; // Marks cooldown for rush
+  public  var air_rush:Bool = true; // Restricts player to one rush while airborne
   private var _inventory = new Array(); //Stores all components the player has picked up
   private var _mutagens = new Array();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
