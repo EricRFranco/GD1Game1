@@ -64,7 +64,7 @@ class Player extends FlxSprite  {
         xvel = speed;
       }
       else {
-        velocity.set(_oldx,_oldy);
+        velocity.set(0,_oldy);
       }
       yvel = _oldy;
     }
@@ -100,7 +100,8 @@ class Player extends FlxSprite  {
       yvel = -jump;
     }
     else{
-      velocity.set(0,0);
+      velocity.set(0, 0);
+	  xvel = 0;
     }
 }
 
