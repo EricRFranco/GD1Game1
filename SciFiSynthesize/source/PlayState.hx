@@ -18,7 +18,10 @@ class PlayState extends FlxState
 	var _battery:Component;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
-	var _health = new FlxTypedGroup<Health>();
+	//Health markers displayed in top left corner
+	var _hp1:Health;
+	var _hp2:Health;
+	var _hp3:Health;
 	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
 	{
@@ -50,7 +53,7 @@ class PlayState extends FlxState
 		add(_battery);
 		_sceneComponents.add(_battery);
 		
-		_enemies.add(new Enemy(1500,200,2));
+		_enemies.add(new Enemy(700,200,2));
 		add(_enemies);
 		
 		//camera to scroll with player
@@ -60,10 +63,12 @@ class PlayState extends FlxState
 		FlxG.cameras.add(_camera);
 		
 		//health UI in upper left corner
-		_health.add(new Health(10, 10));
-		_health.add(new Health(30, 10));
-		_health.add(new Health(50, 10));
-		add(_health);
+		_hp1 = new Health(10, 10);
+		add(_hp1);
+		_hp2 = new Health(30, 10);
+		add(_hp2);
+		_hp3 = new Health(50, 10);
+		add(_hp3);
 		
 		super.create();
 	}
@@ -82,17 +87,29 @@ class PlayState extends FlxState
 			onOverlapComponent();
 		}
 		
-		if (FlxG.overlap(_player, _enemies)) {
+		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
-			for (enemy in _enemies) {
-				if (FlxG.overlap(_player, enemy)) {
-					if (_player.rushing) {
+			if (_player.rushing) {
+				for (enemy in _enemies) {
+					if (FlxG.overlap(_player, enemy)) {
 						enemy.takeDamage(3);
 						if (!enemy.alive) {
 							remove(enemy);
 							_enemies.remove(enemy);
 						}
 					}
+				}
+			} else {
+				_player.takeDamage();
+				var health_left:Int = _player.hp;
+				switch(health_left) {
+					case (2):
+						remove(_hp3);
+					case (1):
+						remove(_hp2);
+					case(0):
+						remove(_hp1);
+						game_over();
 				}
 			}
 		}
@@ -112,5 +129,8 @@ class PlayState extends FlxState
 			}
 		}
   	}
-
+	
+	public function game_over() {
+		trace("You died lol");
+	}
 }
