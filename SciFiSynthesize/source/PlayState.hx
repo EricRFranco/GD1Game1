@@ -21,11 +21,13 @@ class PlayState extends FlxState
 	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
 	{
+		FlxG.worldBounds.set(0, 0, 2000, 2000);
+		
 		_player = new Player(200, 200);
 		add(_player);
 		
 		_ground = new FlxSprite();
-		_ground.makeGraphic(1600,200,FlxColor.GRAY);
+		_ground.makeGraphic(2000,200,FlxColor.GRAY);
 		_ground.x = 0;
 		_ground.y = 240;
 		add(_ground);
@@ -52,6 +54,7 @@ class PlayState extends FlxState
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
 		FlxG.cameras.add(_camera);
+		
 		super.create();
 	}
 
@@ -70,6 +73,7 @@ class PlayState extends FlxState
 		}
 		
 		if (FlxG.overlap(_player, _enemies)) {
+			trace("Touched enemy!!");
 			for (enemy in _enemies) {
 				if (FlxG.overlap(_player, enemy)) {
 					if (_player.rushing) {
