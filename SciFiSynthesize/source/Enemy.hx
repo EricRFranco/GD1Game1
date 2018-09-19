@@ -19,7 +19,7 @@ class Enemy extends FlxSprite {
   var patrolLeft:Float; //Left bound for enemy patrols
   var patrolRight:Float; //Right bound for enemy patrols
   var researcherDirectionChangeCounter:Int = 0;
-  var researcherPanic:Bool = false;
+  var seenPlayer:Bool = false;
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     enemyType = E;
@@ -70,7 +70,7 @@ class Enemy extends FlxSprite {
       }
       else if (distanceFromPlayer > 800 && distanceFromPlayer <= 2000){ // patrol when withing about a screens didstance from player
         if (enemyType == 0){
-          if (!researcherPanic){
+          if (!seenPlayer){
             researcherDirectionChangeCounter+=1;
           }
           else{
@@ -112,9 +112,9 @@ class Enemy extends FlxSprite {
         if ((playerX - x) < 0){
           playerOnLeft = true;
         }
-        //trace("Is player on left?",playerOnLeft,"which way we facing",facingLeft, "Paniced?",researcherPanic);
+        //trace("Is player on left?",playerOnLeft,"which way we facing",facingLeft, "Paniced?",seenPlayer);
         if (enemyType == 0){
-          if (!researcherPanic){
+          if (!seenPlayer){
             researcherDirectionChangeCounter+=1;
           }
           if(researcherDirectionChangeCounter>180){
@@ -124,17 +124,17 @@ class Enemy extends FlxSprite {
           trace(researcherDirectionChangeCounter);
           if (playerOnLeft && facingLeft) { // only run away if the researcher sees the player
             move(false, true); // runaway to the right
-            researcherPanic = true;
+            seenPlayer = true;
           }
           else if ((!playerOnLeft)&&(!facingLeft)){
             move(true,false);
-            researcherPanic = true;
+            seenPlayer = true;
           }
           else{
             move();
           }
         }
-        else if (enemyType ==1){
+        else if (enemyType ==1){ // Melee Enemy Attack Range Behavior
           if ((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft)){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
             if (distanceFromPlayer>200){ // get closer for melee attack
               if ( playerOnLeft){
@@ -179,8 +179,9 @@ class Enemy extends FlxSprite {
             }
           }
         }
-        else{
+        else{ // Ranged Enemy Attack Range behavior
           if ((playerOnLeft && facingLeft) || ((!playerOnLeft) && (!facingLeft))){
+            seenPlayer = true;
             if((playerY< y+40)&&(playerY>y)){
               attack();
             }
@@ -189,22 +190,27 @@ class Enemy extends FlxSprite {
             }
           }
           else{
-            if (facingLeft){
-              if (x > patrolLeft){
-                move(true,false);
-              }
-              else {
-                facingLeft = false;
-                move(false, true);
-              }
+            if (seenPlayer){
+              facingLeft = playerOnLeft;
             }
             else{
-              if (x<patrolRight){
-                move(false,true);
+              if (facingLeft){
+                if (x > patrolLeft){
+                  move(true,false);
+                }
+                else {
+                  facingLeft = false;
+                  move(false, true);
+                }
               }
               else{
-                facingLeft = true;
-                move(true,false);
+                if (x<patrolRight){
+                  move(false,true);
+                }
+                else{
+                  facingLeft = true;
+                  move(true,false);
+                }
               }
             }
           }
