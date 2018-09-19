@@ -136,6 +136,7 @@ class Enemy extends FlxSprite {
         }
         else if (enemyType ==1){ // Melee Enemy Attack Range Behavior
           if ((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft)){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
+            seenPlayer = true;
             if (distanceFromPlayer>200){ // get closer for melee attack
               if ( playerOnLeft){
                 if (x>patrolLeft){
@@ -157,6 +158,9 @@ class Enemy extends FlxSprite {
             else{
               attack();
             }
+          }
+          else if(seenPlayer){
+            facingLeft = playerOnLeft;
           }
           else{ // continue patroling
             if (facingLeft){
