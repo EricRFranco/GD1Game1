@@ -53,6 +53,7 @@ class PlayState extends FlxState
 		
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
+		_camera.setScrollBounds(0, 2000, 0, 2000);
 		FlxG.cameras.add(_camera);
 		
 		super.create();
@@ -73,7 +74,7 @@ class PlayState extends FlxState
 		}
 		
 		if (FlxG.overlap(_player, _enemies)) {
-			trace("Touched enemy!!");
+			//trace("Touched enemy!!");
 			for (enemy in _enemies) {
 				if (FlxG.overlap(_player, enemy)) {
 					if (_player.rushing) {

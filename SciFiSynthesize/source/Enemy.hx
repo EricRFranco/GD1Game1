@@ -58,7 +58,7 @@ class Enemy extends FlxSprite {
       health -= D;
       if (health <=0){
         alive = false;
-        trace( "Enemy died" );
+        //trace( "Enemy died" );
         //play death animation
       }
   }
