@@ -13,6 +13,7 @@ class Enemy extends FlxSprite {
   var jump:Float = 300;
   var xvel:Float = 0;
   var yvel:Float = 0;
+  var attackCooldown:Float = 0; // if <0 can attack else wait
   var airborne:Bool = true;
   var facingLeft:Bool = true; // Boolean to keep track of what direction the Enemy is facing to help with attack / defense hitboxes
   var enemyType:Int; //If we add multiple enemies this will keep track of which one they are
@@ -224,6 +225,7 @@ class Enemy extends FlxSprite {
   }
 
   function move(?_left:Bool=false,_right:Bool=false):Void {
+    if (attackCooldown > 120) return;
     var _oldx:Float = xvel;
     var _oldy:Float = yvel;
     if (_left ){
@@ -243,10 +245,36 @@ class Enemy extends FlxSprite {
     }
   }
   function attack( ) : Void {
-    //trace("attack");
+    if(attackCooldown <=0){
+      if(enemyType == 1){ // melee attack
+        var playState:PlayState = cast FlxG.state;
+        var melee = playState._meleeAttacks.recycle();
+        if (facingLeft){
+          melee.reset(x-60,y);
+        }
+        else{
+          melee.reset(x+40,y);
+        }
+        melee.fullReset();
+        attackCooldown = 240;
+      }
+      else{ //ranged attack
+        attackCooldown = 300;
+        var playState:PlayState = cast FlxG.state;
+        var bullet = playState._rangedAttacks.recycle();
+        if (facingLeft){
+          bullet.reset(x-5,y+18);
+        }
+        else{
+          bullet.reset(x+40,y+18);
+        }
+        bullet.fullReset(facingLeft);
+      }
+    }
   }
 
   override public function update(elapsed:Float) : Void {
     super.update(elapsed);
+    attackCooldown -= 1;
   }
 }
