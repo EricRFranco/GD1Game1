@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -16,8 +17,12 @@ class PlayState extends FlxState
 	var _shoe:Component;
 	var _fan:Component;
 	var _battery:Component;
+	var _glove:Component;
+	var _dumbell:Component;
+	var _box:Box;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
+	var _boxes = new FlxTypedGroup<Box>();
 	//Health markers displayed in top left corner
 	var _hp1:Health;
 	var _hp2:Health;
@@ -66,10 +71,20 @@ class PlayState extends FlxState
 		_battery = new Component("Battery", 450, 220);
 		add(_battery);
 		_sceneComponents.add(_battery);
-
-		_enemies.add(new Enemy(700,200,1));
+		//components for push boxes on the farther right of player
+		_glove = new Component("Glove", 500, 220);
+		add(_glove);
+		_sceneComponents.add(_glove);
+		_dumbell = new Component("Dumbell", 550, 220);
+		add(_dumbell);
+		_sceneComponents.add(_dumbell);
+		_enemies.add(new Enemy(1500,200,2));
+		_enemies.add(new Enemy(700,200,2));
 		add(_enemies);
-
+		_box = new Box(300, 190);
+		add(_box);
+		_boxes.add(_box);
+		
 		//camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
@@ -101,6 +116,14 @@ class PlayState extends FlxState
 			onOverlapComponent();
 		}
 
+		for(box in _boxes) {
+			if(!_player.canPush && !box.immovable)
+				box.immovable = true;
+			else if(_player.canPush && box.immovable)
+				box.immovable = false;
+		}
+		FlxG.collide(_player,_boxes);
+		
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
 			if (_player.rushing) {
