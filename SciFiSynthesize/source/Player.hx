@@ -169,6 +169,7 @@ class Player extends FlxSprite  {
   public function addAllMutagens() : Void {
     _allMutagens.push(new HighJump(this));
     _allMutagens.push(new SuperRush(this));
+    _allMutagens.push(new PushBoxes(this));
   }
 
   // Is called whenever a component is picked up

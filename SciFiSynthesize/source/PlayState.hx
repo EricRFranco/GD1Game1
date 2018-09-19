@@ -78,6 +78,8 @@ class PlayState extends FlxState
 		for(box in _boxes) {
 			if(!_player.canPush && !box.immovable)
 				box.immovable = true;
+			else if(_player.canPush && box.immovable)
+				box.immovable = false;
 		}
 		FlxG.collide(_player,_boxes);
 		
