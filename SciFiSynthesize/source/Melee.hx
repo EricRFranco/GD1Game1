@@ -8,11 +8,12 @@ import flixel.FlxG;
 import Math;
 
 class Melee extends FlxSprite {
-  var hitFrameStart:Int;
-  var hitFrameEnd:Int;
+  public var hitFrameStart:Int;
+  public var hitFrameEnd:Int;
   var animationFrameEnd:Int;
-  var currentFrame:Int = 0;
+  public var currentFrame:Int = 0;
   var facingLeft:Bool;
+  public var alreadyHit:Bool = false;
   public function new( ?X:Float=0, ?Y:Float=0,  ?L:Bool = true, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     facingLeft = L;
@@ -23,6 +24,9 @@ class Melee extends FlxSprite {
   }
   public function fullReset() : Void {
     currentFrame = 0;
+  }
+  public function hit() : Void {
+    alreadyHit = true;
   }
   override public function update(elapsed:Float) : Void {
     super.update(elapsed);
