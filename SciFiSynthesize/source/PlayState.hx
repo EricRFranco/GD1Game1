@@ -6,6 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
+import flixel.FlxCamera;
 
 class PlayState extends FlxState
 {
@@ -22,11 +23,13 @@ class PlayState extends FlxState
 	{
 		_player = new Player(200, 200);
 		add(_player);
+		
 		_ground = new FlxSprite();
 		_ground.makeGraphic(1600,200,FlxColor.GRAY);
 		_ground.x = 0;
 		_ground.y = 240;
 		add(_ground);
+		
 		//components for high jump on left of player
 		_spring = new Component("Spring", 200, 220);
 		add(_spring);
@@ -34,6 +37,7 @@ class PlayState extends FlxState
 		_shoe = new Component("Shoe", 150, 220);
 		add(_shoe);
 		_sceneComponents.add(_shoe);
+		
 		//components for super rush on the right of player
 		_fan = new Component("Fan", 400, 220);
 		add(_fan);
@@ -41,8 +45,13 @@ class PlayState extends FlxState
 		_battery = new Component("Battery", 450, 220);
 		add(_battery);
 		_sceneComponents.add(_battery);
+		
 		_enemies.add(new Enemy(1500,200,2));
 		add(_enemies);
+		
+		var _camera = new FlxCamera(0, 0, 1200, 750);
+		_camera.follow(_player);
+		FlxG.cameras.add(_camera);
 		super.create();
 	}
 
