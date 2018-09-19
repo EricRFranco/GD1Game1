@@ -219,21 +219,21 @@ class Enemy extends FlxSprite {
     if (_left ){
       velocity.set(-speed,0);
       xvel=-speed;
-      trace ("left");
+      //trace ("left");
     }
     else if (_right){
       velocity.set(speed, 0);
       xvel = speed;
-      trace("right");
+      //trace("right");
     }
     else {
       velocity.set(0,0);
       xvel = 0;
-      trace("still");
+      //trace("still");
     }
   }
   function attack( ) : Void {
-    trace("attack");
+    //trace("attack");
   }
 
   override public function update(elapsed:Float) : Void {

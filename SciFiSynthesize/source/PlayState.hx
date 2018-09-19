@@ -59,6 +59,20 @@ class PlayState extends FlxState
 		if(FlxG.overlap(_player, _sceneComponents)) {
 			onOverlapComponent();
 		}
+		
+		if (FlxG.overlap(_player, _enemies)) {
+			for (enemy in _enemies) {
+				if (FlxG.overlap(_player, enemy)) {
+					if (_player.rushing) {
+						enemy.takeDamage(3);
+						if (!enemy.alive) {
+							remove(enemy);
+							_enemies.remove(enemy);
+						}
+					}
+				}
+			}
+		}
 		for (x in _enemies){
 			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
