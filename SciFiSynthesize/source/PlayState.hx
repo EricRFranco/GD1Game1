@@ -18,10 +18,12 @@ class PlayState extends FlxState
 	var _battery:Component;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
+	var _health = new FlxTypedGroup<Health>();
 	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
 	{
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
+		FlxG.mouse.visible = false;
 		
 		_player = new Player(200, 200);
 		add(_player);
@@ -51,10 +53,17 @@ class PlayState extends FlxState
 		_enemies.add(new Enemy(1500,200,2));
 		add(_enemies);
 		
+		//camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 2000);
 		FlxG.cameras.add(_camera);
+		
+		//health UI in upper left corner
+		_health.add(new Health(10, 10));
+		_health.add(new Health(30, 10));
+		_health.add(new Health(50, 10));
+		add(_health);
 		
 		super.create();
 	}
