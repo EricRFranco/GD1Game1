@@ -224,7 +224,7 @@ class Enemy extends FlxSprite {
       //trace (distanceFromPlayer);
   }
 
-  function move(?_left:Bool=false,_right:Bool=false):Void {
+  function move(?_left:Bool = false, _right:Bool = false):Void {
     if (attackCooldown > 120) return;
     var _oldx:Float = xvel;
     var _oldy:Float = yvel;
