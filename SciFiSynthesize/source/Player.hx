@@ -256,7 +256,7 @@ class Player extends FlxSprite  {
 	  
 	  if (!midknock) {
 		  _recoiling = true;
-		  new FlxTimer().start(0.1, end_knock, 1);
+		  new FlxTimer().start(0.25, end_knock, 1);
 	  }
   }
   

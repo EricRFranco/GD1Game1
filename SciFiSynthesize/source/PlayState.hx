@@ -54,6 +54,7 @@ class PlayState extends FlxState
 		_ground.makeGraphic(2000,200,FlxColor.GRAY);
 		_ground.x = 0;
 		_ground.y = 700;
+		_ground.immovable = true;
 		add(_ground);
 
 		//components for high jump on left of player
@@ -80,8 +81,10 @@ class PlayState extends FlxState
 		add(_dumbell);
 		_sceneComponents.add(_dumbell);
 		
-		_enemies.add(new Enemy(1500,660,2));
-		_enemies.add(new Enemy(700,660,2));
+		var enemy1:Enemy = _enemies.add(new Enemy(1500, 660, 2));
+		enemy1.velocity.set(0, 50);
+		var enemy2:Enemy = _enemies.add(new Enemy(700, 660, 2));
+		enemy2.velocity.set(0, 50);
 		add(_enemies);
 		_box = new Box(300, 650);
 		add(_box);
@@ -113,6 +116,16 @@ class PlayState extends FlxState
 			_ground.x=0;
 			_ground.y= 700;
 		}
+		
+		for (enemy in _enemies) {
+			if (FlxG.overlap(enemy, _ground)) {
+				// If in ground, rise until out of ground
+				enemy.velocity.set(0, -50);
+			} else {
+				// Otherwise, don't rise
+				enemy.velocity.set(0, 0);
+			}
+		}
 
 		if(FlxG.overlap(_player, _sceneComponents)) {
 			onOverlapComponent();
@@ -139,7 +152,7 @@ class PlayState extends FlxState
 						}
 					}
 				}
-			} else {
+			}/* else {
 				_player.takeDamage();
 				var health_left:Int = _player.hp;
 				switch(health_left) {
@@ -151,7 +164,7 @@ class PlayState extends FlxState
 						remove(_hp1);
 						game_over();
 				}
-			}
+			}*/
 		}
 		if (FlxG.overlap(_meleeAttacks,_player)){
 			for (x in _meleeAttacks){
