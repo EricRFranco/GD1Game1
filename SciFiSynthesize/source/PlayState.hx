@@ -28,7 +28,7 @@ class PlayState extends FlxState
 	var _hp2:Health;
 	var _hp3:Health;
 	public var _meleeAttacks = new FlxTypedGroup<Melee>();
-	public var _rangedAttacks = new FlxTypedGroup<Bullet>();
+	public var _bullets = new FlxTypedGroup<Bullet>();
 	public var _lasers = new FlxTypedGroup<Laser>();
 	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
@@ -45,9 +45,9 @@ class PlayState extends FlxState
 		for (x in 0...20){
 			var temp = new Bullet(-1,-1);
 			temp.kill();
-			_rangedAttacks.add(temp);
+			_bullets.add(temp);
 		}
-		add(_rangedAttacks);
+		add(_bullets);
 		for (x in 0...5){
 			var temp = new Laser(-1,-1);
 			temp.kill();
@@ -238,8 +238,8 @@ class PlayState extends FlxState
 			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
 
-		if(FlxG.overlap(_rangedAttacks, _boxes)){
-			for(x in _rangedAttacks){
+		if(FlxG.overlap(_bullets, _boxes)){
+			for(x in _bullets){
 				if (FlxG.overlap(x,_boxes)){
 					x.kill();
 				}
