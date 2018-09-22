@@ -13,6 +13,7 @@ class Enemy extends FlxSprite {
   var jump:Float = 300;
   var xvel:Float = 0;
   var yvel:Float = 0;
+  var attackCooldown:Float = 0; // if <0 can attack else wait
   var airborne:Bool = true;
   var facingLeft:Bool = true; // Boolean to keep track of what direction the Enemy is facing to help with attack / defense hitboxes
   var enemyType:Int; //If we add multiple enemies this will keep track of which one they are
@@ -20,15 +21,17 @@ class Enemy extends FlxSprite {
   var patrolRight:Float; //Right bound for enemy patrols
   var researcherDirectionChangeCounter:Int = 0;
   var seenPlayer:Bool = false;
+  var shots:Int = 0; // Number of bullets the enemey will shoot at a time;
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     enemyType = E;
-    makeGraphic(40, 40, FlxColor.ORANGE);
     drag.x = 1000;
     if (enemyType == 0){
       health = 1;
+      loadGraphic("assets/images/Scientists.png");
     }
     else if (enemyType == 1){
+      makeGraphic(40, 40, FlxColor.ORANGE);
       health = 2;
       if (R == 0){
         patrolLeft = x-(400);
@@ -40,6 +43,7 @@ class Enemy extends FlxSprite {
       }
     }
     else {
+      makeGraphic(40, 40, FlxColor.ORANGE);
       health = 3;
       if (R == 0){
         patrolLeft = x-200;
@@ -121,7 +125,7 @@ class Enemy extends FlxSprite {
             researcherDirectionChangeCounter = 0;
             facingLeft = !facingLeft;
           }
-          trace(researcherDirectionChangeCounter);
+          //trace(researcherDirectionChangeCounter);
           if (playerOnLeft && facingLeft) { // only run away if the researcher sees the player
             move(false, true); // runaway to the right
             seenPlayer = true;
@@ -134,7 +138,7 @@ class Enemy extends FlxSprite {
             move();
           }
         }
-        else if (enemyType ==1){ // Melee Enemy Attack Range Behavior
+        else if (enemyType ==1){ // Melee Enemy Attack Close Range Behavior
           if ((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft)){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
             seenPlayer = true;
             if (distanceFromPlayer>200){ // get closer for melee attack
@@ -223,7 +227,8 @@ class Enemy extends FlxSprite {
       //trace (distanceFromPlayer);
   }
 
-  function move(?_left:Bool=false,_right:Bool=false):Void {
+  function move(?_left:Bool = false, _right:Bool = false):Void {
+    if (attackCooldown > 120) return;
     var _oldx:Float = xvel;
     var _oldy:Float = yvel;
     if (_left ){
@@ -243,10 +248,60 @@ class Enemy extends FlxSprite {
     }
   }
   function attack( ) : Void {
-    //trace("attack");
+    if(attackCooldown <=0){
+      if(enemyType == 1){ // melee attack
+        var playState:PlayState = cast FlxG.state;
+        var melee = playState._meleeAttacks.recycle();
+        if (facingLeft){
+          melee.reset(x-60,y);
+        }
+        else{
+          melee.reset(x+40,y);
+        }
+        melee.fullReset();
+        attackCooldown = 240;
+      }
+      else{ //ranged attack
+        if(enemyType == 2){  // Bullet Type
+          shots = Std.random(5)+1;
+        }
+        else if(enemyType == 3){ // Laser Type
+          attackCooldown = 420;
+          var playState:PlayState = cast FlxG.state;
+          var laser = playState._lasers.recycle();
+          if (facingLeft){
+            laser.reset(x-1000, y+18);
+          }
+          else{
+            laser.reset(x+40, y+18);
+          }
+          laser.fullReset(facingLeft);
+        }
+      }
+    }
+  }
+
+  function multiShot() : Void {
+    if ( shots > 0){
+      if(attackCooldown <= 300){
+        attackCooldown = 310;
+        var playState:PlayState = cast FlxG.state;
+        var bullet = playState._bullets.recycle();
+        if (facingLeft){
+          bullet.reset(x-5,y+18);
+        }
+        else{
+          bullet.reset(x+40,y+18);
+        }
+        bullet.fullReset(facingLeft);
+        shots -= 1;
+      }
+    }
   }
 
   override public function update(elapsed:Float) : Void {
     super.update(elapsed);
+    attackCooldown -= 1;
+    multiShot();
   }
 }
