@@ -120,9 +120,6 @@ class PlayState extends FlxState
 	{
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
-			_ground.velocity.set(0,0);
-			_ground.x=0;
-			_ground.y= 700;
 		}
 
 		for (enemy in _enemies) {
@@ -146,6 +143,17 @@ class PlayState extends FlxState
 				box.immovable = false;
 		}
 		FlxG.collide(_player,_boxes);
+		if (FlxG.overlap(_player,_boxes)){
+			for ( x in _boxes){
+				if ((x.x <= _player.x+_player.width) || (x.x+x.width <= _player.x)){
+					_player.grounded();
+				}
+			}
+		}
+
+		if(!((FlxG.overlap(_player,_ground))||(FlxG.overlap(_player,_boxes)))){
+			_player.hitMeWithThatGravity();
+		}
 
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
