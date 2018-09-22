@@ -153,7 +153,7 @@ class PlayState extends FlxState
 			if (_player.rushing) {
 				for (enemy in _enemies) {
 					if (FlxG.overlap(_player, enemy)) {
-						enemy.takeDamage(3);
+						enemy.takeDamage(_player.power);
 						if (!enemy.alive) {
 							remove(enemy);
 							_enemies.remove(enemy);
