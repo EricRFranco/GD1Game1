@@ -47,41 +47,43 @@ class PlayState extends FlxState
 			_rangedAttacks.add(temp);
 		}
 		add(_rangedAttacks);
-		_player = new Player(200, 200);
+		_player = new Player(210, 680);
 		add(_player);
 
 		_ground = new FlxSprite();
 		_ground.makeGraphic(2000,200,FlxColor.GRAY);
 		_ground.x = 0;
-		_ground.y = 240;
+		_ground.y = 700;
 		add(_ground);
 
 		//components for high jump on left of player
-		_spring = new Component("Spring", 200, 220);
+		_spring = new Component("Spring", 180, 680);
 		add(_spring);
 		_sceneComponents.add(_spring);
-		_shoe = new Component("Shoe", 150, 220);
+		_shoe = new Component("Shoe", 150, 680);
 		add(_shoe);
 		_sceneComponents.add(_shoe);
 
 		//components for super rush on the right of player
-		_fan = new Component("Fan", 400, 220);
+		_fan = new Component("Fan", 400, 680);
 		add(_fan);
 		_sceneComponents.add(_fan);
-		_battery = new Component("Battery", 450, 220);
+		_battery = new Component("Battery", 450, 680);
 		add(_battery);
 		_sceneComponents.add(_battery);
+		
 		//components for push boxes on the farther right of player
-		_glove = new Component("Glove", 500, 220);
+		_glove = new Component("Glove", 500, 680);
 		add(_glove);
 		_sceneComponents.add(_glove);
-		_dumbell = new Component("Dumbell", 550, 220);
+		_dumbell = new Component("Dumbell", 550, 680);
 		add(_dumbell);
 		_sceneComponents.add(_dumbell);
-		_enemies.add(new Enemy(1500,200,2));
-		_enemies.add(new Enemy(700,200,2));
+		
+		_enemies.add(new Enemy(1500,660,2));
+		_enemies.add(new Enemy(700,660,2));
 		add(_enemies);
-		_box = new Box(300, 190);
+		_box = new Box(300, 650);
 		add(_box);
 		_boxes.add(_box);
 		
@@ -109,7 +111,7 @@ class PlayState extends FlxState
 			_player.grounded();
 			_ground.velocity.set(0,0);
 			_ground.x=0;
-			_ground.y= 240;
+			_ground.y= 700;
 		}
 
 		if(FlxG.overlap(_player, _sceneComponents)) {
