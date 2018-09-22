@@ -21,6 +21,7 @@ class Enemy extends FlxSprite {
   var patrolRight:Float; //Right bound for enemy patrols
   var researcherDirectionChangeCounter:Int = 0;
   var seenPlayer:Bool = false;
+  var shots:Int = 0; // Number of bullets the enemey will shoot at a time;
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     enemyType = E;
@@ -260,16 +261,7 @@ class Enemy extends FlxSprite {
       }
       else{ //ranged attack
         if(enemyType == 2){  // Bullet Type
-          attackCooldown = 300;
-          var playState:PlayState = cast FlxG.state;
-          var bullet = playState._bullets.recycle();
-          if (facingLeft){
-            bullet.reset(x-5,y+18);
-          }
-          else{
-            bullet.reset(x+40,y+18);
-          }
-          bullet.fullReset(facingLeft);
+          shots = Std.random(5)+1;
         }
         else if(enemyType == 3){ // Laser Type
           attackCooldown = 420;
@@ -287,8 +279,27 @@ class Enemy extends FlxSprite {
     }
   }
 
+  function multiShot() : Void {
+    if ( shots > 0){
+      if(attackCooldown <= 300){
+        attackCooldown = 310;
+        var playState:PlayState = cast FlxG.state;
+        var bullet = playState._bullets.recycle();
+        if (facingLeft){
+          bullet.reset(x-5,y+18);
+        }
+        else{
+          bullet.reset(x+40,y+18);
+        }
+        bullet.fullReset(facingLeft);
+        shots -= 1;
+      }
+    }
+  }
+
   override public function update(elapsed:Float) : Void {
     super.update(elapsed);
     attackCooldown -= 1;
+    multiShot();
   }
 }

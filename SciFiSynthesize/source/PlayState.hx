@@ -91,7 +91,7 @@ class PlayState extends FlxState
 
 		var enemy1:Enemy = _enemies.add(new Enemy(1500, 660, 3));
 		enemy1.velocity.set(0, 50);
-		var enemy2:Enemy = _enemies.add(new Enemy(700, 660, 3));
+		var enemy2:Enemy = _enemies.add(new Enemy(700, 660, 2));
 		enemy2.velocity.set(0, 50);
 		add(_enemies);
 		_box = new Box(300, 650);
