@@ -80,7 +80,7 @@ class PlayState extends FlxState
 		_battery = new Component("Battery", 450, 680);
 		add(_battery);
 		_sceneComponents.add(_battery);
-		
+
 		//components for push boxes on the farther right of player
 		_glove = new Component("Glove", 500, 680);
 		add(_glove);
@@ -89,9 +89,9 @@ class PlayState extends FlxState
 		add(_dumbell);
 		_sceneComponents.add(_dumbell);
 
-		var enemy1:Enemy = _enemies.add(new Enemy(1500, 660, 3));
+		var enemy1:Enemy = _enemies.add(new Enemy(1500, 600, 0));
 		enemy1.velocity.set(0, 50);
-		var enemy2:Enemy = _enemies.add(new Enemy(700, 660, 2));
+		var enemy2:Enemy = _enemies.add(new Enemy(700, 600, 0));
 		enemy2.velocity.set(0, 50);
 		add(_enemies);
 		_box = new Box(300, 650);
@@ -124,7 +124,7 @@ class PlayState extends FlxState
 			_ground.x=0;
 			_ground.y= 700;
 		}
-		
+
 		for (enemy in _enemies) {
 			if (FlxG.overlap(enemy, _ground)) {
 				// If in ground, rise until out of ground
@@ -146,7 +146,7 @@ class PlayState extends FlxState
 				box.immovable = false;
 		}
 		FlxG.collide(_player,_boxes);
-		
+
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
 			for (enemy in _enemies) {
