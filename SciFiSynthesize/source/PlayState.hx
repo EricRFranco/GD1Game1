@@ -120,9 +120,6 @@ class PlayState extends FlxState
 	{
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
-			_ground.velocity.set(0,0);
-			_ground.x=0;
-			_ground.y= 700;
 		}
 
 		for (enemy in _enemies) {
@@ -146,13 +143,28 @@ class PlayState extends FlxState
 				box.immovable = false;
 		}
 		FlxG.collide(_player,_boxes);
+		if (FlxG.overlap(_player,_boxes)){
+			for ( x in _boxes){
+				if ((x.x <= _player.x+_player.width) || (x.x+x.width <= _player.x)){
+					_player.grounded();
+				}
+			}
+		}
+
+		if(!((FlxG.overlap(_player,_ground))||(FlxG.overlap(_player,_boxes)))){
+			_player.hitMeWithThatGravity();
+		}
 
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
-			_player.knockback(false);
-			if (_player.rushing) {
-				for (enemy in _enemies) {
-					if (FlxG.overlap(_player, enemy)) {
+			for (enemy in _enemies) {
+				if (FlxG.overlap(_player, enemy)) {
+					if (_player.y + 20 > enemy.y) {
+						_player.knockback(false);
+					} else {
+						_player.move(true);
+					}
+					if (_player.rushing) {
 						enemy.takeDamage(_player.power);
 						if (!enemy.alive) {
 							remove(enemy);
@@ -160,20 +172,9 @@ class PlayState extends FlxState
 						}
 					}
 				}
-			}/* else {
-				_player.takeDamage();
-				var health_left:Int = _player.hp;
-				switch(health_left) {
-					case (2):
-						remove(_hp3);
-					case (1):
-						remove(_hp2);
-					case(0):
-						remove(_hp1);
-						game_over();
-				}
-			}*/
+			}
 		}
+		
 		if (FlxG.overlap(_meleeAttacks,_player)){
 			for (x in _meleeAttacks){
 				if (FlxG.overlap(x,_player)){
