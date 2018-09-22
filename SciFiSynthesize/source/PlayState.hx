@@ -29,6 +29,7 @@ class PlayState extends FlxState
 	var _hp3:Health;
 	public var _meleeAttacks = new FlxTypedGroup<Melee>();
 	public var _rangedAttacks = new FlxTypedGroup<Bullet>();
+	public var _lasers = new FlxTypedGroup<Laser>();
 	public static var allMutagens = new Array<Mutagen>();
 	override public function create():Void
 	{
@@ -47,6 +48,13 @@ class PlayState extends FlxState
 			_rangedAttacks.add(temp);
 		}
 		add(_rangedAttacks);
+		for (x in 0...5){
+			var temp = new Laser(-1,-1);
+			temp.kill();
+			_lasers.add(temp);
+		}
+		add(_lasers);
+
 		_player = new Player(210, 680);
 		add(_player);
 
@@ -80,16 +88,16 @@ class PlayState extends FlxState
 		_dumbell = new Component("Dumbell", 550, 680);
 		add(_dumbell);
 		_sceneComponents.add(_dumbell);
-		
-		var enemy1:Enemy = _enemies.add(new Enemy(1500, 660, 2));
+
+		var enemy1:Enemy = _enemies.add(new Enemy(1500, 660, 3));
 		enemy1.velocity.set(0, 50);
-		var enemy2:Enemy = _enemies.add(new Enemy(700, 660, 2));
+		var enemy2:Enemy = _enemies.add(new Enemy(700, 660, 3));
 		enemy2.velocity.set(0, 50);
 		add(_enemies);
 		_box = new Box(300, 650);
 		add(_box);
 		_boxes.add(_box);
-		
+
 		//camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
@@ -187,8 +195,29 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		if (FlxG.overlap(_rangedAttacks,_player)){
-			for (x in _rangedAttacks){
+		if (FlxG.overlap(_lasers,_player)){
+			for (x in _lasers){
+				if (FlxG.overlap(x,_player)){
+					if(x.alreadyHit)continue;
+					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
+						x.hit();
+						_player.takeDamage();
+						var health_left:Int = _player.hp;
+						switch(health_left) {
+							case (2):
+								remove(_hp3);
+							case (1):
+								remove(_hp2);
+							case(0):
+								remove(_hp1);
+								game_over();
+						}
+					}
+				}
+			}
+		}
+		if (FlxG.overlap(_bullets,_player)){
+			for (x in _bullets){
 				if (FlxG.overlap(x,_player)){
 					_player.takeDamage();
 					x.kill();
