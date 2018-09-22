@@ -25,12 +25,13 @@ class Enemy extends FlxSprite {
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     enemyType = E;
-    makeGraphic(40, 40, FlxColor.ORANGE);
     drag.x = 1000;
     if (enemyType == 0){
       health = 1;
+      loadGraphic("assets/images/Scientists.png");
     }
     else if (enemyType == 1){
+      makeGraphic(40, 40, FlxColor.ORANGE);
       health = 2;
       if (R == 0){
         patrolLeft = x-(400);
@@ -42,6 +43,7 @@ class Enemy extends FlxSprite {
       }
     }
     else {
+      makeGraphic(40, 40, FlxColor.ORANGE);
       health = 3;
       if (R == 0){
         patrolLeft = x-200;
@@ -123,7 +125,7 @@ class Enemy extends FlxSprite {
             researcherDirectionChangeCounter = 0;
             facingLeft = !facingLeft;
           }
-          trace(researcherDirectionChangeCounter);
+          //trace(researcherDirectionChangeCounter);
           if (playerOnLeft && facingLeft) { // only run away if the researcher sees the player
             move(false, true); // runaway to the right
             seenPlayer = true;
