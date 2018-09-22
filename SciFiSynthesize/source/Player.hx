@@ -23,6 +23,7 @@ class Player extends FlxSprite  {
   public  var hp:Int = 3;
   public  var _alive:Bool = true;
   public  var _recoiling = false; // True if player is in the middle of knockback
+  public  var power = 1;
   
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
