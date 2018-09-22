@@ -139,7 +139,7 @@ class PlayState extends FlxState
 						}
 					}
 				}
-			} else {
+			}/* else {
 				_player.takeDamage();
 				var health_left:Int = _player.hp;
 				switch(health_left) {
@@ -151,7 +151,7 @@ class PlayState extends FlxState
 						remove(_hp1);
 						game_over();
 				}
-			}
+			}*/
 		}
 		if (FlxG.overlap(_meleeAttacks,_player)){
 			for (x in _meleeAttacks){

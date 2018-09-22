@@ -249,6 +249,7 @@ class Enemy extends FlxSprite {
       if(enemyType == 1){ // melee attack
         var playState:PlayState = cast FlxG.state;
         var melee = playState._meleeAttacks.recycle();
+		makeGraphic(40, 40, FlxColor.WHITE);
         if (facingLeft){
           melee.reset(x-60,y);
         }
