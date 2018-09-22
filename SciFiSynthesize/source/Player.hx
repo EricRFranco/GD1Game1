@@ -7,7 +7,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 class Player extends FlxSprite  {
-  public  var speed:Float = 100;
+  public  var speed:Float = 300;
   public  var jump:Float = 200;
   public  var xvel:Float = 0; //store x velocity
   public  var yvel:Float = 0; // store y velocity
@@ -22,6 +22,7 @@ class Player extends FlxSprite  {
   private var _allMutagens = new Array<Mutagen>(); //Stores all possible mutagens
   public  var hp:Int = 3;
   public  var _alive:Bool = true;
+  public  var _recoiling = false; // True if player is in the middle of knockback
   
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
@@ -46,6 +47,9 @@ class Player extends FlxSprite  {
     if (rushing) {
       rush(true);  // Continues rush velocity if in rushing animation
     }
+	else if (_recoiling) {
+		knockback(true);
+	}
     else if (airborne){
       _oldy = _oldy + 4;
       if (_left && _right){
@@ -60,7 +64,7 @@ class Player extends FlxSprite  {
         xvel = speed;
       }
       else {
-        velocity.set(_oldx,_oldy);
+        velocity.set(0,_oldy);
       }
       yvel = _oldy;
     }
@@ -96,7 +100,8 @@ class Player extends FlxSprite  {
       yvel = -jump;
     }
     else{
-      velocity.set(0,0);
+      velocity.set(0, 0);
+	  xvel = 0;
     }
 }
 
@@ -203,7 +208,7 @@ class Player extends FlxSprite  {
     trace("Selecting new mutagen");
     if(currentIndex == _allMutagens.length - 1)
       selectMutagen(_allMutagens[0]);
-    else 
+    else
       selectMutagen(_allMutagens[currentIndex + 1]);
   }
 
@@ -240,5 +245,22 @@ class Player extends FlxSprite  {
 	  if (hp <= 0) {
 		  _alive = false;
 	  }
+  }
+  
+  public function knockback(midknock:Bool):Void {
+	  if (xvel > 0) {
+		  velocity.set(-200, yvel);
+	  } else {
+		  velocity.set(200, yvel);
+	  }
+	  
+	  if (!midknock) {
+		  _recoiling = true;
+		  new FlxTimer().start(0.25, end_knock, 1);
+	  }
+  }
+  
+  public function end_knock(Timer:FlxTimer):Void {
+	  _recoiling = false;
   }
 }
