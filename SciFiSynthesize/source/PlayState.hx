@@ -208,6 +208,15 @@ class PlayState extends FlxState
 		for (x in _enemies){
 			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
+
+		if(FlxG.overlap(_rangedAttacks, _boxes)){
+			for(x in _rangedAttacks){
+				if (FlxG.overlap(x,_boxes)){
+					x.kill();
+				}
+			}
+		}
+
 		super.update(elapsed);
 	}
 
