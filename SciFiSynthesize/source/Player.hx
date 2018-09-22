@@ -33,7 +33,7 @@ class Player extends FlxSprite  {
     addAllMutagens();
   }
 
-  function move():Void {
+  public function move(?bounce:Bool = false):Void {
     var _up:Bool = false;
     var _down:Bool = false;
     var _left:Bool = false;
@@ -45,7 +45,11 @@ class Player extends FlxSprite  {
     _left = FlxG.keys.anyPressed([LEFT, A]);
     _right = FlxG.keys.anyPressed([RIGHT, D]);
 
-    if (rushing) {
+	if (bounce) {
+		velocity.set(xvel, -100);
+		yvel = -100;
+	}
+    else if (rushing) {
       rush(true);  // Continues rush velocity if in rushing animation
     }
 	else if (_recoiling) {
