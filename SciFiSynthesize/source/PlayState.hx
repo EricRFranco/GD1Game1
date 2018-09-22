@@ -149,10 +149,14 @@ class PlayState extends FlxState
 		
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
-			_player.knockback(false);
-			if (_player.rushing) {
-				for (enemy in _enemies) {
-					if (FlxG.overlap(_player, enemy)) {
+			for (enemy in _enemies) {
+				if (FlxG.overlap(_player, enemy)) {
+					if (_player.y + 20 > enemy.y) {
+						_player.knockback(false);
+					} else {
+						_player.move(true);
+					}
+					if (_player.rushing) {
 						enemy.takeDamage(_player.power);
 						if (!enemy.alive) {
 							remove(enemy);
@@ -160,20 +164,9 @@ class PlayState extends FlxState
 						}
 					}
 				}
-			}/* else {
-				_player.takeDamage();
-				var health_left:Int = _player.hp;
-				switch(health_left) {
-					case (2):
-						remove(_hp3);
-					case (1):
-						remove(_hp2);
-					case(0):
-						remove(_hp1);
-						game_over();
-				}
-			}*/
+			}
 		}
+		
 		if (FlxG.overlap(_meleeAttacks,_player)){
 			for (x in _meleeAttacks){
 				if (FlxG.overlap(x,_player)){
