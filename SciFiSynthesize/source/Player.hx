@@ -24,6 +24,8 @@ class Player extends FlxSprite  {
   public  var _alive:Bool = true;
   public  var _recoiling = false; // True if player is in the middle of knockback
   public  var power = 1;
+  public  var active_mut:String = "none";
+  public  var changing_mut:Bool = false;
   
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
@@ -180,9 +182,9 @@ class Player extends FlxSprite  {
   }
 
   public function addAllMutagens() : Void {
-    _allMutagens.push(new HighJump(this));
-    _allMutagens.push(new SuperRush(this));
-    _allMutagens.push(new PushBoxes(this));
+    _allMutagens.push(new HighJump(20, 20, this));
+    _allMutagens.push(new SuperRush(20, 20, this));
+    _allMutagens.push(new PushBoxes(20, 20, this));
   }
 
   // Is called whenever a component is picked up
@@ -222,7 +224,9 @@ class Player extends FlxSprite  {
       _selectedMutagen.deactivate();
     _selectedMutagen = m;
     _selectedMutagen.activate();
-    _selectedMutagen.changePlayerColor();
+    //_selectedMutagen.changePlayerColor();
+	active_mut = _selectedMutagen.mut_str;
+	changing_mut = true;
   }
 
   public function hasAllComponents(m:Mutagen):Bool {
