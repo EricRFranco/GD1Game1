@@ -24,6 +24,8 @@ class Player extends FlxSprite  {
   public  var _alive:Bool = true;
   public  var _recoiling = false; // True if player is in the middle of knockback
   public  var power = 1;
+  public  var active_mut:String = "none";
+  public  var changing_mut:Bool = false;
   
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
@@ -118,6 +120,10 @@ class Player extends FlxSprite  {
     return true;
   }
 
+  public function hitMeWithThatGravity( ) : Void {
+    airborne = true;
+  }
+
   // Allows the player a short burst of speed, argument tells if player is in the middle of action
   function rush(midrush:Bool) : Void {
 	var _rush = FlxG.keys.justPressed.C;
@@ -180,9 +186,9 @@ class Player extends FlxSprite  {
   }
 
   public function addAllMutagens() : Void {
-    _allMutagens.push(new HighJump(this));
-    _allMutagens.push(new SuperRush(this));
-    _allMutagens.push(new PushBoxes(this));
+    _allMutagens.push(new HighJump(20, 20, this));
+    _allMutagens.push(new SuperRush(20, 20, this));
+    _allMutagens.push(new PushBoxes(20, 20, this));
   }
 
   // Is called whenever a component is picked up
@@ -222,7 +228,9 @@ class Player extends FlxSprite  {
       _selectedMutagen.deactivate();
     _selectedMutagen = m;
     _selectedMutagen.activate();
-    _selectedMutagen.changePlayerColor();
+    //_selectedMutagen.changePlayerColor();
+	active_mut = _selectedMutagen.mut_str;
+	changing_mut = true;
   }
 
   public function hasAllComponents(m:Mutagen):Bool {
@@ -244,27 +252,27 @@ class Player extends FlxSprite  {
     }
     return true;
   }
-  
+
   public function takeDamage():Void {
 	  hp -= 1;
 	  if (hp <= 0) {
 		  _alive = false;
 	  }
   }
-  
+
   public function knockback(midknock:Bool):Void {
 	  if (xvel > 0) {
 		  velocity.set(-200, yvel);
 	  } else {
 		  velocity.set(200, yvel);
 	  }
-	  
+
 	  if (!midknock) {
 		  _recoiling = true;
 		  new FlxTimer().start(0.25, end_knock, 1);
 	  }
   }
-  
+
   public function end_knock(Timer:FlxTimer):Void {
 	  _recoiling = false;
   }
