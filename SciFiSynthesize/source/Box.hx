@@ -12,6 +12,7 @@ class Box extends FlxSprite {
         makeGraphic(50,50,FlxColor.GREEN);
         drag.x = 1000;
         drag.y = 1000;
+        allowCollisions = 0x0011;
     }
 
     override public function update(elapsed:Float) {

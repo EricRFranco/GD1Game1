@@ -120,6 +120,10 @@ class Player extends FlxSprite  {
     return true;
   }
 
+  public function hitMeWithThatGravity( ) : Void {
+    airborne = true;
+  }
+
   // Allows the player a short burst of speed, argument tells if player is in the middle of action
   function rush(midrush:Bool) : Void {
 	var _rush = FlxG.keys.justPressed.C;
@@ -248,27 +252,27 @@ class Player extends FlxSprite  {
     }
     return true;
   }
-  
+
   public function takeDamage():Void {
 	  hp -= 1;
 	  if (hp <= 0) {
 		  _alive = false;
 	  }
   }
-  
+
   public function knockback(midknock:Bool):Void {
 	  if (xvel > 0) {
 		  velocity.set(-200, yvel);
 	  } else {
 		  velocity.set(200, yvel);
 	  }
-	  
+
 	  if (!midknock) {
 		  _recoiling = true;
 		  new FlxTimer().start(0.25, end_knock, 1);
 	  }
   }
-  
+
   public function end_knock(Timer:FlxTimer):Void {
 	  _recoiling = false;
   }
