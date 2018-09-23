@@ -14,10 +14,11 @@ class Tutorial extends FlxState { //we can have this extend PlayState later
     var _map:TiledMap;
     var _mWalls:FlxTilemap;
     var _mBackground:FlxTilemap;
+    var _mDecorations:FlxTilemap;
 
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
-
+        //Make sure the background is loaded first. Otherwise it will cover the walls layer
         _mBackground = new FlxTilemap();
         _mBackground.loadMapFromArray(cast(_map.getLayer("Background"), TiledTileLayer).tileArray, _map.width, _map.height,
             AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
@@ -25,6 +26,14 @@ class Tutorial extends FlxState { //we can have this extend PlayState later
         _mBackground.setTileProperties(2, FlxObject.NONE);
         _mBackground.setTileProperties(3, FlxObject.ANY);
         add(_mBackground);
+
+        _mDecorations = new FlxTilemap();
+        _mDecorations.loadMapFromArray(cast(_map.getLayer("Decoration"), TiledTileLayer).tileArray, _map.width, _map.height,
+            AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
+        _mDecorations.follow();
+        _mDecorations.setTileProperties(2, FlxObject.NONE);
+        _mDecorations.setTileProperties(3, FlxObject.ANY);
+        add(_mDecorations);
 
         _mWalls = new FlxTilemap();
         _mWalls.loadMapFromArray(cast(_map.getLayer("Ground"), TiledTileLayer).tileArray, _map.width, _map.height,
