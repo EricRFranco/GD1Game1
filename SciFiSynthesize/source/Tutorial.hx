@@ -8,6 +8,7 @@ import flixel.tile.FlxBaseTilemap;
 import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.FlxCamera;
+import flixel.util.FlxColor;
 
 class Tutorial extends FlxState { //we can have this extend PlayState later
     var _player:Player;
@@ -21,13 +22,14 @@ class Tutorial extends FlxState { //we can have this extend PlayState later
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
         //Make sure the background is loaded first. Otherwise it will cover the walls layer
-        _mBackground = new FlxTilemap();
+        /*_mBackground = new FlxTilemap();
         _mBackground.loadMapFromArray(cast(_map.getLayer("Background"), TiledTileLayer).tileArray, _map.width, _map.height,
             AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
         _mBackground.follow();
         _mBackground.setTileProperties(2, FlxObject.NONE);
         _mBackground.setTileProperties(3, FlxObject.ANY);
-        add(_mBackground);
+        add(_mBackground);*/
+		bgColor = FlxColor.GRAY;
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decoration"), TiledTileLayer).tileArray, _map.width, _map.height,
@@ -63,7 +65,8 @@ class Tutorial extends FlxState { //we can have this extend PlayState later
 
         
 
-        _player = new Player(20, 20);
+        _player = new Player(20, 350);
+		add(_player);
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
         //camera to scroll with player
@@ -76,6 +79,16 @@ class Tutorial extends FlxState { //we can have this extend PlayState later
 
     override public function update(elapsed:Float):Void {
         super.update(elapsed);
-        FlxG.collide(_player, _mWalls);
+		
+        if (FlxG.collide(_player, _mWalls) || FlxG.collide(_player, _mBoxes)) {
+			if (_player.isTouching(FlxObject.UP)) {
+				_player.yvel = 0;
+			}
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		} else {
+			_player.airborne = true;
+		}
     }
 }

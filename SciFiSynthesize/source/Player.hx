@@ -116,7 +116,7 @@ class Player extends FlxSprite  {
     airborne = false;
     velocity.set(xvel, 0);
     yvel = 0;
-	  air_rush = true;
+	air_rush = true;
     return true;
   }
 
