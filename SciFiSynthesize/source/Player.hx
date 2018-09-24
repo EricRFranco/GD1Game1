@@ -24,7 +24,9 @@ class Player extends FlxSprite  {
   public  var _alive:Bool = true;
   public  var _recoiling = false; // True if player is in the middle of knockback
   public  var power = 1;
-
+  public  var active_mut:String = "none";
+  public  var changing_mut:Bool = false;
+  
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
@@ -162,7 +164,7 @@ class Player extends FlxSprite  {
 
   override public function update( elapsed:Float ) : Void {
     move();
-	  rush(false);
+	rush(false);
     var cycle:Bool = true;
     // Checking if any mutagens can be made, and if the key has been pressed to create it.
     for(m in _allMutagens) {
@@ -184,9 +186,9 @@ class Player extends FlxSprite  {
   }
 
   public function addAllMutagens() : Void {
-    _allMutagens.push(new HighJump(this));
-    _allMutagens.push(new SuperRush(this));
-    _allMutagens.push(new PushBoxes(this));
+    _allMutagens.push(new HighJump(20, 20, this));
+    _allMutagens.push(new SuperRush(20, 20, this));
+    _allMutagens.push(new PushBoxes(20, 20, this));
   }
 
   // Is called whenever a component is picked up
@@ -213,12 +215,14 @@ class Player extends FlxSprite  {
   }
 
   public function cycleMutagen() {
-    var currentIndex:Int = _allMutagens.indexOf(_selectedMutagen);
-    trace("Selecting new mutagen");
-    if(currentIndex == _allMutagens.length - 1)
-      selectMutagen(_allMutagens[0]);
-    else
-      selectMutagen(_allMutagens[currentIndex + 1]);
+	if (_mutagens.length != 0) {
+		var currentIndex:Int = _mutagens.indexOf(_selectedMutagen);
+		trace("Selecting new mutagen");
+		if(currentIndex == _mutagens.length - 1)
+			selectMutagen(_mutagens[0]);
+		else
+			selectMutagen(_mutagens[currentIndex + 1]);
+	}
   }
 
   public function selectMutagen(m:Mutagen):Void {
@@ -226,7 +230,9 @@ class Player extends FlxSprite  {
       _selectedMutagen.deactivate();
     _selectedMutagen = m;
     _selectedMutagen.activate();
-    _selectedMutagen.changePlayerColor();
+    //_selectedMutagen.changePlayerColor();
+	active_mut = _selectedMutagen.mut_str;
+	changing_mut = true;
   }
 
   public function hasAllComponents(m:Mutagen):Bool {

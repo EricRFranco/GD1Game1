@@ -31,6 +31,11 @@ class PlayState extends FlxState
 	public var _bullets = new FlxTypedGroup<Bullet>();
 	public var _lasers = new FlxTypedGroup<Laser>();
 	public static var allMutagens = new Array<Mutagen>();
+	var highjump:HighJump;
+	var pushboxes:PushBoxes;
+	var superrush:SuperRush;
+	var current_mut:Mutagen;
+	var remove_mut:Bool;
 	override public function create():Void
 	{
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
@@ -111,6 +116,10 @@ class PlayState extends FlxState
 		add(_hp2);
 		_hp3 = new Health(50, 10);
 		add(_hp3);
+		
+		highjump = new HighJump(1100, 10, _player);
+		pushboxes = new PushBoxes(1100, 10, _player);
+		superrush = new SuperRush(1100, 10, _player);
 
 		super.create();
 	}
@@ -246,6 +255,26 @@ class PlayState extends FlxState
 				}
 			}
 		}
+		
+		if (_player.changing_mut) {
+			if (current_mut != null){
+				remove(current_mut);
+			}
+			switch(_player.active_mut){
+				case("high jump"):
+					add(highjump);
+					current_mut = highjump;
+				case("push boxes"):
+					add(pushboxes);
+					current_mut = pushboxes;
+				case("super rush"):
+					add(superrush);
+					current_mut = superrush;
+			}
+			
+			_player.changing_mut = false;
+		}
+			
 
 		super.update(elapsed);
 	}

@@ -1,13 +1,20 @@
 package;
 
-class SuperRush extends Mutagen {
+import flixel.util.FlxColor;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 
+class SuperRush extends Mutagen {
+	public function new(X:Float, Y:Float, p:Player, ?SimpleGraphic:FlxGraphicAsset) {
+		super(X, Y, p, FlxColor.PINK, SimpleGraphic);
+		mut_str = "super rush";
+	}	
+	
     public override function activate():Void {
-        //increase rush damage
+        _player.power = 3;
     }
 
     public override function deactivate():Void {
-        //revert rush damage to normal
+        _player.power = 1;
     }
 
     public override function createRecipe():Void {

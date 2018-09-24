@@ -1,8 +1,13 @@
 package;
 
 import flixel.util.FlxColor;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 
 class PushBoxes extends Mutagen {
+	public function new(X:Float, Y:Float, p:Player, ?SimpleGraphic:FlxGraphicAsset) {
+		super(X, Y, p, FlxColor.MAGENTA, SimpleGraphic);
+		mut_str = "push boxes";
+	}
 
     public override function activate():Void {
         _player.canPush = true;
