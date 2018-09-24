@@ -13,7 +13,7 @@ class Enemy extends FlxSprite {
   var jump:Float = 300;
   var xvel:Float = 0;
   var yvel:Float = 0;
-  var attackCooldown:Float = 0; // if <0 can attack else wait
+  var attackCooldown:Float = 60; // if <0 can attack else wait
   var airborne:Bool = true;
   var facingLeft:Bool = true; // Boolean to keep track of what direction the Enemy is facing to help with attack / defense hitboxes
   var enemyType:Int; //If we add multiple enemies this will keep track of which one they are
