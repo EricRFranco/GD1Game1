@@ -15,7 +15,7 @@ class Bullet extends FlxSprite {
   public function new( ?X:Float=0, ?Y:Float=0, ?L:Bool = true, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     facingLeft = L;
-    makeGraphic(20, 10, FlxColor.YELLOW);
+    makeGraphic(20, 2, FlxColor.YELLOW);
     maxRange = 700;
   }
 
