@@ -8,6 +8,7 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.FlxCamera;
+import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
 {
@@ -38,9 +39,13 @@ class PlayState extends FlxState
 	var superrush:SuperRush;
 	var current_mut:Mutagen;
 	var remove_mut:Bool;
+	var _mWalls:FlxTilemap;
+	var _mBoxes:FlxTilemap;
+
 	override public function create():Void
 	{
-		bgColor = FlxColor.WHITE;
+		// For debug mode
+		/*bgColor = FlxColor.WHITE;
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
 
@@ -115,7 +120,7 @@ class PlayState extends FlxState
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 2000);
-		FlxG.cameras.add(_camera);
+		FlxG.cameras.add(_camera);*/
 
 		//health UI in upper left corner
 		_hp1 = new Health(10, 10);
@@ -137,16 +142,6 @@ class PlayState extends FlxState
 	{
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
-		}
-
-		for (enemy in _enemies) {
-			if (FlxG.overlap(enemy, _ground)) {
-				// If in ground, rise until out of ground
-				enemy.velocity.set(0, -50);
-			} else {
-				// Otherwise, don't rise
-				enemy.velocity.set(0, 0);
-			}
 		}
 
 		if(FlxG.overlap(_player, _sceneComponents)) {
@@ -291,7 +286,17 @@ class PlayState extends FlxState
 
 			_player.changing_mut = false;
 		}
-
+		
+		if (FlxG.collide(_player, _mWalls) || FlxG.collide(_player, _mBoxes)) {
+			if (_player.isTouching(FlxObject.UP)) {
+				_player.yvel = 0;
+			}
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		} else {
+			_player.airborne = true;
+		}
 
 		super.update(elapsed);
 	}

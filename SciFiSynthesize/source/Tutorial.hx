@@ -10,13 +10,10 @@ import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.util.FlxColor;
 
-class Tutorial extends FlxState { //we can have this extend PlayState later
-    var _player:Player;
+class Tutorial extends PlayState { //we can have this extend PlayState later
     var _map:TiledMap;
-    var _mWalls:FlxTilemap;
     var _mBackground:FlxTilemap;
     var _mDecorations:FlxTilemap;
-    var _mBoxes:FlxTilemap;
     var _mComputers:FlxTilemap;
 
     override public function create():Void {
@@ -75,20 +72,5 @@ class Tutorial extends FlxState { //we can have this extend PlayState later
 		_camera.setScrollBounds(0, 2000, 0, 2000);
 		FlxG.cameras.add(_camera);
         super.create();
-    }
-
-    override public function update(elapsed:Float):Void {
-        super.update(elapsed);
-		
-        if (FlxG.collide(_player, _mWalls) || FlxG.collide(_player, _mBoxes)) {
-			if (_player.isTouching(FlxObject.UP)) {
-				_player.yvel = 0;
-			}
-			if (_player.isTouching(FlxObject.DOWN)) {
-				_player.grounded();
-			}
-		} else {
-			_player.airborne = true;
-		}
     }
 }
