@@ -20,6 +20,8 @@ class PlayState extends FlxState
 	var _glove:Component;
 	var _dumbell:Component;
 	var _box:Box;
+	var _elevator:Elevator;
+	var _switchfield:SwitchField;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
 	var _boxes = new FlxTypedGroup<Box>();
@@ -71,6 +73,9 @@ class PlayState extends FlxState
 		_ground.immovable = true;
 		add(_ground);
 
+		_switchfield = new SwitchField(1500,200);
+		add(_switchfield);
+
 		//components for high jump on left of player
 		_spring = new Component("Spring", 180, 680);
 		add(_spring);
@@ -104,6 +109,8 @@ class PlayState extends FlxState
 		add(_box);
 		_boxes.add(_box);
 
+		_elevator = new Elevator(1500, 675);
+		add(_elevator);
 		//camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
@@ -255,6 +262,15 @@ class PlayState extends FlxState
 					x.kill();
 				}
 			}
+		}
+
+		if(FlxG.collide(_player,_elevator)){
+			_elevator.rise = true;
+			_player.grounded();
+		}
+
+		if(FlxG.overlap(_player,_switchfield)){
+			FlxG.switchState(new Tutorial());
 		}
 
 		if (_player.changing_mut) {
