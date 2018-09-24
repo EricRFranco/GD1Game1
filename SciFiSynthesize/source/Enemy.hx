@@ -196,7 +196,7 @@ class Enemy extends FlxSprite {
         else{ // Ranged Enemy Attack Range behavior
           if ((playerOnLeft && facingLeft) || ((!playerOnLeft) && (!facingLeft))){
             seenPlayer = true;
-            if((playerY< y+40)&&(playerY>y)){
+            if((playerY< y+86)&&(playerY>y-34)){
               attack();
             }
             else{
@@ -262,7 +262,7 @@ class Enemy extends FlxSprite {
           melee.reset(x-60,y);
         }
         else{
-          melee.reset(x+40,y);
+          melee.reset(x+57,y);
         }
         melee.fullReset();
         attackCooldown = 240;
@@ -279,7 +279,7 @@ class Enemy extends FlxSprite {
             laser.reset(x-1000, y+18);
           }
           else{
-            laser.reset(x+40, y+18);
+            laser.reset(x+56, y+18);
           }
           laser.fullReset(facingLeft);
         }
@@ -297,7 +297,7 @@ class Enemy extends FlxSprite {
           bullet.reset(x-5,y+18);
         }
         else{
-          bullet.reset(x+40,y+18);
+          bullet.reset(x+56,y+18);
         }
         bullet.fullReset(facingLeft);
         shots -= 1;
