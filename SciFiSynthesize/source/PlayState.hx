@@ -94,9 +94,9 @@ class PlayState extends FlxState
 		add(_dumbell);
 		_sceneComponents.add(_dumbell);
 
-		var enemy1:Enemy = _enemies.add(new Enemy(1500, 600, 0));
+		var enemy1:Enemy = _enemies.add(new Enemy(1500, 600, 2));
 		enemy1.velocity.set(0, 50);
-		var enemy2:Enemy = _enemies.add(new Enemy(700, 600, 0));
+		var enemy2:Enemy = _enemies.add(new Enemy(700, 600, 1));
 		enemy2.velocity.set(0, 50);
 		add(_enemies);
 		_box = new Box(300, 650);
@@ -116,7 +116,7 @@ class PlayState extends FlxState
 		add(_hp2);
 		_hp3 = new Health(50, 10);
 		add(_hp3);
-		
+
 		highjump = new HighJump(1100, 10, _player);
 		pushboxes = new PushBoxes(1100, 10, _player);
 		superrush = new SuperRush(1100, 10, _player);
@@ -183,7 +183,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		if (FlxG.overlap(_meleeAttacks,_player)){
 			for (x in _meleeAttacks){
 				if (FlxG.overlap(x,_player)){
@@ -255,7 +255,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		if (_player.changing_mut) {
 			if (current_mut != null){
 				remove(current_mut);
@@ -271,10 +271,10 @@ class PlayState extends FlxState
 					add(superrush);
 					current_mut = superrush;
 			}
-			
+
 			_player.changing_mut = false;
 		}
-			
+
 
 		super.update(elapsed);
 	}

@@ -22,16 +22,18 @@ class Enemy extends FlxSprite {
   var researcherDirectionChangeCounter:Int = 0;
   var seenPlayer:Bool = false;
   var shots:Int = 0; // Number of bullets the enemey will shoot at a time;
-  public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) {
+  public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) { // Give this function x and y coordinates as if the sprites were 100 x 100 the constructor will adjust the values for each sprite
     super(X,Y,SimpleGraphic);
     enemyType = E;
     drag.x = 1000;
     if (enemyType == 0){
       health = 1;
-      loadGraphic("assets/images/Scientists.png");
+      loadGraphic("assets/images/Scientists.png"); // 19 x 93 image
+      y+=7;
     }
     else if (enemyType == 1){
-      makeGraphic(40, 40, FlxColor.ORANGE);
+      y+=27;
+      loadGraphic("assets/images/SwatWithShield.png"); //  54 X 73 image
       health = 2;
       if (R == 0){
         patrolLeft = x-(400);
@@ -42,8 +44,12 @@ class Enemy extends FlxSprite {
         patrolRight = x+(R);
       }
     }
-    else {
-      makeGraphic(40, 40, FlxColor.ORANGE);
+    else { // 57 X 86 Image for both ranged types
+      y+=14;
+      if (enemyType == 2){
+        loadGraphic("assets/images/SwatWithGun.png");
+      }
+      else loadGraphic("assets/images/SwatWithLaserGun.png");
       health = 3;
       if (R == 0){
         patrolLeft = x-200;
@@ -303,5 +309,10 @@ class Enemy extends FlxSprite {
     super.update(elapsed);
     attackCooldown -= 1;
     multiShot();
+    facing = 1;
+    if (facingLeft){
+      setFacingFlip(1,true,false);
+    }
+    else setFacingFlip(1,false,false);
   }
 }
