@@ -67,9 +67,10 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
         //camera to scroll with player
-		var _camera = new FlxCamera(0, 0, 1200, 750);
+		var _camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
-		_camera.setScrollBounds(0, 2000, 0, 2000);
+		_camera.setScrollBounds(0, 462.5, 0, 390);
+		_camera.zoom = 2;
 		FlxG.cameras.add(_camera);
         super.create();
     }
