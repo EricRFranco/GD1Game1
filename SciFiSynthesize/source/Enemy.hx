@@ -294,7 +294,7 @@ class Enemy extends FlxSprite {
         var playState:PlayState = cast FlxG.state;
         var bullet = playState._bullets.recycle();
         if (facingLeft){
-          bullet.reset(x-5,y+18);
+          bullet.reset(x-20,y+18);
         }
         else{
           bullet.reset(x+56,y+18);

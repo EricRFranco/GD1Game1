@@ -17,7 +17,7 @@ class Laser extends FlxSprite {
   public function new( ?X:Float=0, ?Y:Float=0,  ?L:Bool = true, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     facingLeft = L;
-    makeGraphic(100,5, FlxColor.RED);
+    makeGraphic(200,2, FlxColor.RED);
     hitFrameStart = 100;
     hitFrameEnd = 200;
     animationFrameEnd = 250;
@@ -27,7 +27,7 @@ class Laser extends FlxSprite {
     currentFrame = 0;
     alreadyHit = false;
     if (facingLeft){
-      x +=900;
+      x +=800;
     }
   }
   public function hit() : Void {
@@ -39,18 +39,18 @@ class Laser extends FlxSprite {
     if(currentFrame == hitFrameStart){
       setGraphicSize(1000,10);
       if (facingLeft){
-        x -= 900;
+        x -= 800;
       }
-      y-=2.5;
+      y-=4;
       dirty=true;
       updateHitbox();
     }
     if(currentFrame == hitFrameEnd){
-      setGraphicSize(100,5);
+      setGraphicSize(200,2);
       if (facingLeft){
-        x += 900;
+        x += 800;
       }
-      y+=2.5;
+      y+=4;
       dirty = true;
       updateHitbox();
     }
