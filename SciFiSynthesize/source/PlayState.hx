@@ -38,6 +38,7 @@ class PlayState extends FlxState
 	var remove_mut:Bool;
 	override public function create():Void
 	{
+		bgColor = FlxColor.WHITE;
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
 
@@ -96,7 +97,7 @@ class PlayState extends FlxState
 
 		var enemy1:Enemy = _enemies.add(new Enemy(1500, 600, 2));
 		enemy1.velocity.set(0, 50);
-		var enemy2:Enemy = _enemies.add(new Enemy(700, 600, 1));
+		var enemy2:Enemy = _enemies.add(new Enemy(700, 600, 3));
 		enemy2.velocity.set(0, 50);
 		add(_enemies);
 		_box = new Box(300, 650);
