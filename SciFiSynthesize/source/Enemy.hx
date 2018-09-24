@@ -310,6 +310,7 @@ class Enemy extends FlxSprite {
     attackCooldown -= 1;
     multiShot();
     facing = 1;
+    if (attackCooldown > 120) return;
     if (facingLeft){
       setFacingFlip(1,true,false);
     }
