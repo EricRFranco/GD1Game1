@@ -8,7 +8,7 @@ import flixel.FlxG;
 
 class Player extends FlxSprite  {
   public  var speed:Float = 300;
-  public  var jump:Float = 200;
+  public  var jump:Float = 175;
   public  var xvel:Float = 0; //store x velocity
   public  var yvel:Float = 0; // store y velocity
   public  var airborne:Bool = true; //is the player off the ground?

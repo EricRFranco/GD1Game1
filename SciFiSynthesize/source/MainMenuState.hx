@@ -13,14 +13,10 @@ class MainMenuState extends FlxState
 
 
 	override public function create(): Void {
+		FlxG.mouse.useSystemCursor = true;
 		_startButton = new FlxButton(10, 10, "Start", start);
 		_startButton.screenCenter();
 		add(_startButton);
-
-		_testButton = new FlxButton(10, 10, "Test", test);
-		_testButton.screenCenter();
-		_testButton.y += 40;
-		add(_testButton);
 
 		_titleText = new FlxText(100, 100, 350, "Synthesize", 50);
 		_titleText.screenCenter();
@@ -36,9 +32,5 @@ class MainMenuState extends FlxState
 
 	function start(): Void {
 		FlxG.switchState(new Tutorial());
-	}
-
-	function test() : Void {
-		FlxG.switchState(new PlayState());
 	}
 }

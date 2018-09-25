@@ -22,7 +22,6 @@ class PlayState extends FlxState
 	var _dumbell:Component;
 	var _box:Box;
 	var _elevator:Elevator;
-	var _switchfield:SwitchField;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
 	var _boxes = new FlxTypedGroup<Box>();
@@ -129,7 +128,7 @@ class PlayState extends FlxState
 		add(_hp2);
 		_hp3 = new Health(50, 10);
 		add(_hp3);
-
+		FlxG.mouse.visible = false;
 		highjump = new HighJump(1100, 10, _player);
 		pushboxes = new PushBoxes(1100, 10, _player);
 		superrush = new SuperRush(1100, 10, _player);
@@ -264,10 +263,6 @@ class PlayState extends FlxState
 			_player.grounded();
 		}
 
-		if(FlxG.overlap(_player,_switchfield)){
-			FlxG.switchState(new Tutorial());
-		}
-
 		if (_player.changing_mut) {
 			if (current_mut != null){
 				remove(current_mut);
@@ -286,8 +281,8 @@ class PlayState extends FlxState
 
 			_player.changing_mut = false;
 		}
-		
-		if (FlxG.collide(_player, _mWalls) || FlxG.collide(_player, _mBoxes)) {
+
+		if (FlxG.collide(_player, _mWalls)) {
 			if (_player.isTouching(FlxObject.UP)) {
 				_player.yvel = 0;
 			}
@@ -297,7 +292,13 @@ class PlayState extends FlxState
 		} else {
 			_player.airborne = true;
 		}
-
+		
+		if (FlxG.collide(_player, _mBoxes)) {
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		}
+		
 		super.update(elapsed);
 	}
 
