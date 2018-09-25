@@ -9,9 +9,10 @@ import Math;
 
 
 class SwitchField extends FlxSprite {
-  public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
+  public function new(X:Float, Y:Float, ?SimpleGraphic:FlxGraphicAsset) {
       super(X,Y,SimpleGraphic);
-      makeGraphic(400,10,FlxColor.LIME);
+      makeGraphic(30,30,FlxColor.WHITE);
+      alpha = 0;
       immovable = true;
   }
 
