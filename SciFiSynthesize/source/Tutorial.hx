@@ -9,6 +9,7 @@ import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.util.FlxColor;
+import flixel.group.FlxGroup;
 
 class Tutorial extends PlayState { //we can have this extend PlayState later
     var _map:TiledMap;
@@ -60,18 +61,37 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _mWalls.setTileProperties(3, FlxObject.ANY);
         add(_mWalls);
 
-        
-
         _player = new Player(20, 350);
 		add(_player);
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
+		var _health = new FlxTypedGroup<Health>();
+		_hp1 = new Health(30, 10);
+		_hp2 = new Health(50, 10);
+		_hp3 = new Health(70, 10);
+		_health.add(_hp1);
+		_health.add(_hp2);
+		_health.add(_hp3);
+		add(_health);
+		
         //camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 925, 750);
+		var _uicamera = new FlxCamera(0, 0, 925, 750);
+		
+		_uicamera.bgColor = FlxColor.TRANSPARENT;
+		
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 462.5, 0, 390);
 		_camera.zoom = 2;
-		FlxG.cameras.add(_camera);
+		
+		FlxG.cameras.reset(_camera);
+		FlxG.cameras.add(_uicamera);
+		
+		FlxCamera.defaultCameras = [_camera];
+		for (hp in _health) {
+			hp.cameras = [_uicamera];
+		}
+		
         super.create();
     }
 }
