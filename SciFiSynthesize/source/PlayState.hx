@@ -287,7 +287,7 @@ class PlayState extends FlxState
 			_player.changing_mut = false;
 		}
 
-		if (FlxG.collide(_player, _mWalls) || FlxG.collide(_player, _mBoxes)) {
+		if (FlxG.collide(_player, _mWalls)) {
 			if (_player.isTouching(FlxObject.UP)) {
 				_player.yvel = 0;
 			}
@@ -297,7 +297,13 @@ class PlayState extends FlxState
 		} else {
 			_player.airborne = true;
 		}
-
+		
+		if (FlxG.collide(_player, _mBoxes)) {
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		}
+		
 		super.update(elapsed);
 	}
 
