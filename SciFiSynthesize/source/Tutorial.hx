@@ -10,6 +10,7 @@ import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup;
+import flixel.addons.display.FlxBackdrop;
 
 class Tutorial extends PlayState { //we can have this extend PlayState later
     var _map:TiledMap;
@@ -19,6 +20,8 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
+		var bg = new FlxBackdrop("assets/images/background.png");
+		add(bg);
         //Make sure the background is loaded first. Otherwise it will cover the walls layer
         /*_mBackground = new FlxTilemap();
         _mBackground.loadMapFromArray(cast(_map.getLayer("Background"), TiledTileLayer).tileArray, _map.width, _map.height,
@@ -27,7 +30,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _mBackground.setTileProperties(2, FlxObject.NONE);
         _mBackground.setTileProperties(3, FlxObject.ANY);
         add(_mBackground);*/
-		bgColor = FlxColor.GRAY;
+		//bgColor = FlxColor.GRAY;
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decoration"), TiledTileLayer).tileArray, _map.width, _map.height,
