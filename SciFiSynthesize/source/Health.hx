@@ -12,7 +12,7 @@ class Health extends FlxSprite
 	public function new(X:Float, Y:Float, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(10, 10, FlxColor.WHITE);
+		makeGraphic(10, 10, FlxColor.RED);
 		scrollFactor.set(0, 0);
 	}
 }
