@@ -17,6 +17,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
     var _mBackground:FlxTilemap;
     var _mDecorations:FlxTilemap;
     var _mComputers:FlxTilemap;
+    var _switchfield:SwitchField;
 
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
@@ -76,25 +77,39 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_health.add(_hp2);
 		_health.add(_hp3);
 		add(_health);
-		
+
         //camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 925, 750);
 		var _uicamera = new FlxCamera(0, 0, 925, 750);
-		
+
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
-		
+
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 462.5, 0, 390);
 		_camera.zoom = 2;
-		
+    _switchfield  = new SwitchField(27,70);
+		add(_switchfield);
 		FlxG.cameras.reset(_camera);
 		FlxG.cameras.add(_uicamera);
-		
+
 		FlxCamera.defaultCameras = [_camera];
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
 		}
-		
+
         super.create();
     }
+
+
+  override public function update(elapsed:Float):Void{
+    if(FlxG.overlap(_player,_switchfield) && ( FlxG.keys.anyPressed([DOWN, S]))){
+      camera.fade(FlxColor.BLACK, 1,false,switchStates,false);
+    }
+    super.update(elapsed);
+  }
+
+  function switchStates() : Void {
+   FlxG.switchState(new Tutorial());
+  }
+
 }

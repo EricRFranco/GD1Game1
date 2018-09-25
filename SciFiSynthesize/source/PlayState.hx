@@ -22,7 +22,6 @@ class PlayState extends FlxState
 	var _dumbell:Component;
 	var _box:Box;
 	var _elevator:Elevator;
-	var _switchfield:SwitchField;
 	var _sceneComponents = new FlxTypedGroup<Component>();	//Grouping all components to simplify collision detection with player
 	var _enemies = new FlxTypedGroup<Enemy>(); //Grouping all enemies to simplify passing information and collision detection
 	var _boxes = new FlxTypedGroup<Box>();
@@ -262,10 +261,6 @@ class PlayState extends FlxState
 		if(FlxG.collide(_player,_elevator)){
 			_elevator.rise = true;
 			_player.grounded();
-		}
-
-		if(FlxG.overlap(_player,_switchfield)){
-			FlxG.switchState(new Tutorial());
 		}
 
 		if (_player.changing_mut) {
