@@ -66,9 +66,9 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
 		var _health = new FlxTypedGroup<Health>();
-		_hp1 = new Health(30, 10);
-		_hp2 = new Health(50, 10);
-		_hp3 = new Health(70, 10);
+		_hp1 = new Health(40, 10);
+		_hp2 = new Health(60, 10);
+		_hp3 = new Health(80, 10);
 		_health.add(_hp1);
 		_health.add(_hp2);
 		_health.add(_hp3);
