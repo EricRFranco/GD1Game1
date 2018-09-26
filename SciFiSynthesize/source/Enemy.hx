@@ -162,7 +162,8 @@ class Enemy extends FlxSprite {
         }
         else if (enemyType ==1){ // Melee Enemy Attack Close Range Behavior
           if (seenPlayer){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
-            if (distanceFromPlayer>200){ // get closer for melee attack
+            facingLeft = playerOnLeft;
+            if (distanceFromPlayer>100){ // get closer for melee attack
               if ( playerOnLeft){
                 if (x>patrolLeft){
                   move(true, false);
@@ -277,7 +278,7 @@ class Enemy extends FlxSprite {
           melee.reset(x-60,y);
         }
         else{
-          melee.reset(x+57,y);
+          melee.reset(x+28,y);
         }
         melee.fullReset();
         attackCooldown = 240;

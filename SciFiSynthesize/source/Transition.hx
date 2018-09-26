@@ -15,7 +15,7 @@ class Transition extends FlxState{
 
   override public function create(): Void {
 	FlxG.sound.playMusic("assets/music/synthesize_elevator_music.wav");
-	  
+
     _proceedButton = new FlxButton(0, 0, " ", next);
     _proceedButton.loadGraphic("assets/images/proceed-unpressed.png");
     _proceedButton.updateHitbox();
@@ -26,7 +26,7 @@ class Transition extends FlxState{
 
     trace(_nextLevel);
     if(_nextLevel == 1){
-      _theActualText = sys.io.File.getContent('assets/data/level1log1.txt');
+      _theActualText = sys.io.File.getContent('assets/data/level1end.txt');
     }
     else{
       trace('lvl2');
@@ -39,7 +39,7 @@ class Transition extends FlxState{
   }
   function next(  ) : Void {
     if(_nextLevel == 1){
-      FlxG.switchState(new Tutorial());
+      FlxG.switchState(new LevelOne());
     }
     else{
       //FlxG.switchState(new MainMenuState());
