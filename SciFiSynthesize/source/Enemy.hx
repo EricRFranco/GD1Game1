@@ -37,7 +37,9 @@ class Enemy extends FlxSprite {
     }
     else if (enemyType == 1){
       y+=27;
-      loadGraphic("assets/images/SwatWithShield.png"); //  54 X 73 image
+      loadGraphic("assets/images/SwatShieldMoving.png", true, 100,100); //  54 X 73 image
+      animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
+      animation.play("Walk");
       health = 2;
       if (R == 0){
         patrolLeft = x-(400);
