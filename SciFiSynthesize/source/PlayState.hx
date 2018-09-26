@@ -10,6 +10,7 @@ import flixel.group.FlxGroup;
 import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 
 class PlayState extends FlxState
 {
@@ -46,11 +47,13 @@ class PlayState extends FlxState
 	var log_open:Bool = false;
 	var active_log:FlxText;
 	var active_log_bg:FlxSprite;
+	var gameover_box:FlxSprite;
+	var gameover_text:FlxText;
+	var gameover_button:FlxButton;
 
 	override public function create():Void
 	{
 		// For debug mode
-		/*bgColor = FlxColor.WHITE;
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
 		*/
@@ -126,10 +129,10 @@ class PlayState extends FlxState
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 2000);
-		FlxG.cameras.add(_camera);*/
+		FlxG.cameras.add(_camera);
 
 		//health UI in upper left corner
-		/*_hp1 = new Health(10, 10);
+		_hp1 = new Health(10, 10);
 		add(_hp1);
 		_hp2 = new Health(30, 10);
 		add(_hp2);
@@ -385,6 +388,25 @@ class PlayState extends FlxState
 	}
 
 	public function game_over() {
-		trace("You died lol");
+		gameover_box = new FlxSprite(0, 0);
+		gameover_box.makeGraphic(925, 750, FlxColor.BLACK);
+		gameover_box.cameras = [_uicamera];
+		add(gameover_box);
+		
+		gameover_text = new FlxText(0, 0, 265, "Game Over, Man", 25);
+		gameover_text.cameras = [_uicamera];
+		gameover_text.screenCenter();
+		gameover_text.y -= 30;
+		add(gameover_text);
+		
+		gameover_button = new FlxButton(10, 10, " ", reset);
+		gameover_button.cameras = [_uicamera];
+		gameover_button.screenCenter();
+		gameover_button.y += 30;
+		add(gameover_button);
+	}
+	
+	public function reset(): Void {
+		FlxG.state.resetSubState();
 	}
 }

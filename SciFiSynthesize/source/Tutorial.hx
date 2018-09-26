@@ -82,8 +82,12 @@ class Tutorial extends PlayState {
 		var enemy2 = new Enemy(120, 50, 0);
 		enemy2.scale.set(0.5, 0.5);
 		enemy2.updateHitbox();
+		var enemy3 = new Enemy(150, 300, 2);
+		enemy3.scale.set(0.5, 0.5);
+		enemy3.updateHitbox();
 		_enemies.add(enemy1);
 		_enemies.add(enemy2);
+		_enemies.add(enemy3);
 		add(_enemies);
 		
 		var log1_background = new FlxSprite(25, 500);
