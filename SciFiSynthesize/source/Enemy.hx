@@ -181,7 +181,7 @@ class Enemy extends FlxSprite {
               }
             }
             else{
-              trace(distanceFromPlayer);
+              //trace(distanceFromPlayer);
               attack();
               move(false,false);
             }
@@ -247,7 +247,7 @@ class Enemy extends FlxSprite {
   }
 
   function move(?_left:Bool = false, _right:Bool = false):Void {
-    if (attackCooldown > 120){
+    /*if (attackCooldown > 120){
       velocity.set(0,0);
       acceleration.set(0,0);
       return;
@@ -268,10 +268,10 @@ class Enemy extends FlxSprite {
       velocity.set(0,yvel);
       xvel = 0;
       //trace("still");
-    }
+    }*/
   }
   function attack( ) : Void {
-    if(attackCooldown <=0){
+    /*if(attackCooldown <=0){
       if(enemyType == 1){ // melee attack
         var playState:PlayState = cast FlxG.state;
         var melee = playState._meleeAttacks.recycle();
@@ -303,7 +303,7 @@ class Enemy extends FlxSprite {
           laser.fullReset(facingLeft);
         }
       }
-    }
+    }*/
   }
 
   function multiShot() : Void {

@@ -25,7 +25,10 @@ class LevelOne extends PlayState {
     public override function create() : Void {
         _currentState = 1;
         _map = new TiledMap(AssetPaths.newlevel1__tmx);
-        //background goes here
+		var bg = new FlxBackdrop("assets/images/background.png");
+		add(bg);
+		
+		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decorations"), TiledTileLayer).tileArray, _map.width, _map.height,
@@ -43,6 +46,14 @@ class LevelOne extends PlayState {
         _mBoxes.setTileProperties(3, FlxObject.ANY);
         add(_mBoxes);
 
+		_mComputers = new FlxTilemap();
+        _mComputers.loadMapFromArray(cast(_map.getLayer("Computers"), TiledTileLayer).tileArray, _map.width, _map.height,
+            AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
+        _mComputers.follow();
+        _mComputers.setTileProperties(2, FlxObject.NONE);
+        _mComputers.setTileProperties(3, FlxObject.ANY);
+        add(_mComputers);
+		
         _mWalls = new FlxTilemap();
         _mWalls.loadMapFromArray(cast(_map.getLayer("Walls"), TiledTileLayer).tileArray, _map.width, _map.height,
              AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
@@ -56,11 +67,11 @@ class LevelOne extends PlayState {
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
 		
-		var enemy1 = new Enemy(200, 450, 1, 0);
+		var enemy1 = new Enemy(200, 450, 1);
 		_enemies.add(enemy1);
-		var enemy2 = new Enemy(40, 350, 2, 0);
+		var enemy2 = new Enemy(40, 350, 2);
 		_enemies.add(enemy2);
-		var enemy3 = new Enemy(730, 200, 1, 0);
+		var enemy3 = new Enemy(730, 200, 1);
 		_enemies.add(enemy3);
 		var enemy4 = new Enemy(475, 25, 0);
 		_enemies.add(enemy4);
@@ -80,12 +91,35 @@ class LevelOne extends PlayState {
 		_enemies.add(enemy11);
 		var enemy12 = new Enemy(1325, 445, 0);
 		_enemies.add(enemy12);
+		var enemy13 = new Enemy(1570, 250, 1);
+		_enemies.add(enemy13);
+		var enemy14 = new Enemy(1670, 250, 2);
+		_enemies.add(enemy14);
+		var enemy15 = new Enemy(1645, 445, 2);
+		_enemies.add(enemy15);
 		
 		for (enemy in _enemies) {
 			enemy.scale.set(0.5, 0.5);
 			enemy.updateHitbox();
 		}
 		add(_enemies);
+		
+		var box1 = new Box(350, 365);
+		_boxes.add(box1);
+		var box2 = new Box(1125, 80);
+		_boxes.add(box2);
+		
+		for (box in _boxes) {
+			box.scale.set(0.5, 0.5);
+			box.updateHitbox();
+		}
+		add(_boxes);
+		
+		_glove = new Component("Glove", 425, 140);
+		_sceneComponents.add(_glove);
+		_dumbell = new Component("Dumbell", 1065, 95);
+		_sceneComponents.add(_dumbell);
+		add(_sceneComponents);
 		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
