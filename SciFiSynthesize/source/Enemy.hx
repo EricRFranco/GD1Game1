@@ -161,15 +161,14 @@ class Enemy extends FlxSprite {
           }
         }
         else if (enemyType ==1){ // Melee Enemy Attack Close Range Behavior
-          if (seenPlayer){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
-            facingLeft = playerOnLeft;
-            if (distanceFromPlayer>100){ // get closer for melee attack
+          if (((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft))&&((playerY < y + height)&&(playerY > y -height))){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
+            if (distanceFromPlayer>60){ // get closer for melee attack
               if ( playerOnLeft){
                 if (x>patrolLeft){
                   move(true, false);
                 }
                 else{
-                  move();
+                  move(false,false);
                 }
               }
               else{
@@ -177,12 +176,14 @@ class Enemy extends FlxSprite {
                   move(false, true);
                 }
                 else{
-                  move();
+                  move(false,false);
                 }
               }
             }
             else{
+              trace(distanceFromPlayer);
               attack();
+              move(false,false);
             }
           }
           else if(seenPlayer){
@@ -275,10 +276,10 @@ class Enemy extends FlxSprite {
         var playState:PlayState = cast FlxG.state;
         var melee = playState._meleeAttacks.recycle();
         if (facingLeft){
-          melee.reset(x-60,y);
+          melee.reset(x-20,y);
         }
         else{
-          melee.reset(x+28,y);
+          melee.reset(x+26,y);
         }
         melee.fullReset();
         attackCooldown = 240;
