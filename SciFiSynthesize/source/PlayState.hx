@@ -238,8 +238,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		//trace("x: " + _player.x);
-		//trace("y: " + _player.y);
+		trace("x: " + _player.x);
+		trace("y: " + _player.y);
 
 		for(mut in _player.allMutagens()) {
 			if(_player.hasAllComponents(mut)) {
@@ -525,5 +525,6 @@ class PlayState extends FlxState
 	public function reset(): Void {
 		if (_currentState== 0)FlxG.switchState(new Tutorial());
 		else if (_currentState== 1)FlxG.switchState(new LevelOne());
+		else if (_currentState== 2)FlxG.switchState(new FinalLevel());
 	}
 }
