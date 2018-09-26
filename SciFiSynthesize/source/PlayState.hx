@@ -53,12 +53,14 @@ class PlayState extends FlxState
 	var gameover_text:FlxText;
 	var gameover_button:FlxButton;
 	var _health:FlxTypedGroup<Health>;
+	var _currentState:Int = 0;
 
 	override public function create():Void
 	{
 		// For debug mode
-		FlxG.worldBounds.set(0, 0, 2000, 2000);
+		FlxG.worldBounds.set(0, 0, 5000, 2000);
 		FlxG.mouse.visible = false;
+
 		for (x in 0...5){
 			var temp = new Melee(-1,-1);
 			temp.kill();
@@ -89,15 +91,71 @@ class PlayState extends FlxState
 		add(_health);
 		_player.health = 3;
 		highjump = new HighJump(850, 10, _player);
+		pushboxes = new PushBoxes(850, 10, _player);
 
 		_uicamera = new FlxCamera(0, 0, 925, 750);
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
 		FlxG.cameras.add(_uicamera);
+		
+		var log1_background = new FlxSprite(25, 500);
+		log1_background.makeGraphic(530, 675, FlxColor.BLACK);
+		log1_background.screenCenter();
+		log1_background.y -= 20;
+
+		for (y in 0...675) {
+			for (x in 0...530) {
+				if(y <= 5 || y >= 665) {
+					log1_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+				else if (x <= 5 || x >= 520) {
+					log1_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
+		var log2_background = new FlxSprite(0, 0);
+		log2_background.makeGraphic(680, 725, FlxColor.BLACK);
+		log2_background.screenCenter();
+		
+		for (y in 0...725) {
+			for (x in 0...680) {
+				if (y <= 5 || y >= 715) {
+					log2_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+				else if (x <= 5 || x >= 670) {
+					log2_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
+		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
+		var log1 = new FlxText(35, 510, 500, log1_txt, 15);
+		log1.screenCenter();
+		
+		var log2_txt = sys.io.File.getContent("assets/data/tutlog2.txt");
+		var log2 = new FlxText(35, 510, 650, log2_txt, 12);
+		log2.screenCenter();
+		log2.y += 15;
+		
+		var log1_hitbox = new Computer(172, 200, log1, log1_background);
+		_computers.add(log1_hitbox);
+		add(log1_hitbox);
+		
+		var log2_hitbox = new Computer(270, 75, log2, log2_background);
+		_computers.add(log2_hitbox);
+		add(log2_hitbox);
+
+		log1.cameras = [_uicamera];
+		log1_background.cameras = [_uicamera];
+		log2.cameras = [_uicamera];
+		log2_background.cameras = [_uicamera];
 
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
 		}
+		
 		highjump.cameras = [_uicamera];
+		pushboxes.cameras = [_uicamera];
 
 		super.create();
 	}
@@ -105,6 +163,9 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		trace("x: " + _player.x);
+		trace("y: " + _player.y);
+
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
 		}
@@ -118,18 +179,6 @@ class PlayState extends FlxState
 				box.immovable = true;
 			else if(_player.canPush && box.immovable)
 				box.immovable = false;
-		}
-		FlxG.collide(_player,_boxes);
-		if (FlxG.overlap(_player,_boxes)){
-			for ( x in _boxes){
-				if ((x.x <= _player.x+_player.width) || (x.x+x.width <= _player.x)){
-					_player.grounded();
-				}
-			}
-		}
-
-		if(!((FlxG.overlap(_player,_ground))||(FlxG.overlap(_player,_boxes)))){
-			_player.hitMeWithThatGravity();
 		}
 
 		if (FlxG.collide(_player, _enemies)) {
@@ -203,10 +252,8 @@ class PlayState extends FlxState
 					_camera.shake(0.005);
 					x.kill();
 					var health_left:Int = _player.hp;
-					trace(_player.hp);
 					switch(health_left) {
 						case (2):
-							trace("Removing 1 health");
 							_health.remove(_hp3);
 						case (1):
 							_health.remove(_hp2);
@@ -271,13 +318,19 @@ class PlayState extends FlxState
 				_player.grounded();
 			}
 		}
+		
+		if (FlxG.collide(_player, _boxes)) {
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		}
 
 		for (enemy in _enemies) {
 			if (FlxG.collide(enemy, _mWalls)) {
 				enemy.grounded();
 			}
 			else {
-				trace("should fall");
+				//trace("should fall");
 				enemy.airborne = true;
 			}
 		}
@@ -354,9 +407,10 @@ class PlayState extends FlxState
 		gameover_text.y -= 30;
 		add(gameover_text);
 
-		gameover_button = new FlxButton(0, 0, " ", reset);
+		gameover_button = new FlxButton(10, 10, " ", reset);
 		gameover_button.loadGraphic("assets/images/restart-unpressed.png");
 		gameover_button.updateHitbox();
+		gameover_button.onDown.callback = onButtonDown;
 		gameover_button.cameras = [_uicamera];
 		gameover_button.screenCenter();
 		gameover_button.y += 30;
@@ -364,11 +418,12 @@ class PlayState extends FlxState
 		add(gameover_button);
 	}
 
-	function onButtonDown(  ) : Void {
+	function onButtonDown( ) : Void {
 		gameover_button.loadGraphic("assets/images/restart-pressed.png");
 	}
+
 	public function reset(): Void {
-		if(_currentState == 0)FlxG.switchState(new Tutorial());
-		else if(_currentState == 1)FlxG.switchState(new LevelOne());
+		if (_currentState== 0)FlxG.switchState(new Tutorial());
+		else if (_currentState== 1)FlxG.switchState(new LevelOne());
 	}
 }

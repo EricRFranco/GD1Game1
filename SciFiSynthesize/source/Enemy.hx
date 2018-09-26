@@ -161,14 +161,14 @@ class Enemy extends FlxSprite {
           }
         }
         else if (enemyType ==1){ // Melee Enemy Attack Close Range Behavior
-          if (seenPlayer){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
-            if (distanceFromPlayer>200){ // get closer for melee attack
+          if (((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft))&&((playerY < y + height)&&(playerY > y -height))){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
+            if (distanceFromPlayer>60){ // get closer for melee attack
               if ( playerOnLeft){
                 if (x>patrolLeft){
                   move(true, false);
                 }
                 else{
-                  move();
+                  move(false,false);
                 }
               }
               else{
@@ -176,12 +176,14 @@ class Enemy extends FlxSprite {
                   move(false, true);
                 }
                 else{
-                  move();
+                  move(false,false);
                 }
               }
             }
             else{
+              //trace(distanceFromPlayer);
               attack();
+              move(false,false);
             }
           }
           else if(seenPlayer){
@@ -245,7 +247,7 @@ class Enemy extends FlxSprite {
   }
 
   function move(?_left:Bool = false, _right:Bool = false):Void {
-    if (attackCooldown > 120){
+    /*if (attackCooldown > 120){
       velocity.set(0,0);
       acceleration.set(0,0);
       return;
@@ -266,18 +268,18 @@ class Enemy extends FlxSprite {
       velocity.set(0,yvel);
       xvel = 0;
       //trace("still");
-    }
+    }*/
   }
   function attack( ) : Void {
-    if(attackCooldown <=0){
+    /*if(attackCooldown <=0){
       if(enemyType == 1){ // melee attack
         var playState:PlayState = cast FlxG.state;
         var melee = playState._meleeAttacks.recycle();
         if (facingLeft){
-          melee.reset(x-60,y);
+          melee.reset(x-20,y);
         }
         else{
-          melee.reset(x+57,y);
+          melee.reset(x+26,y);
         }
         melee.fullReset();
         attackCooldown = 240;
@@ -301,7 +303,7 @@ class Enemy extends FlxSprite {
           laser.fullReset(facingLeft);
         }
       }
-    }
+    }*/
   }
 
   function multiShot() : Void {
