@@ -82,8 +82,14 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_sceneComponents.add(_shoe);
 		
 		// Add enemies to the scene
-		_enemies.add(new Enemy(100, 125, 0));
-		_enemies.add(new Enemy(125, 0, 0));
+		var enemy1 = new Enemy(100, 175, 0);
+		enemy1.scale.set(0.5, 0.5);
+		enemy1.updateHitbox();
+		var enemy2 = new Enemy(120, 50, 0);
+		enemy2.scale.set(0.5, 0.5);
+		enemy2.updateHitbox();
+		_enemies.add(enemy1);
+		_enemies.add(enemy2);
 		add(_enemies);
 
 		// Add UI elements
