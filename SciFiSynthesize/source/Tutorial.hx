@@ -23,6 +23,8 @@ class Tutorial extends PlayState {
     var _switchfield:SwitchField;
 	var log1:FlxText;
 	var log1_background:FlxSprite;
+	var _canCreateMutagen:FlxText =  new FlxText(487, 50, 400, "", 16);
+	var _canSynthesize:Bool = false;
 
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
@@ -175,6 +177,10 @@ class Tutorial extends PlayState {
 		log2.cameras = [_uicamera];
 		log2_background.cameras = [_uicamera];
 		
+		_canCreateMutagen.cameras = [_uicamera];
+		_canCreateMutagen.screenCenter();
+		add(_canCreateMutagen);
+
         super.create();
     }
 
@@ -183,6 +189,19 @@ class Tutorial extends PlayState {
     if(FlxG.overlap(_player,_switchfield) && ( FlxG.keys.anyPressed([DOWN, S]))){
       camera.fade(FlxColor.BLACK, 1,false,switchStates,false);
     }
+
+	for(mut in _player.allMutagens()) {
+		if(_player.hasAllComponents(mut)) {
+			_canCreateMutagen.text = "Press E to synthesize a new mutagen!";
+			_canSynthesize = true;
+			break;
+		}
+		_canSynthesize = false;
+	}
+	if(!_canSynthesize)
+		_canCreateMutagen.text = "";
+
+
     super.update(elapsed);
   }
 
