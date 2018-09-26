@@ -108,7 +108,7 @@ class PlayState extends FlxState
 	{
 		//trace("x: " + _player.x);
 		//trace("y: " + _player.y);
-		
+
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
 		}
