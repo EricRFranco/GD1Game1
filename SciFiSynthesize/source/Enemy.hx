@@ -32,7 +32,6 @@ class Enemy extends FlxSprite {
       health = 1;
       loadGraphic("assets/images/ScientistMoving.png", true, 100, 100); // 19 x 93 image
       animation.add("Walk", [0,1,0,2], 15);
-      //animation.play("Walk"); //For debug
       y+=7;
     }
     else if (enemyType == 1){
@@ -40,7 +39,6 @@ class Enemy extends FlxSprite {
       loadGraphic("assets/images/SwatShieldMoving.png", true, 100,100); //  54 X 73 image
       animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
       animation.add("Attack", [7,8], 15);
-      //animation.play("Attack"); //For debug
       health = 2;
       if (R == 0){
         patrolLeft = x-(400);
@@ -56,13 +54,11 @@ class Enemy extends FlxSprite {
       if (enemyType == 2){
         loadGraphic("assets/images/SwatGunMoving.png", true, 100, 100);
         animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
-        //animation.play("Walk"); //For debug
       }
       else {
         loadGraphic("assets/images/SwatLaserMoving.png", true, 100, 100);
         animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
-        //animation.play("Walk"); //For debug
-      } 
+      }
       health = 3;
       if (R == 0){
         patrolLeft = x-200;
@@ -270,16 +266,19 @@ class Enemy extends FlxSprite {
     if (_left ){
       velocity.set(-speed,yvel);
       xvel=-speed;
+      animation.play("Walk");
       //trace ("left");
     }
     else if (_right){
       velocity.set(speed, yvel);
       xvel = speed;
+      animation.play("Walk"); //For debug
       //trace("right");
     }
     else {
       velocity.set(0,yvel);
       xvel = 0;
+      animation.stop();
       //trace("still");
     }
   }
@@ -296,6 +295,7 @@ class Enemy extends FlxSprite {
         }
         melee.fullReset();
         attackCooldown = 240;
+        animation.play("Attack");
       }
       else{ //ranged attack
         if (enemyType == 2){  // Bullet Type
