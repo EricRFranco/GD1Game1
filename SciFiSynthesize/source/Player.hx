@@ -26,6 +26,7 @@ class Player extends FlxSprite  {
   public  var power = 1;
   public  var active_mut:String = "none";
   public  var changing_mut:Bool = false;
+  public  var paused:Bool = false;
   
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
@@ -47,7 +48,10 @@ class Player extends FlxSprite  {
     _left = FlxG.keys.anyPressed([LEFT, A]);
     _right = FlxG.keys.anyPressed([RIGHT, D]);
 
-	if (bounce) {
+	if (paused) {
+		velocity.set(0, 0);
+	}
+	else if (bounce) {
 		velocity.set(xvel, -100);
 		yvel = -100;
 	}
