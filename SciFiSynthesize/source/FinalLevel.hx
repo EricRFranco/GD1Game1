@@ -25,6 +25,8 @@ class FinalLevel extends PlayState {
         _map = new TiledMap(AssetPaths.newlevel2__tmx);
         var bg = new FlxBackdrop("assets/images/sky.png");
 		add(bg);
+		
+		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decorations"), TiledTileLayer).tileArray, _map.width, _map.height,
@@ -55,6 +57,7 @@ class FinalLevel extends PlayState {
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
         _player._mutagens.push(new PushBoxes(0, 0, _player));
+		_player.health = 3;
 		
 		_battery = new Component("Battery", 140, 280);
 		_sceneComponents.add(_battery);
@@ -68,7 +71,7 @@ class FinalLevel extends PlayState {
 		
 		var enemy1 = new Enemy(120, 425, 3); //laser
 		_enemies.add(enemy1);
-		var enemy2 = new Enemy(255, 350, 2);
+		var enemy2 = new Enemy(225, 350, 2);
 		_enemies.add(enemy2);
 		var enemy3 = new Enemy(170, 250, 3); //laser
 		_enemies.add(enemy3);

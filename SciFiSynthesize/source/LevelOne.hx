@@ -66,6 +66,7 @@ class LevelOne extends PlayState {
 		add(_player);
 
 		_player._mutagens.push(new HighJump(0, 0, _player));
+		_player.health = 3;
 
 		var enemy1 = new Enemy(200, 400, 1);
 		_enemies.add(enemy1);

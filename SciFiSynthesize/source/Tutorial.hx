@@ -63,6 +63,7 @@ class Tutorial extends PlayState {
 
         _player = new Player(20, 350);
 		add(_player);
+		_player.health = 3;
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
 		// Add components to the scene

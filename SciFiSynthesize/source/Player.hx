@@ -260,7 +260,7 @@ class Player extends FlxSprite  {
   }
 
   public function takeDamage():Void {
-	  //hp -= 1;
+	  hp -= 1;
 	  if (hp <= 0) {
 		  _alive = false;
 	  }

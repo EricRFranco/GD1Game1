@@ -237,8 +237,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		trace("x: " + _player.x);
-		trace("y: " + _player.y);
+		//trace("x: " + _player.x);
+		//trace("y: " + _player.y);
 
 		for(mut in _player.allMutagens()) {
 			if(_player.hasAllComponents(mut)) {
