@@ -35,7 +35,7 @@ class Melee extends FlxSprite {
     currentFrame +=1;
     if(currentFrame > animationFrameEnd){
       kill();
-      trace("killed the weapon");
+      // /trace("killed the weapon");
     }
   }
 }

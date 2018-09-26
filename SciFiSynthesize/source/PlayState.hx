@@ -16,6 +16,7 @@ import sys.io.File;
 class PlayState extends FlxState
 {
 	var _currentState:Int = 0;
+	public var hasmicrophone:Bool = false;
 	var _player:Player;
 	var _ground:FlxSprite;
 	var _spring:Component;	// Exist only to test mutagen synthesis
@@ -66,7 +67,7 @@ class PlayState extends FlxState
 	var log5_background:FlxSprite;
 	var _canCreateMutagen:FlxText = new FlxText(0,0, 450,"",18);
 	var _canMut:Bool = false;
-	
+
 	override public function create():Void
 	{
 		// For debug mode
@@ -109,7 +110,7 @@ class PlayState extends FlxState
 		_uicamera = new FlxCamera(0, 0, 925, 750);
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
 		FlxG.cameras.add(_uicamera);
-		
+
 		log1_background = new FlxSprite(25, 500);
 		log1_background.makeGraphic(530, 675, FlxColor.BLACK);
 		log1_background.screenCenter();
@@ -125,11 +126,11 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		log2_background = new FlxSprite(0, 0);
 		log2_background.makeGraphic(680, 725, FlxColor.BLACK);
 		log2_background.screenCenter();
-		
+
 		for (y in 0...725) {
 			for (x in 0...680) {
 				if (y <= 5 || y >= 715) {
@@ -140,12 +141,12 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		log3_background = new FlxSprite(0, 0);
 		log3_background.makeGraphic(680, 650, FlxColor.BLACK);
 		log3_background.screenCenter();
 		log3_background.y -= 20;
-		
+
 		for (y in 0...650) {
 			for (x in 0...680) {
 				if (y <= 5 || y >= 640) {
@@ -155,12 +156,12 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		log4_background = new FlxSprite(0, 0);
 		log4_background.makeGraphic(680, 550, FlxColor.BLACK);
 		log4_background.screenCenter();
 		log4_background.y -= 20;
-		
+
 		for (y in 0...550) {
 			for (x in 0...680) {
 				if (y <= 5 || y >= 540) {
@@ -170,7 +171,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		for (y in 0...650){
 			for (x in 0...680){
 				if (y <= 5 || y >= 640){
@@ -181,29 +182,29 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		log5_background = new FlxSprite(0, 0);
 		log5_background.makeGraphic(680, 550, FlxColor.BLACK);
 		log5_background.screenCenter();
 		log5_background.y -= 20;
-		
+
 		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
 		log1 = new FlxText(35, 510, 500, log1_txt, 15);
 		log1.screenCenter();
-		
+
 		var log2_txt = sys.io.File.getContent("assets/data/tutlog2.txt");
 		log2 = new FlxText(35, 510, 650, log2_txt, 12);
 		log2.screenCenter();
 		log2.y += 15;
-		
+
 		var log3_txt = sys.io.File.getContent("assets/data/level1log1.txt");
 		log3 = new FlxText(35, 510, 650, log3_txt, 15);
 		log3.screenCenter();
-		
+
 		var log4_txt = sys.io.File.getContent("assets/data/level1log2.txt");
 		log4 = new FlxText(35, 510, 650, log4_txt, 15);
 		log4.screenCenter();
-		
+
 		var log5_txt = sys.io.File.getContent("assets/data/level1log3.txt");
 		log5 = new FlxText(35, 510, 650, log5_txt, 15);
 		log5.screenCenter();
@@ -222,7 +223,7 @@ class PlayState extends FlxState
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
 		}
-		
+
 		highjump.cameras = [_uicamera];
 		pushboxes.cameras = [_uicamera];
 		superrush.cameras = [_uicamera];
@@ -237,8 +238,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		//trace("x: " + _player.x);
-		//trace("y: " + _player.y);
+		trace("x: " + _player.x);
+		trace("y: " + _player.y);
 
 		for(mut in _player.allMutagens()) {
 			if(_player.hasAllComponents(mut)) {
@@ -417,7 +418,7 @@ class PlayState extends FlxState
 				_player.grounded();
 			}
 		}
-		
+
 		if (FlxG.collide(_player, _boxes)) {
 			if (_player.isTouching(FlxObject.DOWN)) {
 				_player.grounded();
@@ -524,5 +525,6 @@ class PlayState extends FlxState
 	public function reset(): Void {
 		if (_currentState== 0)FlxG.switchState(new Tutorial());
 		else if (_currentState== 1)FlxG.switchState(new LevelOne());
+		else if (_currentState== 2)FlxG.switchState(new FinalLevel());
 	}
 }
