@@ -216,7 +216,7 @@ class Player extends FlxSprite  {
     }
     for(mut in _mutagens) {
       if(mut == m)
-        trace("Mutagen synthesized.");
+        //trace("Mutagen synthesized.");
     }
   }
 

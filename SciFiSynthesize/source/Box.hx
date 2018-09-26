@@ -23,7 +23,7 @@ class Box extends FlxSprite {
     }
 
     public function grounded() : Bool {
-      trace("grounding");
+      //trace("grounding");
       airborne = false;
       velocity.set(0, 0);
       acceleration.set(0,0);

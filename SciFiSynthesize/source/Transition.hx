@@ -24,7 +24,7 @@ class Transition extends FlxState{
     _proceedButton.onDown.callback = onButtonDown;
     add(_proceedButton);
 
-    trace(_nextLevel);
+    //trace(_nextLevel);
     if(_nextLevel == 1){
       _theActualText = sys.io.File.getContent('assets/data/tutorialend.txt');
     }

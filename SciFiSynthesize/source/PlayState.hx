@@ -54,7 +54,6 @@ class PlayState extends FlxState
 	var gameover_text:FlxText;
 	var gameover_button:FlxButton;
 	var _health:FlxTypedGroup<Health>;
-	var _currentState:Int = 0;
 	var log1:FlxText;
 	var log1_background:FlxSprite;
 	var log2:FlxText;
@@ -244,7 +243,7 @@ class PlayState extends FlxState
 		for(mut in _player.allMutagens()) {
 			if(_player.hasAllComponents(mut)) {
 				_canMut = true;
-				trace("Can create a mutagen");
+				//trace("Can create a mutagen");
 				_canCreateMutagen.text = "Press E to synthesize a new mutagen!";
 				break;
 			}

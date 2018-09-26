@@ -21,9 +21,6 @@ class Tutorial extends PlayState {
     var _mDecorations:FlxTilemap;
     var _mComputers:FlxTilemap;
     var _switchfield:SwitchField;
-	var log1:FlxText;
-	var log1_background:FlxSprite;
-	var _canCreateMutagen:FlxText =  new FlxText(487, 50, 400, "", 16);
 	var _canSynthesize:Bool = false;
 
     override public function create():Void {
