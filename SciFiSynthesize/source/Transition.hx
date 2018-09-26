@@ -38,7 +38,7 @@ class Transition extends FlxState{
     else if (_nextLevel ==4){
       _theActualText = sys.io.File.getContent('assets/data/goodending.txt');
     }
-    _transitionText = new FlxText(100, 100, 825, _theActualText, 15);
+    _transitionText = new FlxText(100, 100, 825, _theActualText, 10);
     _transitionText.screenCenter();
     _transitionText.y -=80;
     add(_transitionText);
