@@ -78,7 +78,7 @@ class PlayState extends FlxState
 			_lasers.add(temp);
 		}
 		add(_lasers);
-		
+
 		// Add UI elements
 		_health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
@@ -260,13 +260,13 @@ class PlayState extends FlxState
 							_health.remove(_hp1);
 							game_over();
 					}
-					
+
 				}
 			}
 		}
 
 		for (x in _enemies){
-			x.givePlayerLocation(_player.x+10,_player.y+10);
+			x.givePlayerLocation(_player.x+_player.width/2,_player.y+_player.height/2);
 		}
 
 		if(FlxG.overlap(_bullets, _boxes)){
@@ -277,10 +277,21 @@ class PlayState extends FlxState
 			}
 		}
 
-		if(FlxG.collide(_player,_elevator)){
-			_elevator.rise = true;
-			_player.grounded();
+		if(FlxG.collide(_bullets, _mWalls)){
+			for(x in _bullets){
+				if (FlxG.collide(x,_mWalls)){
+					x.kill();
+				}
+			}
 		}
+		if(FlxG.collide(_bullets, _mBoxes)){
+			for(x in _bullets){
+				if (FlxG.collide(x,_mBoxes)){
+					x.kill();
+				}
+			}
+		}
+
 
 		if (_player.changing_mut) {
 			if (current_mut != null){
