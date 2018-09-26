@@ -54,7 +54,9 @@ class Enemy extends FlxSprite {
     else { // 57 X 86 Image for both ranged types
       y+=14;
       if (enemyType == 2){
-        loadGraphic("assets/images/SwatWithGun.png");
+        loadGraphic("assets/images/SwatGunMoving.png", true, 100, 100);
+        animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
+        animation.play("Walk");
       }
       else loadGraphic("assets/images/SwatWithLaserGun.png");
       health = 3;
