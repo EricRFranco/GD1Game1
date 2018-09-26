@@ -58,7 +58,7 @@ class PlayState extends FlxState
 		// For debug mode
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
-
+		*/
 		for (x in 0...5){
 			var temp = new Melee(-1,-1);
 			temp.kill();
@@ -78,7 +78,8 @@ class PlayState extends FlxState
 		}
 		add(_lasers);
 
-		/*_player = new Player(210, 680);
+		/*
+		_player = new Player(210, 680);
 		add(_player);
 
 		_ground = new FlxSprite();
@@ -319,10 +320,10 @@ class PlayState extends FlxState
 
 		for (enemy in _enemies) {
 			if (FlxG.collide(enemy, _mWalls)) {
-				if (enemy.isTouching(FlxObject.DOWN)) {
-					enemy.grounded();
-				}
-			} else {
+				enemy.grounded();
+			}
+			else {
+				trace("should fall");
 				enemy.airborne = true;
 			}
 		}
@@ -332,7 +333,6 @@ class PlayState extends FlxState
 			box.immovable = false;
 			if (FlxG.collide(box, _mWalls)) {
 				box.grounded();
-				trace( "asdf" );
 			}
 			else {
 				box.airborne = true;
