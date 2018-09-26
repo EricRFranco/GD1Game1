@@ -14,7 +14,7 @@ class MainMenuState extends FlxState
 
 	override public function create(): Void {
 		FlxG.mouse.useSystemCursor = true;
-		_startButton = new FlxButton(10, 10, "Start", start);
+		_startButton = new FlxButton(10, 10, " ", start);
 		_startButton.screenCenter();
 		add(_startButton);
 
