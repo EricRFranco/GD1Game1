@@ -60,6 +60,8 @@ class PlayState extends FlxState
 	var log2_background:FlxSprite;
 	var log3:FlxText;
 	var log3_background:FlxSprite;
+	var log4:FlxText;
+	var log4_background:FlxSprite;
 	var _canCreateMutagen:FlxText = new FlxText(0,0, 450,"",18);
 	var _canMut:Bool = false;
 	
@@ -141,6 +143,31 @@ class PlayState extends FlxState
 		log3_background.screenCenter();
 		log3_background.y -= 20;
 		
+		for (y in 0...650) {
+			for (x in 0...680) {
+				if (y <= 5 || y >= 640) {
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				} else if (x <= 5 || x >= 670) {
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
+		log4_background = new FlxSprite(0, 0);
+		log4_background.makeGraphic(680, 550, FlxColor.BLACK);
+		log4_background.screenCenter();
+		log4_background.y -= 20;
+		
+		for (y in 0...550) {
+			for (x in 0...680) {
+				if (y <= 5 || y >= 540) {
+					log4_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				} else if (x <= 5 || x >= 670) {
+					log4_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
 		for (y in 0...650){
 			for (x in 0...680){
 				if (y <= 5 || y >= 640){
@@ -164,6 +191,10 @@ class PlayState extends FlxState
 		var log3_txt = sys.io.File.getContent("assets/data/level1log1.txt");
 		log3 = new FlxText(35, 510, 650, log3_txt, 15);
 		log3.screenCenter();
+		
+		var log4_txt = sys.io.File.getContent("assets/data/level1log2.txt");
+		log4 = new FlxText(35, 510, 650, log4_txt, 15);
+		log4.screenCenter();
 
 		log1.cameras = [_uicamera];
 		log1_background.cameras = [_uicamera];
@@ -171,6 +202,8 @@ class PlayState extends FlxState
 		log2_background.cameras = [_uicamera];
 		log3.cameras = [_uicamera];
 		log3_background.cameras = [_uicamera];
+		log4.cameras = [_uicamera];
+		log4_background.cameras = [_uicamera];
 
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
