@@ -78,7 +78,7 @@ class PlayState extends FlxState
 			_lasers.add(temp);
 		}
 		add(_lasers);
-		
+
 		// Add UI elements
 		_health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
@@ -179,18 +179,6 @@ class PlayState extends FlxState
 			else if(_player.canPush && box.immovable)
 				box.immovable = false;
 		}
-		FlxG.collide(_player,_boxes);
-		if (FlxG.overlap(_player,_boxes)){
-			for ( x in _boxes){
-				if ((x.x <= _player.x+_player.width) || (x.x+x.width <= _player.x)){
-					_player.grounded();
-				}
-			}
-		}
-
-		if(!((FlxG.overlap(_player,_ground))||(FlxG.overlap(_player,_boxes)))){
-			_player.hitMeWithThatGravity();
-		}
 
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
@@ -272,13 +260,13 @@ class PlayState extends FlxState
 							_health.remove(_hp1);
 							game_over();
 					}
-					
+
 				}
 			}
 		}
 
 		for (x in _enemies){
-			x.givePlayerLocation(_player.x+10,_player.y+10);
+			x.givePlayerLocation(_player.x+_player.width/2,_player.y+_player.height/2);
 		}
 
 		if(FlxG.overlap(_bullets, _boxes)){
@@ -289,10 +277,21 @@ class PlayState extends FlxState
 			}
 		}
 
-		if(FlxG.collide(_player,_elevator)){
-			_elevator.rise = true;
-			_player.grounded();
+		if(FlxG.collide(_bullets, _mWalls)){
+			for(x in _bullets){
+				if (FlxG.collide(x,_mWalls)){
+					x.kill();
+				}
+			}
 		}
+		if(FlxG.collide(_bullets, _mBoxes)){
+			for(x in _bullets){
+				if (FlxG.collide(x,_mBoxes)){
+					x.kill();
+				}
+			}
+		}
+
 
 		if (_player.changing_mut) {
 			if (current_mut != null){
@@ -325,6 +324,12 @@ class PlayState extends FlxState
 		}
 
 		if (FlxG.collide(_player, _mBoxes)) {
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		}
+		
+		if (FlxG.collide(_player, _boxes)) {
 			if (_player.isTouching(FlxObject.DOWN)) {
 				_player.grounded();
 			}
