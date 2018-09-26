@@ -62,6 +62,8 @@ class PlayState extends FlxState
 	var log3_background:FlxSprite;
 	var log4:FlxText;
 	var log4_background:FlxSprite;
+	var log5:FlxText;
+	var log5_background:FlxSprite;
 	var _canCreateMutagen:FlxText = new FlxText(0,0, 450,"",18);
 	var _canMut:Bool = false;
 	
@@ -179,6 +181,11 @@ class PlayState extends FlxState
 			}
 		}
 		
+		log5_background = new FlxSprite(0, 0);
+		log5_background.makeGraphic(680, 550, FlxColor.BLACK);
+		log5_background.screenCenter();
+		log5_background.y -= 20;
+		
 		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
 		log1 = new FlxText(35, 510, 500, log1_txt, 15);
 		log1.screenCenter();
@@ -195,6 +202,10 @@ class PlayState extends FlxState
 		var log4_txt = sys.io.File.getContent("assets/data/level1log2.txt");
 		log4 = new FlxText(35, 510, 650, log4_txt, 15);
 		log4.screenCenter();
+		
+		var log5_txt = sys.io.File.getContent("assets/data/level1log3.txt");
+		log5 = new FlxText(35, 510, 650, log5_txt, 15);
+		log5.screenCenter();
 
 		log1.cameras = [_uicamera];
 		log1_background.cameras = [_uicamera];
@@ -204,6 +215,8 @@ class PlayState extends FlxState
 		log3_background.cameras = [_uicamera];
 		log4.cameras = [_uicamera];
 		log4_background.cameras = [_uicamera];
+		log5.cameras = [_uicamera];
+		log5_background.cameras = [_uicamera];
 
 		for (hp in _health) {
 			hp.cameras = [_uicamera];

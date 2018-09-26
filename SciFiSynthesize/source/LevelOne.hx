@@ -144,6 +144,10 @@ class LevelOne extends PlayState {
 		var log4_hitbox = new Computer(1098, 204, log4, log4_background);
 		_computers.add(log4_hitbox);
 		add(log4_hitbox);
+		
+		var log5_hitbox = new Computer(1430, 470, log5, log5_background);
+		_computers.add(log5_hitbox);
+		add(log5_hitbox);
     }
     override public function update(elapsed:Float):Void{
       if(FlxG.overlap(_player,_switchfield) && ( FlxG.keys.anyPressed([DOWN, S]))){
