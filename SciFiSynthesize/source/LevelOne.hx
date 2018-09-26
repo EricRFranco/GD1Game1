@@ -133,7 +133,7 @@ class LevelOne extends PlayState {
 
 		super.create();
 		
-		var log3_hitbox = new Computer(40, 460, log3, log3_background);
+		var log3_hitbox = new Computer(425, 50, log3, log3_background);
 		_computers.add(log3_hitbox);
 		add(log3_hitbox);
     }
