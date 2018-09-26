@@ -25,7 +25,10 @@ class LevelOne extends PlayState {
     public override function create() : Void {
         _currentState = 1;
         _map = new TiledMap(AssetPaths.newlevel1__tmx);
-        //background goes here
+		var bg = new FlxBackdrop("assets/images/background.png");
+		add(bg);
+		
+		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decorations"), TiledTileLayer).tileArray, _map.width, _map.height,
