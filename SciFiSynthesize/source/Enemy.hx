@@ -56,9 +56,13 @@ class Enemy extends FlxSprite {
       if (enemyType == 2){
         loadGraphic("assets/images/SwatGunMoving.png", true, 100, 100);
         animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
-        animation.play("Walk");
+        //animation.play("Walk"); //For debug
       }
-      else loadGraphic("assets/images/SwatWithLaserGun.png");
+      else {
+        loadGraphic("assets/images/SwatLaserMoving.png", true, 100, 100);
+        animation.add("Walk", [0,1,2,3,4,5,6,7], 15);
+        //animation.play("Walk"); //For debug
+      } 
       health = 3;
       if (R == 0){
         patrolLeft = x-200;
