@@ -104,6 +104,17 @@ class LevelOne extends PlayState {
 		}
 		add(_enemies);
 		
+		var box1 = new Box(350, 365);
+		_boxes.add(box1);
+		var box2 = new Box(1125, 80);
+		_boxes.add(box2);
+		
+		for (box in _boxes) {
+			box.scale.set(0.5, 0.5);
+			box.updateHitbox();
+		}
+		add(_boxes);
+		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 500);
