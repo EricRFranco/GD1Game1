@@ -252,7 +252,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		
+
 		for (x in _enemies){
 			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
@@ -299,13 +299,13 @@ class PlayState extends FlxState
 		} else {
 			_player.airborne = true;
 		}
-		
+
 		if (FlxG.collide(_player, _mBoxes)) {
 			if (_player.isTouching(FlxObject.DOWN)) {
 				_player.grounded();
 			}
 		}
-		
+
 		//FlxG.collide(_enemies, _mWalls, enemy_collision);
 		for (enemy in _enemies) {
 			if (FlxG.collide(enemy, _mWalls)) {
@@ -316,7 +316,26 @@ class PlayState extends FlxState
 				enemy.airborne = true;
 			}
 		}
-		
+
+		for (box in _boxes) {
+			var temp:Bool = box.immovable;
+			box.immovable = false;
+			if (FlxG.collide(box, _mWalls)) {
+				box.grounded();
+				trace( "asdf" );
+			}
+			else {
+				box.airborne = true;
+				for (x in _enemies){
+					if (FlxG.overlap(x,box)){
+						x.kill();
+					}
+				}
+			}
+			box.immovable = temp;
+		}
+
+
 		if (FlxG.keys.anyJustPressed([DOWN, S]) && log_open) {
 			remove(active_log);
 			remove(active_log_bg);
@@ -330,9 +349,9 @@ class PlayState extends FlxState
 		} else {
 			FlxG.overlap(_player, _computers, openLog);
 		}
-		
+
 		//FlxG.overlap(_player, _computers, openLog);
-		
+
 		super.update(elapsed);
 	}
 
@@ -346,7 +365,7 @@ class PlayState extends FlxState
 			}
 		}
   	}
-	
+
 	public function openLog(player:Player, computer:Computer): Void {
 		if (FlxG.keys.anyJustPressed([DOWN, S]) && !log_open) {
 			active_log = computer.log_text;
@@ -360,7 +379,7 @@ class PlayState extends FlxState
 			}
 		}
 	}
-	
+
 	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
 		enemy.velocity.set(0, 0);
 	}
