@@ -56,11 +56,11 @@ class LevelOne extends PlayState {
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
 		
-		var enemy1 = new Enemy(200, 450, 1, 0);
+		var enemy1 = new Enemy(200, 450, 1);
 		_enemies.add(enemy1);
-		var enemy2 = new Enemy(40, 350, 2, 0);
+		var enemy2 = new Enemy(40, 350, 2);
 		_enemies.add(enemy2);
-		var enemy3 = new Enemy(730, 200, 1, 0);
+		var enemy3 = new Enemy(730, 200, 1);
 		_enemies.add(enemy3);
 		var enemy4 = new Enemy(475, 25, 0);
 		_enemies.add(enemy4);
@@ -80,6 +80,12 @@ class LevelOne extends PlayState {
 		_enemies.add(enemy11);
 		var enemy12 = new Enemy(1325, 445, 0);
 		_enemies.add(enemy12);
+		var enemy13 = new Enemy(1570, 250, 1);
+		_enemies.add(enemy13);
+		var enemy14 = new Enemy(1670, 250, 2);
+		_enemies.add(enemy14);
+		var enemy15 = new Enemy(1645, 445, 2);
+		_enemies.add(enemy15);
 		
 		for (enemy in _enemies) {
 			enemy.scale.set(0.5, 0.5);

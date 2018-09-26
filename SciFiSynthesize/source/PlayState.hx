@@ -106,8 +106,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		//trace("x: " + _player.x);
-		//trace("y: " + _player.y);
+		trace("x: " + _player.x);
+		trace("y: " + _player.y);
 
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
@@ -207,10 +207,8 @@ class PlayState extends FlxState
 					_camera.shake(0.005);
 					x.kill();
 					var health_left:Int = _player.hp;
-					trace(_player.hp);
 					switch(health_left) {
 						case (2):
-							trace("Removing 1 health");
 							_health.remove(_hp3);
 						case (1):
 							_health.remove(_hp2);
