@@ -15,7 +15,7 @@ class HighJump extends Mutagen {
     }
 
     public override function deactivate():Void {
-        _player.jump /= 2;
+        _player.jump /= 1.5;
         //trace(_player.jump);
     }
 

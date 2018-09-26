@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.addons.editors.tiled.TiledMap;
@@ -11,6 +12,8 @@ import flixel.FlxCamera;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup;
 import flixel.addons.display.FlxBackdrop;
+import flixel.text.FlxText;
+import sys.io.File;
 
 class Tutorial extends PlayState { //we can have this extend PlayState later
     var _map:TiledMap;
@@ -18,6 +21,8 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
     var _mDecorations:FlxTilemap;
     var _mComputers:FlxTilemap;
     var _switchfield:SwitchField;
+	var log1:FlxText;
+	var log1_background:FlxSprite;
 
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
@@ -91,6 +96,29 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_enemies.add(enemy1);
 		_enemies.add(enemy2);
 		add(_enemies);
+		
+		var log1_background = new FlxSprite(25, 500);
+		log1_background.makeGraphic(530, 675, FlxColor.BLACK);
+		log1_background.screenCenter();
+		log1_background.y -= 20;
+		//add(txt_background);
+		
+		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
+		var log1 = new FlxText(35, 510, 500, log1_txt, 15);
+		log1.screenCenter();
+		log1.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.GRAY);
+		//add(log1);
+		
+		for (y in 0...675) {
+			for (x in 0...530) {
+				if(y <= 5 || y >= 665) {
+					log1_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+				else if (x <= 5 || x >= 520) {
+					log1_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
 
 		// Add UI elements
 		var _health = new FlxTypedGroup<Health>();
@@ -114,7 +142,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 462.5, 0, 390);
 		_camera.zoom = 2;
-    _switchfield  = new SwitchField(27,70);
+		_switchfield  = new SwitchField(27,70);
 		add(_switchfield);
 		FlxG.cameras.reset(_camera);
 		FlxG.cameras.add(_uicamera);
@@ -124,6 +152,12 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 			hp.cameras = [_uicamera];
 		}
 		highjump.cameras = [_uicamera];
+		log1.cameras = [_uicamera];
+		log1_background.cameras = [_uicamera];
+		
+		var log1_hitbox = new Computer(50, 350, log1, log1_background);
+		_computers.add(log1_hitbox);
+		add(log1_hitbox);
 
         super.create();
     }

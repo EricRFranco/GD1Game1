@@ -9,6 +9,7 @@ import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
+import flixel.text.FlxText;
 
 class PlayState extends FlxState
 {
@@ -41,6 +42,10 @@ class PlayState extends FlxState
 	var _mWalls:FlxTilemap;
 	var _mBoxes:FlxTilemap;
 	var _uicamera:FlxCamera;
+	var _computers = new FlxTypedGroup<Computer>();
+	var log_open:Bool = false;
+	var active_log:FlxText;
+	var active_log_bg:FlxSprite;
 
 	override public function create():Void
 	{
@@ -312,6 +317,18 @@ class PlayState extends FlxState
 			}
 		}
 		
+		if (FlxG.keys.anyJustPressed([DOWN, S]) && log_open) {
+			remove(active_log);
+			remove(active_log_bg);
+			active_log = null;
+			active_log_bg = null;
+			log_open = false;
+		} else {
+			FlxG.overlap(_player, _computers, openLog);
+		}
+		
+		//FlxG.overlap(_player, _computers, openLog);
+		
 		super.update(elapsed);
 	}
 
@@ -325,6 +342,16 @@ class PlayState extends FlxState
 			}
 		}
   	}
+	
+	public function openLog(player:Player, computer:Computer): Void {
+		if (FlxG.keys.anyJustPressed([DOWN, S]) && !log_open) {
+			active_log = computer.log_text;
+			active_log_bg = computer.log_bg;
+			add(active_log_bg);
+			add(active_log);
+			log_open = true;
+		}
+	}
 	
 	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
 		enemy.velocity.set(0, 0);
