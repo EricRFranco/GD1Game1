@@ -15,7 +15,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.text.FlxText;
 import sys.io.File;
 
-class Tutorial extends PlayState { //we can have this extend PlayState later
+class Tutorial extends PlayState { 
     var _map:TiledMap;
     var _mBackground:FlxTilemap;
     var _mDecorations:FlxTilemap;
