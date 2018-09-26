@@ -6,16 +6,15 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import Math;
-import flixel.FlxObject;
 
 class Enemy extends FlxSprite {
   var test:Bool = true;
-  var speed:Float = 100;
+  var speed:Float = 50;
   var jump:Float = 300;
   var xvel:Float = 0;
   var yvel:Float = 0;
   var attackCooldown:Float = 60; // if <0 can attack else wait
-  public var airborne:Bool = false;
+  public var airborne:Bool = true;
   var facingLeft:Bool = true; // Boolean to keep track of what direction the Enemy is facing to help with attack / defense hitboxes
   var enemyType:Int; //If we add multiple enemies this will keep track of which one they are
   var patrolLeft:Float; //Left bound for enemy patrols
@@ -23,7 +22,6 @@ class Enemy extends FlxSprite {
   var researcherDirectionChangeCounter:Int = 0;
   var seenPlayer:Bool = false;
   var shots:Int = 0; // Number of bullets the enemey will shoot at a time;
-  
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) { // Give this function x and y coordinates as if the sprites were 100 x 100 the constructor will adjust the values for each sprite
     super(X,Y,SimpleGraphic);
     enemyType = E;
@@ -80,21 +78,27 @@ class Enemy extends FlxSprite {
       if ((playerX - x) < 0){
         playerOnLeft = true;
       }
-      if ((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft)){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
-        seenPlayer = true;
+
+      if (airborne) {
+        yvel = yvel + 4;
+        velocity.set(xvel, yvel);
       }
-       if (airborne) {
-		  yvel = yvel + 4;
-		  velocity.set(xvel, yvel);
-	  }
       var distanceFromPlayer:Float = Math.sqrt((playerX - x)*(playerX - x) + (playerY-y)*(playerY - y));
       if (distanceFromPlayer > 2000){ // do nothing when far away from player
         move();
       }
       else if (distanceFromPlayer > 800 && distanceFromPlayer <= 2000){ // patrol when withing about a screens didstance from player
+        if (((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft))&&((playerY < y + height)&&(playerY > y -height))){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
+          seenPlayer = true;
+        }
         if (enemyType == 0){
-          if (!seenPlayer){
+          if (seenPlayer==false){
             researcherDirectionChangeCounter+=1;
+            if(researcherDirectionChangeCounter>180){
+              researcherDirectionChangeCounter = 0;
+              facingLeft = !facingLeft;
+            }
+            move();
           }
           else{
             if (facingLeft){
@@ -104,12 +108,6 @@ class Enemy extends FlxSprite {
               move(false,true);
             }
           }
-          if(researcherDirectionChangeCounter>180){
-            researcherDirectionChangeCounter = 0;
-            facingLeft = !facingLeft;
-          }
-          move();
-          return;
         }
         if (facingLeft){
           if (x > patrolLeft){
@@ -131,26 +129,28 @@ class Enemy extends FlxSprite {
         }
       }
       else { // attack or flee if researcher
+        if (((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft))&&((playerY < y + height)&&(playerY > y -height))){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
+          seenPlayer = true;
+        }
         //trace("Is player on left?",playerOnLeft,"which way we facing",facingLeft, "Paniced?",seenPlayer);
         if (enemyType == 0){
-          if (!seenPlayer){
+          if (seenPlayer==false){
             researcherDirectionChangeCounter+=1;
-          }
-          if(researcherDirectionChangeCounter>180){
-            researcherDirectionChangeCounter = 0;
-            facingLeft = !facingLeft;
-          }
-          //trace(researcherDirectionChangeCounter);
-          if (playerOnLeft && facingLeft) { // only run away if the researcher sees the player
-            move(false, true); // runaway to the right
-            seenPlayer = true;
-          }
-          else if ((!playerOnLeft)&&(!facingLeft)){
-            move(true,false);
-            seenPlayer = true;
+            if(researcherDirectionChangeCounter>180){
+              researcherDirectionChangeCounter = 0;
+              facingLeft = !facingLeft;
+            }
           }
           else{
-            move();
+            //trace(researcherDirectionChangeCounter);
+            if (playerOnLeft && facingLeft) { // only run away if the researcher sees the player
+              move(false, true); // runaway to the right
+              facingLeft = false;
+            }
+            else if ((!playerOnLeft)&&(!facingLeft)){
+              move(true,false);
+              facingLeft = true;
+            }
           }
         }
         else if (enemyType ==1){ // Melee Enemy Attack Close Range Behavior
@@ -313,13 +313,12 @@ class Enemy extends FlxSprite {
       }
     }
   }
-  
-  public function grounded() : Void {
-	airborne = false;
+  public function grounded() : Bool {
+    airborne = false;
     velocity.set(xvel, 0);
-	yvel = 0;
+    yvel = 0;
+    return true;
   }
-
   override public function update(elapsed:Float) : Void {
     super.update(elapsed);
     attackCooldown -= 1;
