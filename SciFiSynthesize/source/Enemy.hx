@@ -6,15 +6,16 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import Math;
+import flixel.FlxObject;
 
 class Enemy extends FlxSprite {
   var test:Bool = true;
-  var speed:Float = 200;
+  var speed:Float = 100;
   var jump:Float = 300;
   var xvel:Float = 0;
   var yvel:Float = 0;
   var attackCooldown:Float = 60; // if <0 can attack else wait
-  var airborne:Bool = true;
+  public var airborne:Bool = false;
   var facingLeft:Bool = true; // Boolean to keep track of what direction the Enemy is facing to help with attack / defense hitboxes
   var enemyType:Int; //If we add multiple enemies this will keep track of which one they are
   var patrolLeft:Float; //Left bound for enemy patrols
@@ -22,6 +23,7 @@ class Enemy extends FlxSprite {
   var researcherDirectionChangeCounter:Int = 0;
   var seenPlayer:Bool = false;
   var shots:Int = 0; // Number of bullets the enemey will shoot at a time;
+  
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) { // Give this function x and y coordinates as if the sprites were 100 x 100 the constructor will adjust the values for each sprite
     super(X,Y,SimpleGraphic);
     enemyType = E;
@@ -74,8 +76,12 @@ class Enemy extends FlxSprite {
   }
   function determineAction(playerX:Float, playerY:Float ) : Void {
       //trace(playerX,x,playerY,y);
-      var distanceFromPlayer:Float = Math.sqrt((playerX - x)*(playerX - x) + (playerY-y)*(playerY - y));
-      if (distanceFromPlayer > 2000){ // do nothing when far away from player
+      var distanceFromPlayer:Float = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
+	  if (airborne) {
+		  yvel = yvel + 4;
+		  velocity.set(xvel, yvel);
+	  }
+      else if (distanceFromPlayer > 2000){ // do nothing when far away from player
         move();
       }
       else if (distanceFromPlayer > 800 && distanceFromPlayer <= 2000){ // patrol when withing about a screens didstance from player
@@ -303,6 +309,12 @@ class Enemy extends FlxSprite {
         shots -= 1;
       }
     }
+  }
+  
+  public function grounded() : Void {
+	airborne = false;
+    velocity.set(xvel, 0);
+	yvel = 0;
   }
 
   override public function update(elapsed:Float) : Void {
