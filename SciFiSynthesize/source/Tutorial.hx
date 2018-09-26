@@ -82,19 +82,22 @@ class Tutorial extends PlayState {
 		var enemy2 = new Enemy(120, 50, 0);
 		enemy2.scale.set(0.5, 0.5);
 		enemy2.updateHitbox();
-		var enemy3 = new Enemy(150, 300, 2);
+		var enemy3 = new Enemy(150, 300, 1);
 		enemy3.scale.set(0.5, 0.5);
 		enemy3.updateHitbox();
 		_enemies.add(enemy1);
 		_enemies.add(enemy2);
 		_enemies.add(enemy3);
 		add(_enemies);
-		
+
+    _switchfield = new SwitchField(25, 70);
+    add(_switchfield);
+
 		var log1_background = new FlxSprite(25, 500);
 		log1_background.makeGraphic(530, 675, FlxColor.BLACK);
 		log1_background.screenCenter();
 		log1_background.y -= 20;
-		
+
 		for (y in 0...675) {
 			for (x in 0...530) {
 				if(y <= 5 || y >= 665) {
