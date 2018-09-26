@@ -21,8 +21,6 @@ class Tutorial extends PlayState {
     var _mDecorations:FlxTilemap;
     var _mComputers:FlxTilemap;
     var _switchfield:SwitchField;
-	var log1:FlxText;
-	var log1_background:FlxSprite;
 
     override public function create():Void {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
@@ -101,6 +99,14 @@ class Tutorial extends PlayState {
 		FlxCamera.defaultCameras = [_camera];
 		
         super.create();
+		
+		var log1_hitbox = new Computer(172, 200, log1, log1_background);
+		_computers.add(log1_hitbox);
+		add(log1_hitbox);
+		
+		var log2_hitbox = new Computer(270, 75, log2, log2_background);
+		_computers.add(log2_hitbox);
+		add(log2_hitbox);
     }
 
 
