@@ -277,7 +277,7 @@ class PlayState extends FlxState
 				enemy.grounded();
 			}
 			else {
-				trace("should fall");
+				//trace("should fall");
 				enemy.airborne = true;
 			}
 		}
