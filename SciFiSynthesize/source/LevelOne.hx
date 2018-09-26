@@ -21,7 +21,7 @@ class LevelOne extends PlayState {
     var _mBackground:FlxTilemap;
     var _mDecorations:FlxTilemap;
     var _mComputers:FlxTilemap;
-
+    var _switchfield:SwitchField;
     public override function create() : Void {
         _currentState = 1;
         _map = new TiledMap(AssetPaths.newlevel1__tmx);
@@ -98,6 +98,9 @@ class LevelOne extends PlayState {
 		var enemy15 = new Enemy(1700, 445, 2,40);
 		_enemies.add(enemy15);
 
+    _switchfield = new SwitchField(1565,460);
+    add(_switchfield);
+
 		for (enemy in _enemies) {
 			enemy.scale.set(0.5, 0.5);
 			enemy.updateHitbox();
@@ -129,5 +132,16 @@ class LevelOne extends PlayState {
 		FlxCamera.defaultCameras = [_camera];
 
 		super.create();
+    }
+    override public function update(elapsed:Float):Void{
+      if(FlxG.overlap(_player,_switchfield) && ( FlxG.keys.anyPressed([DOWN, S]))){
+        camera.fade(FlxColor.BLACK, 1,false,switchStates,false);
+      }
+      super.update(elapsed);
+    }
+    function switchStates() : Void {
+      var temp = new Transition();
+      temp._nextLevel = 2;
+      FlxG.switchState(temp);
     }
 }
