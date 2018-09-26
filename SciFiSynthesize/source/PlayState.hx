@@ -11,6 +11,7 @@ import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import sys.io.File;
 
 class PlayState extends FlxState
 {
@@ -57,6 +58,8 @@ class PlayState extends FlxState
 	var log1_background:FlxSprite;
 	var log2:FlxText;
 	var log2_background:FlxSprite;
+	var log3:FlxText;
+	var log3_background:FlxSprite;
 
 	override public function create():Void
 	{
@@ -131,6 +134,22 @@ class PlayState extends FlxState
 			}
 		}
 		
+		log3_background = new FlxSprite(0, 0);
+		log3_background.makeGraphic(680, 650, FlxColor.BLACK);
+		log3_background.screenCenter();
+		log3_background.y -= 20;
+		
+		for (y in 0...650){
+			for (x in 0...680){
+				if (y <= 5 || y >= 640){
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+				else if (x <= 5 || x >= 670) {
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
 		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
 		log1 = new FlxText(35, 510, 500, log1_txt, 15);
 		log1.screenCenter();
@@ -140,18 +159,16 @@ class PlayState extends FlxState
 		log2.screenCenter();
 		log2.y += 15;
 		
-		/*var log1_hitbox = new Computer(172, 200, log1, log1_background);
-		//_computers.add(log1_hitbox);
-		//add(log1_hitbox);
-		
-		var log2_hitbox = new Computer(270, 75, log2, log2_background);
-		_computers.add(log2_hitbox);
-		//add(log2_hitbox);*/
+		var log3_txt = sys.io.File.getContent("assets/data/level1log1.txt");
+		log3 = new FlxText(35, 510, 650, log3_txt, 15);
+		log3.screenCenter();
 
 		log1.cameras = [_uicamera];
 		log1_background.cameras = [_uicamera];
 		log2.cameras = [_uicamera];
 		log2_background.cameras = [_uicamera];
+		log3.cameras = [_uicamera];
+		log3_background.cameras = [_uicamera];
 
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
