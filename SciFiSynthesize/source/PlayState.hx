@@ -77,73 +77,27 @@ class PlayState extends FlxState
 			_lasers.add(temp);
 		}
 		add(_lasers);
+		
+		// Add UI elements
+		_health = new FlxTypedGroup<Health>();
+		_hp1 = new Health(40, 10);
+		_hp2 = new Health(60, 10);
+		_hp3 = new Health(80, 10);
+		_health.add(_hp1);
+		_health.add(_hp2);
+		_health.add(_hp3);
+		add(_health);
+		_player.health = 3;
+		highjump = new HighJump(850, 10, _player);
 
-		/*
-		_player = new Player(210, 680);
-		add(_player);
+		_uicamera = new FlxCamera(0, 0, 925, 750);
+		_uicamera.bgColor = FlxColor.TRANSPARENT;
+		FlxG.cameras.add(_uicamera);
 
-		_ground = new FlxSprite();
-		_ground.makeGraphic(2000,200,FlxColor.GRAY);
-		_ground.x = 0;
-		_ground.y = 700;
-		_ground.immovable = true;
-		add(_ground);
-
-		_switchfield = new SwitchField(1500,200);
-		add(_switchfield);
-
-		//components for high jump on left of player
-		_spring = new Component("Spring", 180, 680);
-		add(_spring);
-		_sceneComponents.add(_spring);
-		_shoe = new Component("Shoe", 150, 680);
-		add(_shoe);
-		_sceneComponents.add(_shoe);
-
-		//components for super rush on the right of player
-		_fan = new Component("Fan", 400, 680);
-		add(_fan);
-		_sceneComponents.add(_fan);
-		_battery = new Component("Battery", 450, 680);
-		add(_battery);
-		_sceneComponents.add(_battery);
-
-		//components for push boxes on the farther right of player
-		_glove = new Component("Glove", 500, 680);
-		add(_glove);
-		_sceneComponents.add(_glove);
-		_dumbell = new Component("Dumbell", 550, 680);
-		add(_dumbell);
-		_sceneComponents.add(_dumbell);
-
-		var enemy1:Enemy = _enemies.add(new Enemy(1500, 600, 2));
-		enemy1.velocity.set(0, 50);
-		var enemy2:Enemy = _enemies.add(new Enemy(700, 600, 3));
-		enemy2.velocity.set(0, 50);
-		add(_enemies);
-		_box = new Box(300, 650);
-		add(_box);
-		_boxes.add(_box);
-
-		_elevator = new Elevator(1500, 675);
-		add(_elevator);
-		//camera to scroll with player
-		var _camera = new FlxCamera(0, 0, 1200, 750);
-		_camera.follow(_player);
-		_camera.setScrollBounds(0, 2000, 0, 2000);
-		FlxG.cameras.add(_camera);
-
-		//health UI in upper left corner
-		_hp1 = new Health(10, 10);
-		add(_hp1);
-		_hp2 = new Health(30, 10);
-		add(_hp2);
-		_hp3 = new Health(50, 10);
-		add(_hp3);
-		FlxG.mouse.visible = false;
-		highjump = new HighJump(1100, 10, _player);
-		pushboxes = new PushBoxes(1100, 10, _player);
-		superrush = new SuperRush(1100, 10, _player);*/
+		for (hp in _health) {
+			hp.cameras = [_uicamera];
+		}
+		highjump.cameras = [_uicamera];
 
 		super.create();
 	}

@@ -140,42 +140,17 @@ class Tutorial extends PlayState {
 		_computers.add(log2_hitbox);
 		add(log2_hitbox);
 
-		// Add UI elements
-		_health = new FlxTypedGroup<Health>();
-		_hp1 = new Health(40, 10);
-		_hp2 = new Health(60, 10);
-		_hp3 = new Health(80, 10);
-		_health.add(_hp1);
-		_health.add(_hp2);
-		_health.add(_hp3);
-		add(_health);
-		_player.health = 3;
-		highjump = new HighJump(850, 10, _player);
-
-        // camera to scroll with player
-		_camera = new FlxCamera(0, 0, 925, 750);
-		// camera to hold ui components
-		_uicamera = new FlxCamera(0, 0, 925, 750);
-
-		_uicamera.bgColor = FlxColor.TRANSPARENT;
-
-		_camera.follow(_player);
-		_camera.setScrollBounds(0, 462.5, 0, 390);
-		_camera.zoom = 2;
-		_switchfield  = new SwitchField(27,70);
-		add(_switchfield);
-		FlxG.cameras.reset(_camera);
-		FlxG.cameras.add(_uicamera);
-
-		FlxCamera.defaultCameras = [_camera];
-		for (hp in _health) {
-			hp.cameras = [_uicamera];
-		}
-		highjump.cameras = [_uicamera];
 		log1.cameras = [_uicamera];
 		log1_background.cameras = [_uicamera];
 		log2.cameras = [_uicamera];
 		log2_background.cameras = [_uicamera];
+		
+		_camera = new FlxCamera(0, 0, 925, 750);
+		_camera.follow(_player);
+		_camera.setScrollBounds(0, 462.5, 0, 390);
+		_camera.zoom = 2;
+		FlxG.cameras.reset(_camera);
+		FlxCamera.defaultCameras = [_camera];
 		
 		_canCreateMutagen.cameras = [_uicamera];
 		_canCreateMutagen.screenCenter();
