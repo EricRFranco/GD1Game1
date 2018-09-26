@@ -10,9 +10,11 @@ import flixel.group.FlxGroup;
 import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 
 class PlayState extends FlxState
 {
+	var _currentState:Int = 0;
 	var _player:Player;
 	var _ground:FlxSprite;
 	var _spring:Component;	// Exist only to test mutagen synthesis
@@ -41,19 +43,22 @@ class PlayState extends FlxState
 	var remove_mut:Bool;
 	var _mWalls:FlxTilemap;
 	var _mBoxes:FlxTilemap;
+	var _camera:FlxCamera;
 	var _uicamera:FlxCamera;
 	var _computers = new FlxTypedGroup<Computer>();
 	var log_open:Bool = false;
 	var active_log:FlxText;
 	var active_log_bg:FlxSprite;
+	var gameover_box:FlxSprite;
+	var gameover_text:FlxText;
+	var gameover_button:FlxButton;
+	var _health:FlxTypedGroup<Health>;
 
 	override public function create():Void
 	{
 		// For debug mode
-		/*bgColor = FlxColor.WHITE;
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
-
 		for (x in 0...5){
 			var temp = new Melee(-1,-1);
 			temp.kill();
@@ -73,6 +78,7 @@ class PlayState extends FlxState
 		}
 		add(_lasers);
 
+		/*
 		_player = new Player(210, 680);
 		add(_player);
 
@@ -125,10 +131,10 @@ class PlayState extends FlxState
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 2000);
-		FlxG.cameras.add(_camera);*/
+		FlxG.cameras.add(_camera);
 
 		//health UI in upper left corner
-		/*_hp1 = new Health(10, 10);
+		_hp1 = new Health(10, 10);
 		add(_hp1);
 		_hp2 = new Health(30, 10);
 		add(_hp2);
@@ -199,14 +205,15 @@ class PlayState extends FlxState
 					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
 						x.hit();
 						_player.takeDamage();
+						_camera.shake(0.005);
 						var health_left:Int = _player.hp;
 						switch(health_left) {
 							case (2):
-								remove(_hp3);
+								_health.remove(_hp3);
 							case (1):
-								remove(_hp2);
+								_health.remove(_hp2);
 							case(0):
-								remove(_hp1);
+								_health.remove(_hp1);
 								game_over();
 						}
 					}
@@ -220,14 +227,15 @@ class PlayState extends FlxState
 					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
 						x.hit();
 						_player.takeDamage();
+						_camera.shake(0.005);
 						var health_left:Int = _player.hp;
 						switch(health_left) {
 							case (2):
-								remove(_hp3);
+								_health.remove(_hp3);
 							case (1):
-								remove(_hp2);
+								_health.remove(_hp2);
 							case(0):
-								remove(_hp1);
+								_health.remove(_hp1);
 								game_over();
 						}
 					}
@@ -238,17 +246,21 @@ class PlayState extends FlxState
 			for (x in _bullets){
 				if (FlxG.overlap(x,_player)){
 					_player.takeDamage();
+					_camera.shake(0.005);
 					x.kill();
 					var health_left:Int = _player.hp;
+					trace(_player.hp);
 					switch(health_left) {
 						case (2):
-							remove(_hp3);
+							trace("Removing 1 health");
+							_health.remove(_hp3);
 						case (1):
-							remove(_hp2);
+							_health.remove(_hp2);
 						case(0):
-							remove(_hp1);
+							_health.remove(_hp1);
 							game_over();
 					}
+					
 				}
 			}
 		}
@@ -306,13 +318,12 @@ class PlayState extends FlxState
 			}
 		}
 
-		//FlxG.collide(_enemies, _mWalls, enemy_collision);
 		for (enemy in _enemies) {
 			if (FlxG.collide(enemy, _mWalls)) {
-				if (enemy.isTouching(FlxObject.DOWN)) {
-					enemy.grounded();
-				}
-			} else {
+				enemy.grounded();
+			}
+			else {
+				trace("should fall");
 				enemy.airborne = true;
 			}
 		}
@@ -322,7 +333,6 @@ class PlayState extends FlxState
 			box.immovable = false;
 			if (FlxG.collide(box, _mWalls)) {
 				box.grounded();
-				trace( "asdf" );
 			}
 			else {
 				box.airborne = true;
@@ -349,8 +359,6 @@ class PlayState extends FlxState
 		} else {
 			FlxG.overlap(_player, _computers, openLog);
 		}
-
-		//FlxG.overlap(_player, _computers, openLog);
 
 		super.update(elapsed);
 	}
@@ -380,11 +388,33 @@ class PlayState extends FlxState
 		}
 	}
 
-	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
-		enemy.velocity.set(0, 0);
+	public function game_over() {
+		gameover_box = new FlxSprite(0, 0);
+		gameover_box.makeGraphic(925, 750, FlxColor.BLACK);
+		gameover_box.cameras = [_uicamera];
+		add(gameover_box);
+
+		gameover_text = new FlxText(0, 0, 265, "Game Over, Man", 25);
+		gameover_text.cameras = [_uicamera];
+		gameover_text.screenCenter();
+		gameover_text.y -= 30;
+		add(gameover_text);
+
+		gameover_button = new FlxButton(0, 0, " ", reset);
+		gameover_button.loadGraphic("assets/images/restart-unpressed.png");
+		gameover_button.updateHitbox();
+		gameover_button.cameras = [_uicamera];
+		gameover_button.screenCenter();
+		gameover_button.y += 30;
+		gameover_button.onDown.callback = onButtonDown;
+		add(gameover_button);
 	}
 
-	public function game_over() {
-		trace("You died lol");
+	function onButtonDown(  ) : Void {
+		gameover_button.loadGraphic("assets/images/restart-pressed.png");
+	}
+	public function reset(): Void {
+		if(_currentState == 0)FlxG.switchState(new Tutorial());
+		else if(_currentState == 1)FlxG.switchState(new LevelOne());
 	}
 }
