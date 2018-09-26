@@ -115,7 +115,7 @@ class LevelOne extends PlayState {
 		_boxes.add(box2);
 
 		for (box in _boxes) {
-			box.scale.set(0.5, 0.5);
+			box.scale.set(2, 2);
 			box.updateHitbox();
 		}
 		add(_boxes);

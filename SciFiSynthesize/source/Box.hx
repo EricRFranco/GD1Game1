@@ -9,7 +9,8 @@ class Box extends FlxSprite {
     public var airborne:Bool = false;
     public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
         super(X,Y,SimpleGraphic);
-        makeGraphic(50,50,FlxColor.GREEN);
+        //makeGraphic(50,50,FlxColor.GREEN);
+		loadGraphic("assets/images/box.png");
         drag.x = 1000;
         drag.y = 1000;
         allowCollisions = 0x1111;
