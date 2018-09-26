@@ -28,7 +28,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _map = new TiledMap(AssetPaths.tutorial__tmx);
 		var bg = new FlxBackdrop("assets/images/background.png");
 		add(bg);
-		
+
 		if (FlxG.sound.music == null) {
 			FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 		}
@@ -77,7 +77,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _player = new Player(20, 350);
 		add(_player);
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
-		
+
 		// Add components to the scene
 		_spring = new Component("Spring", 250, 358);
 		add(_spring);
@@ -85,7 +85,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_shoe = new Component("Shoe", 400, 204);
 		add(_shoe);
 		_sceneComponents.add(_shoe);
-		
+
 		// Add enemies to the scene
 		var enemy1 = new Enemy(100, 175, 0);
 		enemy1.scale.set(0.5, 0.5);
@@ -171,7 +171,9 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
   }
 
   function switchStates() : Void {
-   FlxG.switchState(new Tutorial());
+    var temp = new Transition();
+    temp._nextLevel = 1;
+    FlxG.switchState(temp);
   }
 
 }
