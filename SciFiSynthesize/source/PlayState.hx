@@ -58,7 +58,7 @@ class PlayState extends FlxState
 		// For debug mode
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
-		*/
+		
 		for (x in 0...5){
 			var temp = new Melee(-1,-1);
 			temp.kill();
