@@ -46,6 +46,14 @@ class LevelOne extends PlayState {
         _mBoxes.setTileProperties(3, FlxObject.ANY);
         add(_mBoxes);
 
+		_mComputers = new FlxTilemap();
+        _mComputers.loadMapFromArray(cast(_map.getLayer("Computers"), TiledTileLayer).tileArray, _map.width, _map.height,
+            AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
+        _mComputers.follow();
+        _mComputers.setTileProperties(2, FlxObject.NONE);
+        _mComputers.setTileProperties(3, FlxObject.ANY);
+        add(_mComputers);
+		
         _mWalls = new FlxTilemap();
         _mWalls.loadMapFromArray(cast(_map.getLayer("Walls"), TiledTileLayer).tileArray, _map.width, _map.height,
              AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
