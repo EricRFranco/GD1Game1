@@ -179,18 +179,6 @@ class PlayState extends FlxState
 			else if(_player.canPush && box.immovable)
 				box.immovable = false;
 		}
-		FlxG.collide(_player,_boxes);
-		if (FlxG.overlap(_player,_boxes)){
-			for ( x in _boxes){
-				if ((x.x <= _player.x+_player.width) || (x.x+x.width <= _player.x)){
-					_player.grounded();
-				}
-			}
-		}
-
-		if(!((FlxG.overlap(_player,_ground))||(FlxG.overlap(_player,_boxes)))){
-			_player.hitMeWithThatGravity();
-		}
 
 		if (FlxG.collide(_player, _enemies)) {
 			//trace("Touched enemy!!");
@@ -325,6 +313,12 @@ class PlayState extends FlxState
 		}
 
 		if (FlxG.collide(_player, _mBoxes)) {
+			if (_player.isTouching(FlxObject.DOWN)) {
+				_player.grounded();
+			}
+		}
+		
+		if (FlxG.collide(_player, _boxes)) {
 			if (_player.isTouching(FlxObject.DOWN)) {
 				_player.grounded();
 			}
