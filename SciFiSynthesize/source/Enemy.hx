@@ -76,12 +76,19 @@ class Enemy extends FlxSprite {
   }
   function determineAction(playerX:Float, playerY:Float ) : Void {
       //trace(playerX,x,playerY,y);
-      var distanceFromPlayer:Float = Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y));
-	  if (airborne) {
+      var playerOnLeft:Bool = false;
+      if ((playerX - x) < 0){
+        playerOnLeft = true;
+      }
+      if ((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft)){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
+        seenPlayer = true;
+      }
+       if (airborne) {
 		  yvel = yvel + 4;
 		  velocity.set(xvel, yvel);
 	  }
-      else if (distanceFromPlayer > 2000){ // do nothing when far away from player
+      var distanceFromPlayer:Float = Math.sqrt((playerX - x)*(playerX - x) + (playerY-y)*(playerY - y));
+      if (distanceFromPlayer > 2000){ // do nothing when far away from player
         move();
       }
       else if (distanceFromPlayer > 800 && distanceFromPlayer <= 2000){ // patrol when withing about a screens didstance from player
@@ -124,10 +131,6 @@ class Enemy extends FlxSprite {
         }
       }
       else { // attack or flee if researcher
-        var playerOnLeft:Bool = false;
-        if ((playerX - x) < 0){
-          playerOnLeft = true;
-        }
         //trace("Is player on left?",playerOnLeft,"which way we facing",facingLeft, "Paniced?",seenPlayer);
         if (enemyType == 0){
           if (!seenPlayer){
