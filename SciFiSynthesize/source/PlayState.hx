@@ -52,13 +52,14 @@ class PlayState extends FlxState
 	var gameover_text:FlxText;
 	var gameover_button:FlxButton;
 	var _health:FlxTypedGroup<Health>;
+	var _currentState:Int = 0;
 
 	override public function create():Void
 	{
 		// For debug mode
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
-		
+
 		for (x in 0...5){
 			var temp = new Melee(-1,-1);
 			temp.kill();
@@ -347,21 +348,29 @@ class PlayState extends FlxState
 		gameover_box.makeGraphic(925, 750, FlxColor.BLACK);
 		gameover_box.cameras = [_uicamera];
 		add(gameover_box);
-		
+
 		gameover_text = new FlxText(0, 0, 265, "Game Over, Man", 25);
 		gameover_text.cameras = [_uicamera];
 		gameover_text.screenCenter();
 		gameover_text.y -= 30;
 		add(gameover_text);
-		
+
 		gameover_button = new FlxButton(10, 10, " ", reset);
+		gameover_button.loadGraphic("assets/images/restart-unpressed.png");
+		gameover_button.updateHitbox();
+		gameover_button.onDown.callback = onButtonDown;
 		gameover_button.cameras = [_uicamera];
 		gameover_button.screenCenter();
 		gameover_button.y += 30;
 		add(gameover_button);
 	}
-	
+
+	function onButtonDown( ) : Void {
+		gameover_button.loadGraphic("assets/images/restart-pressed.png");
+	}
+
 	public function reset(): Void {
-		FlxG.state.resetSubState();
+		if (_currentState== 0)FlxG.switchState(new Tutorial());
+		else if (_currentState== 1)FlxG.switchState(new LevelOne());
 	}
 }
