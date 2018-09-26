@@ -56,7 +56,7 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		// For debug mode
-		FlxG.worldBounds.set(0, 0, 2000, 2000);
+		FlxG.worldBounds.set(0, 0, 5000, 2000);
 		FlxG.mouse.visible = false;
 		
 		for (x in 0...5){
