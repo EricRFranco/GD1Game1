@@ -13,9 +13,7 @@ class MainMenuState extends FlxState
 
 
 	override public function create(): Void {
-		if (FlxG.sound.music == null) {
-			FlxG.sound.playMusic("assets/music/synthesize_start.wav");
-		}
+		FlxG.sound.playMusic("assets/music/synthesize_start.wav");
 		
 		FlxG.mouse.useSystemCursor = true;
 		_startButton = new FlxButton(10, 10, " ", start);
