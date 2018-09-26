@@ -90,6 +90,7 @@ class PlayState extends FlxState
 		add(_health);
 		_player.health = 3;
 		highjump = new HighJump(850, 10, _player);
+		pushboxes = new PushBoxes(850, 10, _player);
 
 		_uicamera = new FlxCamera(0, 0, 925, 750);
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
@@ -99,6 +100,7 @@ class PlayState extends FlxState
 			hp.cameras = [_uicamera];
 		}
 		highjump.cameras = [_uicamera];
+		pushboxes.cameras = [_uicamera];
 
 		super.create();
 	}

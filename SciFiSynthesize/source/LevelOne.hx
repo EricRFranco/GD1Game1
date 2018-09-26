@@ -115,6 +115,12 @@ class LevelOne extends PlayState {
 		}
 		add(_boxes);
 		
+		_glove = new Component("Glove", 425, 140);
+		_sceneComponents.add(_glove);
+		_dumbell = new Component("Dumbell", 1065, 95);
+		_sceneComponents.add(_dumbell);
+		add(_sceneComponents);
+		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 500);
