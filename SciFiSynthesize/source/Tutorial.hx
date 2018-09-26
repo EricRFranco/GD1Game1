@@ -23,6 +23,10 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _map = new TiledMap(AssetPaths.tutorial__tmx);
 		var bg = new FlxBackdrop("assets/images/background.png");
 		add(bg);
+		
+		if (FlxG.sound.music == null) {
+			FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
+		}
         //Make sure the background is loaded first. Otherwise it will cover the walls layer
         /*_mBackground = new FlxTilemap();
         _mBackground.loadMapFromArray(cast(_map.getLayer("Background"), TiledTileLayer).tileArray, _map.width, _map.height,
