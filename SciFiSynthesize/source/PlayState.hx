@@ -42,6 +42,7 @@ class PlayState extends FlxState
 	var remove_mut:Bool;
 	var _mWalls:FlxTilemap;
 	var _mBoxes:FlxTilemap;
+	var _camera:FlxCamera;
 	var _uicamera:FlxCamera;
 	var _computers = new FlxTypedGroup<Computer>();
 	var log_open:Bool = false;
@@ -50,6 +51,7 @@ class PlayState extends FlxState
 	var gameover_box:FlxSprite;
 	var gameover_text:FlxText;
 	var gameover_button:FlxButton;
+	var _health:FlxTypedGroup<Health>;
 
 	override public function create():Void
 	{
@@ -202,14 +204,15 @@ class PlayState extends FlxState
 					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
 						x.hit();
 						_player.takeDamage();
+						_camera.shake(0.005);
 						var health_left:Int = _player.hp;
 						switch(health_left) {
 							case (2):
-								remove(_hp3);
+								_health.remove(_hp3);
 							case (1):
-								remove(_hp2);
+								_health.remove(_hp2);
 							case(0):
-								remove(_hp1);
+								_health.remove(_hp1);
 								game_over();
 						}
 					}
@@ -223,14 +226,15 @@ class PlayState extends FlxState
 					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
 						x.hit();
 						_player.takeDamage();
+						_camera.shake(0.005);
 						var health_left:Int = _player.hp;
 						switch(health_left) {
 							case (2):
-								remove(_hp3);
+								_health.remove(_hp3);
 							case (1):
-								remove(_hp2);
+								_health.remove(_hp2);
 							case(0):
-								remove(_hp1);
+								_health.remove(_hp1);
 								game_over();
 						}
 					}
@@ -241,17 +245,21 @@ class PlayState extends FlxState
 			for (x in _bullets){
 				if (FlxG.overlap(x,_player)){
 					_player.takeDamage();
+					_camera.shake(0.005);
 					x.kill();
 					var health_left:Int = _player.hp;
+					trace(_player.hp);
 					switch(health_left) {
 						case (2):
-							remove(_hp3);
+							trace("Removing 1 health");
+							_health.remove(_hp3);
 						case (1):
-							remove(_hp2);
+							_health.remove(_hp2);
 						case(0):
-							remove(_hp1);
+							_health.remove(_hp1);
 							game_over();
 					}
+					
 				}
 			}
 		}
