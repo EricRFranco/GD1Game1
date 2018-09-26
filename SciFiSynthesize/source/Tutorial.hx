@@ -80,6 +80,11 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_shoe = new Component("Shoe", 400, 204);
 		add(_shoe);
 		_sceneComponents.add(_shoe);
+		
+		// Add enemies to the scene
+		_enemies.add(new Enemy(100, 125, 0));
+		_enemies.add(new Enemy(125, 0, 0));
+		add(_enemies);
 
 		// Add UI elements
 		var _health = new FlxTypedGroup<Health>();
@@ -91,7 +96,6 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_health.add(_hp3);
 		add(_health);
 		_player.health = 3;
-		
 		highjump = new HighJump(850, 10, _player);
 
         // camera to scroll with player

@@ -9,7 +9,7 @@ import Math;
 
 class Enemy extends FlxSprite {
   var test:Bool = true;
-  var speed:Float = 200;
+  var speed:Float = 50;
   var jump:Float = 300;
   var xvel:Float = 0;
   var yvel:Float = 0;

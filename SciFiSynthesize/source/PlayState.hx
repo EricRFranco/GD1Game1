@@ -300,6 +300,8 @@ class PlayState extends FlxState
 			}
 		}
 		
+		FlxG.collide(_enemies, _mWalls, enemy_collision);
+		
 		super.update(elapsed);
 	}
 
@@ -313,6 +315,10 @@ class PlayState extends FlxState
 			}
 		}
   	}
+	
+	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
+		enemy.velocity.set(0, 0);
+	}
 
 	public function game_over() {
 		trace("You died lol");
