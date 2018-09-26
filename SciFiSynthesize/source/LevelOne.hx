@@ -62,13 +62,12 @@ class LevelOne extends PlayState {
         _mWalls.setTileProperties(3, FlxObject.ANY);
         add(_mWalls);
 
-        _player = new Player(20, 440);
-		_player.scale.set(0.35, 0.35);
-		_player.updateHitbox();
-		add(_player);
+        _player = new Player(20, 420);
+        _player.scale.set(0.35,0.35);
+        _player.updateHitbox();
+		     add(_player);
 
 		_player._mutagens.push(new HighJump(0, 0, _player));
-		_player.health = 3;
 
 		var enemy1 = new Enemy(200, 400, 1);
 		_enemies.add(enemy1);
@@ -149,8 +148,8 @@ class LevelOne extends PlayState {
     function switchStates() : Void {
       var temp = new Transition();
       temp._nextLevel = 2;
-      if (_player._inventory.length ==2){
-        temp.hasmicrophone = true;
+      for (x in _player._inventory){
+        if (x.getLabel() == "Microphone")temp.hasmicrophone = true;
       }
       FlxG.switchState(temp);
     }

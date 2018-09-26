@@ -29,8 +29,14 @@ class Transition extends FlxState{
     if(_nextLevel == 1){
       _theActualText = sys.io.File.getContent('assets/data/tutorialend.txt');
     }
-    else{
+    else if (_nextLevel ==2){
       _theActualText = sys.io.File.getContent('assets/data/level1end.txt');
+    }
+    else if (_nextLevel ==3){
+      _theActualText = sys.io.File.getContent('assets/data/badending.txt');
+    }
+    else if (_nextLevel ==4){
+      _theActualText = sys.io.File.getContent('assets/data/goodending.txt');
     }
     _transitionText = new FlxText(100, 100, 825, _theActualText, 15);
     _transitionText.screenCenter();
@@ -42,13 +48,15 @@ class Transition extends FlxState{
     if(_nextLevel == 1){
       FlxG.switchState(new LevelOne());
     }
-    else{
+    else if (_nextLevel == 2){
       var temp = new FinalLevel();
       if(hasmicrophone){
         temp.hasmicrophone = true;
-        //trace("should have mic");
       }
       FlxG.switchState(temp);
+    }
+    else{
+      FlxG.switchState(new MainMenuState());      
     }
   }
   function onButtonDown( ) : Void {
