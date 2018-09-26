@@ -56,6 +56,16 @@ class FinalLevel extends PlayState {
 		_player._mutagens.push(new HighJump(0, 0, _player));
         _player._mutagens.push(new PushBoxes(0, 0, _player));
 		
+		_battery = new Component("Battery", 140, 280);
+		_sceneComponents.add(_battery);
+		add(_battery);
+		_fan = new Component("Fan", 790, 470);
+		_sceneComponents.add(_fan);
+		add(_fan);
+		var antennae = new Component("Antennae", 610, 65);
+		_sceneComponents.add(antennae);
+		add(antennae);
+		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 500);
