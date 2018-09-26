@@ -15,7 +15,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.text.FlxText;
 import sys.io.File;
 
-class Tutorial extends PlayState { 
+class Tutorial extends PlayState {
     var _map:TiledMap;
     var _mBackground:FlxTilemap;
     var _mDecorations:FlxTilemap;
@@ -26,7 +26,7 @@ class Tutorial extends PlayState {
         _map = new TiledMap(AssetPaths.tutorial__tmx);
 		var bg = new FlxBackdrop("assets/images/background.png");
 		add(bg);
-		
+
 		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
@@ -80,30 +80,26 @@ class Tutorial extends PlayState {
 		var enemy2 = new Enemy(120, 50, 0);
 		enemy2.scale.set(0.5, 0.5);
 		enemy2.updateHitbox();
-		var enemy3 = new Enemy(150, 300, 1);
-		enemy3.scale.set(0.5, 0.5);
-		enemy3.updateHitbox();
 		_enemies.add(enemy1);
 		_enemies.add(enemy2);
-		_enemies.add(enemy3);
 		add(_enemies);
 
     _switchfield = new SwitchField(25, 70);
     add(_switchfield);
-		
+
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 462.5, 0, 390);
 		_camera.zoom = 2;
 		FlxG.cameras.reset(_camera);
 		FlxCamera.defaultCameras = [_camera];
-		
+
         super.create();
-		
+
 		var log1_hitbox = new Computer(172, 200, log1, log1_background);
 		_computers.add(log1_hitbox);
 		add(log1_hitbox);
-		
+
 		var log2_hitbox = new Computer(270, 75, log2, log2_background);
 		_computers.add(log2_hitbox);
 		add(log2_hitbox);
