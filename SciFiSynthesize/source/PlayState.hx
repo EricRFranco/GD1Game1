@@ -57,6 +57,8 @@ class PlayState extends FlxState
 	var log1_background:FlxSprite;
 	var log2:FlxText;
 	var log2_background:FlxSprite;
+	var _canCreateMutagen:FlxText = new FlxText(0,0, 450,"",18);
+	var _canMut:Bool = false;
 
 	override public function create():Void
 	{
@@ -160,6 +162,10 @@ class PlayState extends FlxState
 		highjump.cameras = [_uicamera];
 		pushboxes.cameras = [_uicamera];
 
+		_canCreateMutagen.cameras = [_uicamera];
+		_canCreateMutagen.screenCenter();
+		add(_canCreateMutagen);
+
 		super.create();
 	}
 
@@ -168,6 +174,19 @@ class PlayState extends FlxState
 	{
 		trace("x: " + _player.x);
 		trace("y: " + _player.y);
+
+		for(mut in _player.allMutagens()) {
+			if(_player.hasAllComponents(mut)) {
+				_canMut = true;
+				trace("Can create a mutagen");
+				_canCreateMutagen.text = "Press E to synthesize a new mutagen!";
+				break;
+			}
+			_canMut = false;
+		}
+
+		if(!_canMut && _canCreateMutagen.text == "Press E to synthesize a new mutagen!")
+			_canCreateMutagen.text = "";
 
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
