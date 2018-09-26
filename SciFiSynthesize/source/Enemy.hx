@@ -283,13 +283,15 @@ class Enemy extends FlxSprite {
         attackCooldown = 240;
       }
       else{ //ranged attack
-        if(enemyType == 2){  // Bullet Type
-          shots = Std.random(5)+1;
+        if (enemyType == 2){  // Bullet Type
+          shots = Std.random(5) + 1;
+		  FlxG.sound.play("assets/sounds/gunshots.wav");
         }
         else if(enemyType == 3){ // Laser Type
           attackCooldown = 420;
           var playState:PlayState = cast FlxG.state;
           var laser = playState._lasers.recycle();
+		  FlxG.sound.play("assets/sounds/laser.wav");
           if (facingLeft){
             laser.reset(x-1000, y+8);
           }

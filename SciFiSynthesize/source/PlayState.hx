@@ -10,6 +10,7 @@ import flixel.group.FlxGroup;
 import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 
 class PlayState extends FlxState
 {
@@ -41,19 +42,23 @@ class PlayState extends FlxState
 	var remove_mut:Bool;
 	var _mWalls:FlxTilemap;
 	var _mBoxes:FlxTilemap;
+	var _camera:FlxCamera;
 	var _uicamera:FlxCamera;
 	var _computers = new FlxTypedGroup<Computer>();
 	var log_open:Bool = false;
 	var active_log:FlxText;
 	var active_log_bg:FlxSprite;
+	var gameover_box:FlxSprite;
+	var gameover_text:FlxText;
+	var gameover_button:FlxButton;
+	var _health:FlxTypedGroup<Health>;
 
 	override public function create():Void
 	{
 		// For debug mode
-		/*bgColor = FlxColor.WHITE;
 		FlxG.worldBounds.set(0, 0, 2000, 2000);
 		FlxG.mouse.visible = false;
-		*/
+		
 		for (x in 0...5){
 			var temp = new Melee(-1,-1);
 			temp.kill();
@@ -126,10 +131,10 @@ class PlayState extends FlxState
 		var _camera = new FlxCamera(0, 0, 1200, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 2000);
-		FlxG.cameras.add(_camera);*/
+		FlxG.cameras.add(_camera);
 
 		//health UI in upper left corner
-		/*_hp1 = new Health(10, 10);
+		_hp1 = new Health(10, 10);
 		add(_hp1);
 		_hp2 = new Health(30, 10);
 		add(_hp2);
@@ -200,14 +205,15 @@ class PlayState extends FlxState
 					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
 						x.hit();
 						_player.takeDamage();
+						_camera.shake(0.005);
 						var health_left:Int = _player.hp;
 						switch(health_left) {
 							case (2):
-								remove(_hp3);
+								_health.remove(_hp3);
 							case (1):
-								remove(_hp2);
+								_health.remove(_hp2);
 							case(0):
-								remove(_hp1);
+								_health.remove(_hp1);
 								game_over();
 						}
 					}
@@ -221,14 +227,15 @@ class PlayState extends FlxState
 					if(x.hitFrameStart<x.currentFrame && x.currentFrame < x.hitFrameEnd){
 						x.hit();
 						_player.takeDamage();
+						_camera.shake(0.005);
 						var health_left:Int = _player.hp;
 						switch(health_left) {
 							case (2):
-								remove(_hp3);
+								_health.remove(_hp3);
 							case (1):
-								remove(_hp2);
+								_health.remove(_hp2);
 							case(0):
-								remove(_hp1);
+								_health.remove(_hp1);
 								game_over();
 						}
 					}
@@ -239,17 +246,21 @@ class PlayState extends FlxState
 			for (x in _bullets){
 				if (FlxG.overlap(x,_player)){
 					_player.takeDamage();
+					_camera.shake(0.005);
 					x.kill();
 					var health_left:Int = _player.hp;
+					trace(_player.hp);
 					switch(health_left) {
 						case (2):
-							remove(_hp3);
+							trace("Removing 1 health");
+							_health.remove(_hp3);
 						case (1):
-							remove(_hp2);
+							_health.remove(_hp2);
 						case(0):
-							remove(_hp1);
+							_health.remove(_hp1);
 							game_over();
 					}
+					
 				}
 			}
 		}
@@ -307,7 +318,6 @@ class PlayState extends FlxState
 			}
 		}
 
-		//FlxG.collide(_enemies, _mWalls, enemy_collision);
 		for (enemy in _enemies) {
 			if (FlxG.collide(enemy, _mWalls)) {
 				enemy.grounded();
@@ -350,8 +360,6 @@ class PlayState extends FlxState
 			FlxG.overlap(_player, _computers, openLog);
 		}
 
-		//FlxG.overlap(_player, _computers, openLog);
-
 		super.update(elapsed);
 	}
 
@@ -380,11 +388,26 @@ class PlayState extends FlxState
 		}
 	}
 
-	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
-		enemy.velocity.set(0, 0);
-	}
-
 	public function game_over() {
-		trace("You died lol");
+		gameover_box = new FlxSprite(0, 0);
+		gameover_box.makeGraphic(925, 750, FlxColor.BLACK);
+		gameover_box.cameras = [_uicamera];
+		add(gameover_box);
+		
+		gameover_text = new FlxText(0, 0, 265, "Game Over, Man", 25);
+		gameover_text.cameras = [_uicamera];
+		gameover_text.screenCenter();
+		gameover_text.y -= 30;
+		add(gameover_text);
+		
+		gameover_button = new FlxButton(10, 10, " ", reset);
+		gameover_button.cameras = [_uicamera];
+		gameover_button.screenCenter();
+		gameover_button.y += 30;
+		add(gameover_button);
+	}
+	
+	public function reset(): Void {
+		FlxG.state.resetSubState();
 	}
 }
