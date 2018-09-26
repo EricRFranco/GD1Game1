@@ -53,26 +53,26 @@ class LevelOne extends PlayState {
 
         _player = new Player(20, 460);
 		add(_player);
-		
+
 		_player._mutagens.push(new HighJump(0, 0, _player));
-		
-		var enemy1 = new Enemy(200, 450, 1, 0);
+
+		var enemy1 = new Enemy(200, 450, 1);
 		_enemies.add(enemy1);
-		var enemy2 = new Enemy(40, 350, 2, 0);
+		var enemy2 = new Enemy(92, 350, 2, 50);
 		_enemies.add(enemy2);
-		var enemy3 = new Enemy(730, 200, 1, 0);
+		var enemy3 = new Enemy(690, 200, 1, 50);
 		_enemies.add(enemy3);
 		var enemy4 = new Enemy(475, 25, 0);
 		_enemies.add(enemy4);
 		var enemy5 = new Enemy(895, 445, 2);
 		_enemies.add(enemy5);
-		var enemy6 = new Enemy(840, 350, 2);
+		var enemy6 = new Enemy(840, 350, 2, 5);
 		_enemies.add(enemy6);
-		var enemy7 = new Enemy(990, 175, 2);
+		var enemy7 = new Enemy(1020, 175, 2, 20);
 		_enemies.add(enemy7);
 		var enemy8 = new Enemy(1050, 175, 0);
 		_enemies.add(enemy8);
-		var enemy9 = new Enemy(990, 70, 1, 0);
+		var enemy9 = new Enemy(1040, 70, 1,80);
 		_enemies.add(enemy9);
 		var enemy10 = new Enemy(1475, 70, 2);
 		_enemies.add(enemy10);
@@ -80,20 +80,20 @@ class LevelOne extends PlayState {
 		_enemies.add(enemy11);
 		var enemy12 = new Enemy(1325, 445, 0);
 		_enemies.add(enemy12);
-		
+
 		for (enemy in _enemies) {
 			enemy.scale.set(0.5, 0.5);
 			enemy.updateHitbox();
 		}
 		add(_enemies);
-		
+
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 500);
 		_camera.zoom = 2;
 		FlxG.cameras.reset(_camera);
 		FlxCamera.defaultCameras = [_camera];
-		
+
 		super.create();
     }
 }

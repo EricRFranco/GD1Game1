@@ -27,7 +27,7 @@ class Player extends FlxSprite  {
   public  var active_mut:String = "none";
   public  var changing_mut:Bool = false;
   public  var paused:Bool = false;
-  
+
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X,Y,SimpleGraphic);
     makeGraphic(20, 20, FlxColor.BLUE);
@@ -260,7 +260,7 @@ class Player extends FlxSprite  {
   }
 
   public function takeDamage():Void {
-	  hp -= 1;
+	  //hp -= 1;
 	  if (hp <= 0) {
 		  _alive = false;
 	  }

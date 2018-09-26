@@ -78,7 +78,7 @@ class PlayState extends FlxState
 			_lasers.add(temp);
 		}
 		add(_lasers);
-		
+
 		// Add UI elements
 		_health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
@@ -106,8 +106,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		//trace("x: " + _player.x);
-		//trace("y: " + _player.y);
+		trace("x: " + _player.x);
+		trace("y: " + _player.y);
 
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
