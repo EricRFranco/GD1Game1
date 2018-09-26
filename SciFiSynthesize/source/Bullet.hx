@@ -17,6 +17,8 @@ class Bullet extends FlxSprite {
     facingLeft = L;
     makeGraphic(20, 2, FlxColor.YELLOW);
     maxRange = 700;
+    immovable = false;
+    allowCollisions = 0x1111;
   }
 
   public function fullReset( L:Bool ) : Void {
