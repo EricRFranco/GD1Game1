@@ -105,6 +105,9 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		trace("x: " + _player.x);
+		trace("y: " + _player.y);
+		
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
 		}
@@ -277,7 +280,7 @@ class PlayState extends FlxState
 				enemy.grounded();
 			}
 			else {
-				trace("should fall");
+				//trace("should fall");
 				enemy.airborne = true;
 			}
 		}
