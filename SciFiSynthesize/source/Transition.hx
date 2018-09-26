@@ -31,9 +31,9 @@ class Transition extends FlxState{
     else{
       _theActualText = sys.io.File.getContent('assets/data/level1end.txt');
     }
-    _transitionText = new FlxText(100, 100, 825, _theActualText, 20);
+    _transitionText = new FlxText(100, 100, 825, _theActualText, 15);
     _transitionText.screenCenter();
-    _transitionText.y -=100;
+    _transitionText.y -=80;
     add(_transitionText);
     super.create();
   }
