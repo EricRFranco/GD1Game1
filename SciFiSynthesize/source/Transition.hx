@@ -26,10 +26,10 @@ class Transition extends FlxState{
 
     trace(_nextLevel);
     if(_nextLevel == 1){
-      _theActualText = sys.io.File.getContent('assets/data/level1end.txt');
+      _theActualText = sys.io.File.getContent('assets/data/tutorialend.txt');
     }
     else{
-      trace('lvl2');
+      _theActualText = sys.io.File.getContent('assets/data/level1end.txt');
     }
     _transitionText = new FlxText(100, 100, 825, _theActualText, 20);
     _transitionText.screenCenter();
@@ -42,7 +42,7 @@ class Transition extends FlxState{
       FlxG.switchState(new LevelOne());
     }
     else{
-      //FlxG.switchState(new MainMenuState());
+      FlxG.switchState(new FinalLevel());
     }
   }
   function onButtonDown( ) : Void {
