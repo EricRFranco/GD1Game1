@@ -92,59 +92,6 @@ class Tutorial extends PlayState {
 
     _switchfield = new SwitchField(25, 70);
     add(_switchfield);
-
-		var log1_background = new FlxSprite(25, 500);
-		log1_background.makeGraphic(530, 675, FlxColor.BLACK);
-		log1_background.screenCenter();
-		log1_background.y -= 20;
-
-		for (y in 0...675) {
-			for (x in 0...530) {
-				if(y <= 5 || y >= 665) {
-					log1_background.pixels.setPixel(x, y, FlxColor.WHITE);
-				}
-				else if (x <= 5 || x >= 520) {
-					log1_background.pixels.setPixel(x, y, FlxColor.WHITE);
-				}
-			}
-		}
-		
-		var log2_background = new FlxSprite(0, 0);
-		log2_background.makeGraphic(680, 725, FlxColor.BLACK);
-		log2_background.screenCenter();
-		
-		for (y in 0...725) {
-			for (x in 0...680) {
-				if (y <= 5 || y >= 715) {
-					log2_background.pixels.setPixel(x, y, FlxColor.WHITE);
-				}
-				else if (x <= 5 || x >= 670) {
-					log2_background.pixels.setPixel(x, y, FlxColor.WHITE);
-				}
-			}
-		}
-		
-		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
-		var log1 = new FlxText(35, 510, 500, log1_txt, 15);
-		log1.screenCenter();
-		
-		var log2_txt = sys.io.File.getContent("assets/data/tutlog2.txt");
-		var log2 = new FlxText(35, 510, 650, log2_txt, 12);
-		log2.screenCenter();
-		log2.y += 15;
-		
-		var log1_hitbox = new Computer(172, 200, log1, log1_background);
-		_computers.add(log1_hitbox);
-		add(log1_hitbox);
-		
-		var log2_hitbox = new Computer(270, 75, log2, log2_background);
-		_computers.add(log2_hitbox);
-		add(log2_hitbox);
-
-		log1.cameras = [_uicamera];
-		log1_background.cameras = [_uicamera];
-		log2.cameras = [_uicamera];
-		log2_background.cameras = [_uicamera];
 		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
