@@ -17,7 +17,7 @@ class Player extends FlxSprite  {
   public  var just_rushed:Bool = false; // Marks cooldown for rush
   public  var air_rush:Bool = true; // Restricts player to one rush while airborne
   public var canPush:Bool = false;
-  private var _inventory = new Array(); //Stores all components the player has picked up
+  public  var _inventory = new Array(); //Stores all components the player has picked up
   public var _mutagens = new Array<Mutagen>();  //Stores all mutagens that have been synthesized by player
   private var _selectedMutagen:Mutagen;
   private var _allMutagens = new Array<Mutagen>(); //Stores all possible mutagens

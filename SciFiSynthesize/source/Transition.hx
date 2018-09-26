@@ -12,6 +12,7 @@ class Transition extends FlxState{
   var _transitionText:FlxText;
   var _theActualText:String;
   public var _nextLevel:Int;
+  public var hasmicrophone:Bool = false;
 
   override public function create(): Void {
 	FlxG.sound.playMusic("assets/music/synthesize_elevator_music.wav");
@@ -42,7 +43,12 @@ class Transition extends FlxState{
       FlxG.switchState(new LevelOne());
     }
     else{
-      FlxG.switchState(new FinalLevel());
+      var temp = new FinalLevel();
+      if(hasmicrophone){
+        temp.hasmicrophone = true;
+        //trace("should have mic");
+      }
+      FlxG.switchState(temp);
     }
   }
   function onButtonDown( ) : Void {

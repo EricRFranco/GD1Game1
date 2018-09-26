@@ -56,7 +56,7 @@ class FinalLevel extends PlayState {
 		_player.scale.set(0.35, 0.35);
 		_player.updateHitbox();
 		add(_player);
-		
+
 		_player._mutagens.push(new HighJump(0, 0, _player));
         _player._mutagens.push(new PushBoxes(0, 0, _player));
 		_player.health = 3;

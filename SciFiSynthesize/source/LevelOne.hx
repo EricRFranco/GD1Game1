@@ -139,18 +139,6 @@ class LevelOne extends PlayState {
 		FlxCamera.defaultCameras = [_camera];
 
 		super.create();
-		
-		var log3_hitbox = new Computer(425, 50, log3, log3_background);
-		_computers.add(log3_hitbox);
-		add(log3_hitbox);
-		
-		var log4_hitbox = new Computer(1098, 204, log4, log4_background);
-		_computers.add(log4_hitbox);
-		add(log4_hitbox);
-		
-		var log5_hitbox = new Computer(1430, 470, log5, log5_background);
-		_computers.add(log5_hitbox);
-		add(log5_hitbox);
     }
     override public function update(elapsed:Float):Void{
       if(FlxG.overlap(_player,_switchfield) && ( FlxG.keys.anyPressed([DOWN, S]))){
@@ -161,6 +149,9 @@ class LevelOne extends PlayState {
     function switchStates() : Void {
       var temp = new Transition();
       temp._nextLevel = 2;
+      if (_player._inventory.length ==2){
+        temp.hasmicrophone = true;
+      }
       FlxG.switchState(temp);
     }
 }
