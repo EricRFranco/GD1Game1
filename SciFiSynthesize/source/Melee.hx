@@ -18,6 +18,7 @@ class Melee extends FlxSprite {
     super(X,Y,SimpleGraphic);
     facingLeft = L;
     makeGraphic(20,40, FlxColor.GREEN);
+    alpha = 0;
     hitFrameStart = 30;
     hitFrameEnd = 60;
     animationFrameEnd = 90;
