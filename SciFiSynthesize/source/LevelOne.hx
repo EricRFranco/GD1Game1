@@ -23,6 +23,7 @@ class LevelOne extends PlayState {
     var _mComputers:FlxTilemap;
 
     public override function create() : Void {
+        _currentState = 1;
         _map = new TiledMap(AssetPaths.newlevel1__tmx);
         //background goes here
 
