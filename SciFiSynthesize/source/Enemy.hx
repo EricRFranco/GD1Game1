@@ -333,10 +333,10 @@ class Enemy extends FlxSprite {
     }
     else setFacingFlip(1,false,false);
     attackCooldown -= 1;
+    multiShot();
     if (attackCooldown > 120) {
       move(false,false);
       return;
     }
-    multiShot();
   }
 }
