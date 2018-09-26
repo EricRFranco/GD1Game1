@@ -30,7 +30,9 @@ class Enemy extends FlxSprite {
     drag.x = 1000;
     if (enemyType == 0){
       health = 1;
-      loadGraphic("assets/images/Scientists.png"); // 19 x 93 image
+      loadGraphic("assets/images/ScientistMoving.png", true, 100, 100); // 19 x 93 image
+      animation.add("Walk", [0,1,0,2], 15);
+      //animation.play("Walk"); //For debug
       y+=7;
     }
     else if (enemyType == 1){
