@@ -58,14 +58,11 @@ class PlayState extends FlxState
 	var log1_background:FlxSprite;
 	var log2:FlxText;
 	var log2_background:FlxSprite;
-<<<<<<< HEAD
 	var log3:FlxText;
 	var log3_background:FlxSprite;
-=======
 	var _canCreateMutagen:FlxText = new FlxText(0,0, 450,"",18);
 	var _canMut:Bool = false;
->>>>>>> master
-
+	
 	override public function create():Void
 	{
 		// For debug mode
