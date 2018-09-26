@@ -57,7 +57,7 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		// For debug mode
-		FlxG.worldBounds.set(0, 0, 2000, 2000);
+		FlxG.worldBounds.set(0, 0, 5000, 2000);
 		FlxG.mouse.visible = false;
 
 		for (x in 0...5){
@@ -106,8 +106,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		trace("x: " + _player.x);
-		trace("y: " + _player.y);
+		//trace("x: " + _player.x);
+		//trace("y: " + _player.y);
 		
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
