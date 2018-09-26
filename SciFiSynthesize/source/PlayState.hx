@@ -323,6 +323,10 @@ class PlayState extends FlxState
 			active_log = null;
 			active_log_bg = null;
 			log_open = false;
+			_player.paused = false;
+			for (enemy in _enemies) {
+				enemy.paused = false;
+			}
 		} else {
 			FlxG.overlap(_player, _computers, openLog);
 		}
@@ -350,6 +354,10 @@ class PlayState extends FlxState
 			add(active_log_bg);
 			add(active_log);
 			log_open = true;
+			_player.paused = true;
+			for (enemy in _enemies) {
+				enemy.paused = true;
+			}
 		}
 	}
 	
