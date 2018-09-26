@@ -11,6 +11,7 @@ import flixel.FlxCamera;
 import flixel.tile.FlxTilemap;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import sys.io.File;
 
 class PlayState extends FlxState
 {
@@ -54,7 +55,19 @@ class PlayState extends FlxState
 	var gameover_button:FlxButton;
 	var _health:FlxTypedGroup<Health>;
 	var _currentState:Int = 0;
-
+	var log1:FlxText;
+	var log1_background:FlxSprite;
+	var log2:FlxText;
+	var log2_background:FlxSprite;
+	var log3:FlxText;
+	var log3_background:FlxSprite;
+	var log4:FlxText;
+	var log4_background:FlxSprite;
+	var log5:FlxText;
+	var log5_background:FlxSprite;
+	var _canCreateMutagen:FlxText = new FlxText(0,0, 450,"",18);
+	var _canMut:Bool = false;
+	
 	override public function create():Void
 	{
 		// For debug mode
@@ -79,7 +92,7 @@ class PlayState extends FlxState
 			_lasers.add(temp);
 		}
 		add(_lasers);
-		
+
 		// Add UI elements
 		_health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
@@ -97,7 +110,7 @@ class PlayState extends FlxState
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
 		FlxG.cameras.add(_uicamera);
 		
-		var log1_background = new FlxSprite(25, 500);
+		log1_background = new FlxSprite(25, 500);
 		log1_background.makeGraphic(530, 675, FlxColor.BLACK);
 		log1_background.screenCenter();
 		log1_background.y -= 20;
@@ -113,7 +126,7 @@ class PlayState extends FlxState
 			}
 		}
 		
-		var log2_background = new FlxSprite(0, 0);
+		log2_background = new FlxSprite(0, 0);
 		log2_background.makeGraphic(680, 725, FlxColor.BLACK);
 		log2_background.screenCenter();
 		
@@ -128,27 +141,83 @@ class PlayState extends FlxState
 			}
 		}
 		
+		log3_background = new FlxSprite(0, 0);
+		log3_background.makeGraphic(680, 650, FlxColor.BLACK);
+		log3_background.screenCenter();
+		log3_background.y -= 20;
+		
+		for (y in 0...650) {
+			for (x in 0...680) {
+				if (y <= 5 || y >= 640) {
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				} else if (x <= 5 || x >= 670) {
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
+		log4_background = new FlxSprite(0, 0);
+		log4_background.makeGraphic(680, 550, FlxColor.BLACK);
+		log4_background.screenCenter();
+		log4_background.y -= 20;
+		
+		for (y in 0...550) {
+			for (x in 0...680) {
+				if (y <= 5 || y >= 540) {
+					log4_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				} else if (x <= 5 || x >= 670) {
+					log4_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
+		for (y in 0...650){
+			for (x in 0...680){
+				if (y <= 5 || y >= 640){
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+				else if (x <= 5 || x >= 670) {
+					log3_background.pixels.setPixel(x, y, FlxColor.WHITE);
+				}
+			}
+		}
+		
+		log5_background = new FlxSprite(0, 0);
+		log5_background.makeGraphic(680, 550, FlxColor.BLACK);
+		log5_background.screenCenter();
+		log5_background.y -= 20;
+		
 		var log1_txt = sys.io.File.getContent("assets/data/tutlog1.txt");
-		var log1 = new FlxText(35, 510, 500, log1_txt, 15);
+		log1 = new FlxText(35, 510, 500, log1_txt, 15);
 		log1.screenCenter();
 		
 		var log2_txt = sys.io.File.getContent("assets/data/tutlog2.txt");
-		var log2 = new FlxText(35, 510, 650, log2_txt, 12);
+		log2 = new FlxText(35, 510, 650, log2_txt, 12);
 		log2.screenCenter();
 		log2.y += 15;
 		
-		var log1_hitbox = new Computer(172, 200, log1, log1_background);
-		_computers.add(log1_hitbox);
-		add(log1_hitbox);
+		var log3_txt = sys.io.File.getContent("assets/data/level1log1.txt");
+		log3 = new FlxText(35, 510, 650, log3_txt, 15);
+		log3.screenCenter();
 		
-		var log2_hitbox = new Computer(270, 75, log2, log2_background);
-		_computers.add(log2_hitbox);
-		add(log2_hitbox);
+		var log4_txt = sys.io.File.getContent("assets/data/level1log2.txt");
+		log4 = new FlxText(35, 510, 650, log4_txt, 15);
+		log4.screenCenter();
+		
+		var log5_txt = sys.io.File.getContent("assets/data/level1log3.txt");
+		log5 = new FlxText(35, 510, 650, log5_txt, 15);
+		log5.screenCenter();
 
 		log1.cameras = [_uicamera];
 		log1_background.cameras = [_uicamera];
 		log2.cameras = [_uicamera];
 		log2_background.cameras = [_uicamera];
+		log3.cameras = [_uicamera];
+		log3_background.cameras = [_uicamera];
+		log4.cameras = [_uicamera];
+		log4_background.cameras = [_uicamera];
+		log5.cameras = [_uicamera];
+		log5_background.cameras = [_uicamera];
 
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
@@ -156,6 +225,10 @@ class PlayState extends FlxState
 		
 		highjump.cameras = [_uicamera];
 		pushboxes.cameras = [_uicamera];
+
+		_canCreateMutagen.cameras = [_uicamera];
+		_canCreateMutagen.screenCenter();
+		add(_canCreateMutagen);
 
 		super.create();
 	}
@@ -165,6 +238,19 @@ class PlayState extends FlxState
 	{
 		trace("x: " + _player.x);
 		trace("y: " + _player.y);
+
+		for(mut in _player.allMutagens()) {
+			if(_player.hasAllComponents(mut)) {
+				_canMut = true;
+				trace("Can create a mutagen");
+				_canCreateMutagen.text = "Press E to synthesize a new mutagen!";
+				break;
+			}
+			_canMut = false;
+		}
+
+		if(!_canMut && _canCreateMutagen.text == "Press E to synthesize a new mutagen!")
+			_canCreateMutagen.text = "";
 
 		if (FlxG.overlap(_player,_ground)){
 			_player.grounded();
@@ -261,13 +347,13 @@ class PlayState extends FlxState
 							_health.remove(_hp1);
 							game_over();
 					}
-					
+
 				}
 			}
 		}
 
 		for (x in _enemies){
-			x.givePlayerLocation(_player.x+10,_player.y+10);
+			x.givePlayerLocation(_player.x+_player.width/2,_player.y+_player.height/2);
 		}
 
 		if(FlxG.overlap(_bullets, _boxes)){
@@ -278,10 +364,21 @@ class PlayState extends FlxState
 			}
 		}
 
-		if(FlxG.collide(_player,_elevator)){
-			_elevator.rise = true;
-			_player.grounded();
+		if(FlxG.collide(_bullets, _mWalls)){
+			for(x in _bullets){
+				if (FlxG.collide(x,_mWalls)){
+					x.kill();
+				}
+			}
 		}
+		if(FlxG.collide(_bullets, _mBoxes)){
+			for(x in _bullets){
+				if (FlxG.collide(x,_mBoxes)){
+					x.kill();
+				}
+			}
+		}
+
 
 		if (_player.changing_mut) {
 			if (current_mut != null){

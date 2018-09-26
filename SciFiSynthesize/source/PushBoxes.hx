@@ -6,6 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class PushBoxes extends Mutagen {
 	public function new(X:Float, Y:Float, p:Player, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, p, FlxColor.MAGENTA, SimpleGraphic);
+        loadBadge();
 		mut_str = "push boxes";
 	}
 
@@ -26,4 +27,7 @@ class PushBoxes extends Mutagen {
         trace("Changing player color");
     }
 
+    public override function loadBadge():Void {
+        loadGraphic("assets/images/push-boxes.png");
+    }
 }
