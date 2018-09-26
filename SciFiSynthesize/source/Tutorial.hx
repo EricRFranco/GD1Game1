@@ -72,7 +72,27 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _player = new Player(20, 350);
 		add(_player);
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
+		
+		// Add components to the scene
+		_spring = new Component("Spring", 250, 358);
+		add(_spring);
+		_sceneComponents.add(_spring);
+		_shoe = new Component("Shoe", 400, 204);
+		add(_shoe);
+		_sceneComponents.add(_shoe);
+		
+		// Add enemies to the scene
+		var enemy1 = new Enemy(100, 175, 0);
+		enemy1.scale.set(0.5, 0.5);
+		enemy1.updateHitbox();
+		var enemy2 = new Enemy(120, 50, 0);
+		enemy2.scale.set(0.5, 0.5);
+		enemy2.updateHitbox();
+		_enemies.add(enemy1);
+		_enemies.add(enemy2);
+		add(_enemies);
 
+		// Add UI elements
 		var _health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
 		_hp2 = new Health(60, 10);
@@ -81,10 +101,13 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		_health.add(_hp2);
 		_health.add(_hp3);
 		add(_health);
+		_player.health = 3;
+		highjump = new HighJump(850, 10, _player);
 
-        //camera to scroll with player
+        // camera to scroll with player
 		var _camera = new FlxCamera(0, 0, 925, 750);
-		var _uicamera = new FlxCamera(0, 0, 925, 750);
+		// camera to hold ui components
+		_uicamera = new FlxCamera(0, 0, 925, 750);
 
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
 
@@ -100,6 +123,7 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
 		for (hp in _health) {
 			hp.cameras = [_uicamera];
 		}
+		highjump.cameras = [_uicamera];
 
         super.create();
     }

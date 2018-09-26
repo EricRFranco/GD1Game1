@@ -40,6 +40,7 @@ class PlayState extends FlxState
 	var remove_mut:Bool;
 	var _mWalls:FlxTilemap;
 	var _mBoxes:FlxTilemap;
+	var _uicamera:FlxCamera;
 
 	override public function create():Void
 	{
@@ -122,7 +123,7 @@ class PlayState extends FlxState
 		FlxG.cameras.add(_camera);*/
 
 		//health UI in upper left corner
-		_hp1 = new Health(10, 10);
+		/*_hp1 = new Health(10, 10);
 		add(_hp1);
 		_hp2 = new Health(30, 10);
 		add(_hp2);
@@ -131,7 +132,7 @@ class PlayState extends FlxState
 		FlxG.mouse.visible = false;
 		highjump = new HighJump(1100, 10, _player);
 		pushboxes = new PushBoxes(1100, 10, _player);
-		superrush = new SuperRush(1100, 10, _player);
+		superrush = new SuperRush(1100, 10, _player);*/
 
 		super.create();
 	}
@@ -246,6 +247,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
+		
 		for (x in _enemies){
 			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
@@ -299,6 +301,17 @@ class PlayState extends FlxState
 			}
 		}
 		
+		//FlxG.collide(_enemies, _mWalls, enemy_collision);
+		for (enemy in _enemies) {
+			if (FlxG.collide(enemy, _mWalls)) {
+				if (enemy.isTouching(FlxObject.DOWN)) {
+					enemy.grounded();
+				}
+			} else {
+				enemy.airborne = true;
+			}
+		}
+		
 		super.update(elapsed);
 	}
 
@@ -312,6 +325,10 @@ class PlayState extends FlxState
 			}
 		}
   	}
+	
+	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
+		enemy.velocity.set(0, 0);
+	}
 
 	public function game_over() {
 		trace("You died lol");
