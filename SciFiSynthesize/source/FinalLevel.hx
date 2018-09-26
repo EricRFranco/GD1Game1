@@ -23,7 +23,8 @@ class FinalLevel extends PlayState {
 
     public override function create() : Void {
         _map = new TiledMap(AssetPaths.newlevel2__tmx);
-        //background goes here
+        var bg = new FlxBackdrop("assets/images/sky.png");
+		add(bg);
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decorations"), TiledTileLayer).tileArray, _map.width, _map.height,
@@ -54,5 +55,14 @@ class FinalLevel extends PlayState {
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
         _player._mutagens.push(new PushBoxes(0, 0, _player));
+		
+		_camera = new FlxCamera(0, 0, 925, 750);
+		_camera.follow(_player);
+		_camera.setScrollBounds(0, 2000, 0, 500);
+		_camera.zoom = 2;
+		FlxG.cameras.reset(_camera);
+		FlxCamera.defaultCameras = [_camera];
+		
+		super.create();
     }
 }
