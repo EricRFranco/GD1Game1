@@ -66,6 +66,36 @@ class FinalLevel extends PlayState {
 		_sceneComponents.add(antennae);
 		add(antennae);
 		
+		var enemy1 = new Enemy(120, 425, 3); //laser
+		_enemies.add(enemy1);
+		var enemy2 = new Enemy(255, 350, 2);
+		_enemies.add(enemy2);
+		var enemy3 = new Enemy(170, 250, 3); //laser
+		_enemies.add(enemy3);
+		var enemy4 = new Enemy(340, 420, 2);
+		_enemies.add(enemy4);
+		var enemy5 = new Enemy(480, 335, 3); //laser
+		_enemies.add(enemy5);
+		var enemy6 = new Enemy(570, 15, 1);
+		_enemies.add(enemy6);
+		var enemy7 = new Enemy(630, 420, 2);
+		_enemies.add(enemy7);
+		var enemy8 = new Enemy(975, 420, 3); //laser
+		_enemies.add(enemy8);
+		var enemy9 = new Enemy(1180, 385, 2);
+		_enemies.add(enemy9);
+		var enemy10 = new Enemy(1070, 275, 2); //laser
+		_enemies.add(enemy10);
+		var enemy11 = new Enemy(1070, 175, 3); //laser
+		_enemies.add(enemy11);
+		
+		for (enemy in _enemies) {
+			enemy.scale.set(0.5, 0.5);
+			enemy.updateHitbox();
+		}
+		
+		add(_enemies);
+		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
 		_camera.setScrollBounds(0, 2000, 0, 500);

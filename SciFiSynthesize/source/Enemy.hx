@@ -256,7 +256,7 @@ class Enemy extends FlxSprite {
   }
 
   function move(?_left:Bool = false, _right:Bool = false):Void {
-    if (attackCooldown > 120){
+    /*if (attackCooldown > 120){
       velocity.set(0,0);
       acceleration.set(0,0);
       return;
@@ -280,7 +280,7 @@ class Enemy extends FlxSprite {
       xvel = 0;
       animation.stop();
       //trace("still");
-    }
+    }*/
   }
   function attack( ) : Void {
       if(attackCooldown <=0){

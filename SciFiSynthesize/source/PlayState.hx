@@ -272,6 +272,7 @@ class PlayState extends FlxState
 			//trace("Touched enemy!!");
 			for (enemy in _enemies) {
 				if (FlxG.overlap(_player, enemy)) {
+					enemy.velocity.set(0, 0);
 					if (_player.y + 20 > enemy.y) {
 						_player.knockback(false);
 					} else {
