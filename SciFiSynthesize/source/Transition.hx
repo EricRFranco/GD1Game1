@@ -14,6 +14,8 @@ class Transition extends FlxState{
   public var _nextLevel:Int;
 
   override public function create(): Void {
+	FlxG.sound.playMusic("assets/music/synthesize_elevator_music.wav");
+	  
     _proceedButton = new FlxButton(0, 0, " ", next);
     _proceedButton.loadGraphic("assets/images/proceed-unpressed.png");
     _proceedButton.updateHitbox();

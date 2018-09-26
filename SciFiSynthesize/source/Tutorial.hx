@@ -28,19 +28,8 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _map = new TiledMap(AssetPaths.tutorial__tmx);
 		var bg = new FlxBackdrop("assets/images/background.png");
 		add(bg);
-
-		if (FlxG.sound.music == null) {
-			FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
-		}
-        //Make sure the background is loaded first. Otherwise it will cover the walls layer
-        /*_mBackground = new FlxTilemap();
-        _mBackground.loadMapFromArray(cast(_map.getLayer("Background"), TiledTileLayer).tileArray, _map.width, _map.height,
-            AssetPaths.labset__png, _map.tileWidth, _map.tileHeight, FlxTilemapAutoTiling.OFF, 1, 1, 3);
-        _mBackground.follow();
-        _mBackground.setTileProperties(2, FlxObject.NONE);
-        _mBackground.setTileProperties(3, FlxObject.ANY);
-        add(_mBackground);*/
-		//bgColor = FlxColor.GRAY;
+		
+		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decoration"), TiledTileLayer).tileArray, _map.width, _map.height,
