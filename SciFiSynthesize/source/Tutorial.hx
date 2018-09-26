@@ -62,9 +62,11 @@ class Tutorial extends PlayState {
         _mWalls.setTileProperties(3, FlxObject.ANY);
         add(_mWalls);
 
-        _player = new Player(20, 350);
-		add(_player);
+        _player = new Player(20, 335);
 		_player.health = 3;
+		_player.scale.set(0.35, 0.35);
+		_player.updateHitbox();
+		add(_player);
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
 		// Add components to the scene

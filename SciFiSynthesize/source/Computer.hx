@@ -13,7 +13,7 @@ class Computer extends FlxSprite
 	public function new(X:Float, Y:Float, text:FlxText, bg:FlxSprite, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(20, 20, FlxColor.GREEN);
+		makeGraphic(20, 20, FlxColor.TRANSPARENT);
 		log_text = text;
 		log_bg = bg;
 	}

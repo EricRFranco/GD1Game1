@@ -30,8 +30,9 @@ class Player extends FlxSprite  {
   public  var paused:Bool = false;
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
-    super(X,Y,SimpleGraphic);
-    makeGraphic(20, 20, FlxColor.BLUE);
+    super(X, Y, SimpleGraphic);
+	loadGraphic("assets/images/MainCharacterMovement.png", true, 100, 100);
+	animation.add("Walk", [0,1,2,3] ,15);
     drag.x = 1000;
     drag.y = 0; // vertical drag is handled manually by the move() function
     addAllMutagens();
@@ -213,10 +214,6 @@ class Player extends FlxSprite  {
           _inventory.remove(c);
         }
       }
-    }
-    for(mut in _mutagens) {
-      if(mut == m)
-        //trace("Mutagen synthesized.");
     }
   }
 

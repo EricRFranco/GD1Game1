@@ -52,7 +52,9 @@ class FinalLevel extends PlayState {
         _mWalls.setTileProperties(3, FlxObject.ANY);
         add(_mWalls);
 
-        _player = new Player(20, 460);
+        _player = new Player(20, 440);
+		_player.scale.set(0.35, 0.35);
+		_player.updateHitbox();
 		add(_player);
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
