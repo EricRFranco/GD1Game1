@@ -138,6 +138,18 @@ class LevelOne extends PlayState {
 		FlxCamera.defaultCameras = [_camera];
 
 		super.create();
+		
+		var log3_hitbox = new Computer(420, 35, log3, log3_background);
+		_computers.add(log3_hitbox);
+		add(log3_hitbox);
+		
+		var log4_hitbox = new Computer(1090, 190, log4, log4_background);
+		_computers.add(log4_hitbox);
+		add(log4_hitbox);
+		
+		var log5_hitbox = new Computer(1420, 455, log5, log5_background);
+		_computers.add(log5_hitbox);
+		add(log5_hitbox);
     }
     override public function update(elapsed:Float):Void{
       if(FlxG.overlap(_player,_switchfield) && ( FlxG.keys.anyPressed([DOWN, S]))){
