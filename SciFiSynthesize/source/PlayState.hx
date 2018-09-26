@@ -40,6 +40,7 @@ class PlayState extends FlxState
 	var remove_mut:Bool;
 	var _mWalls:FlxTilemap;
 	var _mBoxes:FlxTilemap;
+	var _uicamera:FlxCamera;
 
 	override public function create():Void
 	{
@@ -122,7 +123,7 @@ class PlayState extends FlxState
 		FlxG.cameras.add(_camera);*/
 
 		//health UI in upper left corner
-		_hp1 = new Health(10, 10);
+		/*_hp1 = new Health(10, 10);
 		add(_hp1);
 		_hp2 = new Health(30, 10);
 		add(_hp2);
@@ -131,7 +132,7 @@ class PlayState extends FlxState
 		FlxG.mouse.visible = false;
 		highjump = new HighJump(1100, 10, _player);
 		pushboxes = new PushBoxes(1100, 10, _player);
-		superrush = new SuperRush(1100, 10, _player);
+		superrush = new SuperRush(1100, 10, _player);*/
 
 		super.create();
 	}
