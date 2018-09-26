@@ -51,14 +51,27 @@ class LevelOne extends PlayState {
         _mWalls.setTileProperties(3, FlxObject.ANY);
         add(_mWalls);
 
-        _player = new Player(20, 350);
+        _player = new Player(20, 460);
 		add(_player);
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
 		
+		var enemy1 = new Enemy(200, 450, 1);
+		_enemies.add(enemy1);
+		var enemy2 = new Enemy(40, 350, 2, 0);
+		_enemies.add(enemy2);
+		var enemy3 = new Enemy(730, 200, 1, 0);
+		_enemies.add(enemy3);
+		
+		for (enemy in _enemies) {
+			enemy.scale.set(0.5, 0.5);
+			enemy.updateHitbox();
+		}
+		add(_enemies);
+		
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
-		_camera.setScrollBounds(0, 2000, 0, 2000);
+		_camera.setScrollBounds(0, 2000, 0, 500);
 		_camera.zoom = 2;
 		FlxG.cameras.reset(_camera);
 		FlxCamera.defaultCameras = [_camera];
