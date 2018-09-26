@@ -54,7 +54,6 @@ class PlayState extends FlxState
 	var gameover_text:FlxText;
 	var gameover_button:FlxButton;
 	var _health:FlxTypedGroup<Health>;
-	var _currentState:Int = 0;
 	var log1:FlxText;
 	var log1_background:FlxSprite;
 	var log2:FlxText;
@@ -105,6 +104,7 @@ class PlayState extends FlxState
 		_player.health = 3;
 		highjump = new HighJump(850, 10, _player);
 		pushboxes = new PushBoxes(850, 10, _player);
+		superrush = new SuperRush(850, 10, _player);
 
 		_uicamera = new FlxCamera(0, 0, 925, 750);
 		_uicamera.bgColor = FlxColor.TRANSPARENT;
@@ -225,6 +225,7 @@ class PlayState extends FlxState
 		
 		highjump.cameras = [_uicamera];
 		pushboxes.cameras = [_uicamera];
+		superrush.cameras = [_uicamera];
 
 		_canCreateMutagen.cameras = [_uicamera];
 		_canCreateMutagen.screenCenter();
@@ -236,13 +237,13 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		trace("x: " + _player.x);
-		trace("y: " + _player.y);
+		//trace("x: " + _player.x);
+		//trace("y: " + _player.y);
 
 		for(mut in _player.allMutagens()) {
 			if(_player.hasAllComponents(mut)) {
 				_canMut = true;
-				trace("Can create a mutagen");
+				//trace("Can create a mutagen");
 				_canCreateMutagen.text = "Press E to synthesize a new mutagen!";
 				break;
 			}
@@ -271,6 +272,7 @@ class PlayState extends FlxState
 			//trace("Touched enemy!!");
 			for (enemy in _enemies) {
 				if (FlxG.overlap(_player, enemy)) {
+					enemy.velocity.set(0, 0);
 					if (_player.y + 20 > enemy.y) {
 						_player.knockback(false);
 					} else {

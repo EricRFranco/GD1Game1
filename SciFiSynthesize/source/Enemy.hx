@@ -99,7 +99,7 @@ class Enemy extends FlxSprite {
       }
       var distanceFromPlayer:Float = Math.sqrt((playerX - (x+width/2))*(playerX - (x+width/2)) + (playerY-(y+height/2))*(playerY - (y+height/2)));
       if (distanceFromPlayer > 2000){ // do nothing when far away from player
-        move();
+        //move();
       }
       else if (distanceFromPlayer > 800 && distanceFromPlayer <= 2000){ // patrol when withing about a screens didstance from player
         if (((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft))&&((playerY < y + height)&&(playerY > y -height))){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
@@ -256,6 +256,9 @@ class Enemy extends FlxSprite {
   }
 
   function move(?_left:Bool = false, _right:Bool = false):Void {
+	if (enemyType == 2 || enemyType == 3) {
+		return;
+	}
     if (attackCooldown > 120){
       velocity.set(0,0);
       acceleration.set(0,0);

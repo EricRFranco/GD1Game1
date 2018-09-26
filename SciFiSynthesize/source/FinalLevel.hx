@@ -23,7 +23,10 @@ class FinalLevel extends PlayState {
 
     public override function create() : Void {
         _map = new TiledMap(AssetPaths.newlevel2__tmx);
-        //background goes here
+        var bg = new FlxBackdrop("assets/images/sky.png");
+		add(bg);
+		
+		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
         _mDecorations.loadMapFromArray(cast(_map.getLayer("Decorations"), TiledTileLayer).tileArray, _map.width, _map.height,
@@ -54,5 +57,55 @@ class FinalLevel extends PlayState {
 		
 		_player._mutagens.push(new HighJump(0, 0, _player));
         _player._mutagens.push(new PushBoxes(0, 0, _player));
+		_player.health = 3;
+		
+		_battery = new Component("Battery", 140, 280);
+		_sceneComponents.add(_battery);
+		add(_battery);
+		_fan = new Component("Fan", 790, 470);
+		_sceneComponents.add(_fan);
+		add(_fan);
+		var antennae = new Component("Antennae", 610, 65);
+		_sceneComponents.add(antennae);
+		add(antennae);
+		
+		var enemy1 = new Enemy(120, 425, 3); //laser
+		_enemies.add(enemy1);
+		var enemy2 = new Enemy(225, 350, 2);
+		_enemies.add(enemy2);
+		var enemy3 = new Enemy(170, 250, 3); //laser
+		_enemies.add(enemy3);
+		var enemy4 = new Enemy(340, 420, 2);
+		_enemies.add(enemy4);
+		var enemy5 = new Enemy(480, 335, 3); //laser
+		_enemies.add(enemy5);
+		var enemy6 = new Enemy(570, 15, 1);
+		_enemies.add(enemy6);
+		var enemy7 = new Enemy(630, 420, 2);
+		_enemies.add(enemy7);
+		var enemy8 = new Enemy(975, 420, 3); //laser
+		_enemies.add(enemy8);
+		var enemy9 = new Enemy(1180, 385, 2);
+		_enemies.add(enemy9);
+		var enemy10 = new Enemy(1070, 275, 2); //laser
+		_enemies.add(enemy10);
+		var enemy11 = new Enemy(1070, 175, 3); //laser
+		_enemies.add(enemy11);
+		
+		for (enemy in _enemies) {
+			enemy.scale.set(0.5, 0.5);
+			enemy.updateHitbox();
+		}
+		
+		add(_enemies);
+		
+		_camera = new FlxCamera(0, 0, 925, 750);
+		_camera.follow(_player);
+		_camera.setScrollBounds(0, 2000, 0, 500);
+		_camera.zoom = 2;
+		FlxG.cameras.reset(_camera);
+		FlxCamera.defaultCameras = [_camera];
+		
+		super.create();
     }
 }

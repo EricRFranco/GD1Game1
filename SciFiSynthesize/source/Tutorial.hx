@@ -21,9 +21,6 @@ class Tutorial extends PlayState {
     var _mDecorations:FlxTilemap;
     var _mComputers:FlxTilemap;
     var _switchfield:SwitchField;
-	var log1:FlxText;
-	var log1_background:FlxSprite;
-	var _canCreateMutagen:FlxText =  new FlxText(487, 50, 400, "", 16);
 	var _canSynthesize:Bool = false;
 
     override public function create():Void {
@@ -67,6 +64,7 @@ class Tutorial extends PlayState {
 
         _player = new Player(20, 350);
 		add(_player);
+		_player.health = 3;
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
 
 		// Add components to the scene
