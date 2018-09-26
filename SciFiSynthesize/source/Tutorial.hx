@@ -72,6 +72,14 @@ class Tutorial extends PlayState { //we can have this extend PlayState later
         _player = new Player(20, 350);
 		add(_player);
         //var tmpMap:TiledObjectLayer = cast _map.getLayer("entities");
+		
+		_spring = new Component("Spring", 250, 358);
+		add(_spring);
+		_sceneComponents.add(_spring);
+		
+		_shoe = new Component("Shoe", 400, 204);
+		add(_shoe);
+		_sceneComponents.add(_shoe);
 
 		var _health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
