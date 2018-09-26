@@ -5,6 +5,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
+import flixel.FlxObject;
 
 class Player extends FlxSprite  {
   var damageCooldown:Int = 0;
@@ -32,7 +33,9 @@ class Player extends FlxSprite  {
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X, Y, SimpleGraphic);
 	loadGraphic("assets/images/MainCharacterMovement.png", true, 100, 100);
-	animation.add("Walk", [0,1,2,3] ,15);
+	animation.add("Walk", [0, 1, 2, 3] , 15);
+	setFacingFlip(FlxObject.LEFT, true, false);
+	setFacingFlip(FlxObject.RIGHT, false, false);
     drag.x = 1000;
     drag.y = 0; // vertical drag is handled manually by the move() function
     addAllMutagens();
@@ -50,6 +53,7 @@ class Player extends FlxSprite  {
     _left = FlxG.keys.anyPressed([LEFT, A]);
     _right = FlxG.keys.anyPressed([RIGHT, D]);
 
+	animation.play("Walk");
 	if (paused) {
 		velocity.set(0, 0);
 	}
@@ -69,11 +73,13 @@ class Player extends FlxSprite  {
         velocity.set(0,_oldy);
       }
       else if (_left){
-        velocity.set(-speed,_oldy);
+        velocity.set( -speed, _oldy);
+		facing = FlxObject.LEFT;
         xvel = -speed;
       }
       else if (_right){
-        velocity.set(speed,_oldy);
+        velocity.set(speed, _oldy);
+		facing = FlxObject.RIGHT;
         xvel = speed;
       }
       else {
@@ -113,6 +119,7 @@ class Player extends FlxSprite  {
       yvel = -jump;
     }
     else{
+	  animation.stop();
       velocity.set(0, 0);
 	  xvel = 0;
     }
