@@ -122,7 +122,11 @@ class LevelOne extends PlayState {
 		_sceneComponents.add(_glove);
 		_dumbell = new Component("Dumbell", 1065, 95);
 		_sceneComponents.add(_dumbell);
+    var _microphone = new Component("Microphone",45,212);
+    _sceneComponents.add(_microphone);
 		add(_sceneComponents);
+
+
 
 		_camera = new FlxCamera(0, 0, 925, 750);
 		_camera.follow(_player);
