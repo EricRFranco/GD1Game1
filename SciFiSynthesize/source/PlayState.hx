@@ -247,6 +247,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
+		
 		for (x in _enemies){
 			x.givePlayerLocation(_player.x+10,_player.y+10);
 		}
@@ -300,7 +301,16 @@ class PlayState extends FlxState
 			}
 		}
 		
-		FlxG.collide(_enemies, _mWalls, enemy_collision);
+		//FlxG.collide(_enemies, _mWalls, enemy_collision);
+		for (enemy in _enemies) {
+			if (FlxG.collide(enemy, _mWalls)) {
+				if (enemy.isTouching(FlxObject.DOWN)) {
+					enemy.grounded();
+				}
+			} else {
+				enemy.airborne = true;
+			}
+		}
 		
 		super.update(elapsed);
 	}
