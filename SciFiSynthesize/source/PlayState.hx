@@ -317,7 +317,6 @@ class PlayState extends FlxState
 			}
 		}
 
-		//FlxG.collide(_enemies, _mWalls, enemy_collision);
 		for (enemy in _enemies) {
 			if (FlxG.collide(enemy, _mWalls)) {
 				if (enemy.isTouching(FlxObject.DOWN)) {
@@ -361,8 +360,6 @@ class PlayState extends FlxState
 			FlxG.overlap(_player, _computers, openLog);
 		}
 
-		//FlxG.overlap(_player, _computers, openLog);
-
 		super.update(elapsed);
 	}
 
@@ -389,10 +386,6 @@ class PlayState extends FlxState
 				enemy.paused = true;
 			}
 		}
-	}
-
-	function enemy_collision(enemy:FlxObject, wall:FlxObject): Void {
-		enemy.velocity.set(0, 0);
 	}
 
 	public function game_over() {
