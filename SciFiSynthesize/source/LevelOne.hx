@@ -52,5 +52,16 @@ class LevelOne extends PlayState {
 
         _player = new Player(20, 350);
 		add(_player);
+		
+		_player._mutagens.push(new HighJump(0, 0, _player));
+		
+		_camera = new FlxCamera(0, 0, 925, 750);
+		_camera.follow(_player);
+		_camera.setScrollBounds(0, 2000, 0, 2000);
+		_camera.zoom = 2;
+		FlxG.cameras.reset(_camera);
+		FlxCamera.defaultCameras = [_camera];
+		
+		super.create();
     }
 }
