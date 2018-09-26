@@ -7,6 +7,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 class Player extends FlxSprite  {
+  var damageCooldown:Int = 0;
   public  var speed:Float = 300;
   public  var jump:Float = 175;
   public  var xvel:Float = 0; //store x velocity
@@ -167,6 +168,7 @@ class Player extends FlxSprite  {
   }
 
   override public function update( elapsed:Float ) : Void {
+    damageCooldown -=1;
     move();
 	rush(false);
     var cycle:Bool = true;
@@ -260,7 +262,9 @@ class Player extends FlxSprite  {
   }
 
   public function takeDamage():Void {
+    if (damageCooldown >0)return;
 	  hp -= 1;
+    damageCooldown=40;
 	  if (hp <= 0) {
 		  _alive = false;
 	  }

@@ -15,6 +15,7 @@ import sys.io.File;
 
 class PlayState extends FlxState
 {
+	var _currentState:Int = 0;
 	var _player:Player;
 	var _ground:FlxSprite;
 	var _spring:Component;	// Exist only to test mutagen synthesis
@@ -513,6 +514,7 @@ class PlayState extends FlxState
 		gameover_button.cameras = [_uicamera];
 		gameover_button.screenCenter();
 		gameover_button.y += 30;
+		gameover_button.onDown.callback = onButtonDown;
 		add(gameover_button);
 	}
 
