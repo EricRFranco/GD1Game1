@@ -6,6 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class HighJump extends Mutagen {
 	public function new(X:Float, Y:Float, p:Player, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, p, FlxColor.GREEN, SimpleGraphic);
+        loadBadge();
 		mut_str = "high jump";
 	}
 	
@@ -27,6 +28,10 @@ class HighJump extends Mutagen {
     public override function changePlayerColor():Void {
         trace("Changing player color");
         //_player.color = FlxColor.GREEN;   // Apparently changing color this way makes the sprite disappear altogether.
+    }
+
+    public override function loadBadge():Void {
+        loadGraphic("assets/images/high-jump.png");
     }
 
 }

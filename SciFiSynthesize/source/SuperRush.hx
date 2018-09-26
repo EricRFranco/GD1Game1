@@ -6,6 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class SuperRush extends Mutagen {
 	public function new(X:Float, Y:Float, p:Player, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, p, FlxColor.PINK, SimpleGraphic);
+        loadBadge();
 		mut_str = "super rush";
 	}	
 	
@@ -24,5 +25,9 @@ class SuperRush extends Mutagen {
 
     public override function changePlayerColor():Void {
         trace("Changing player color");
+    }
+
+    public override function loadBadge():Void {
+        loadGraphic("assets/images/super-rush.png");
     }
 }

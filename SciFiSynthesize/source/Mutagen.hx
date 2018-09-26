@@ -12,7 +12,7 @@ class Mutagen extends FlxSprite {
 
     public function new(X:Float, Y:Float, p:Player, c:FlxColor, ?SimpleGraphic:FlxGraphicAsset) {
 		super(X, Y, SimpleGraphic);
-		makeGraphic(30, 30, c);
+		//makeGraphic(30, 30, c);
         _player = p;
         createRecipe();
 		scrollFactor.set(0, 0);
@@ -38,6 +38,10 @@ class Mutagen extends FlxSprite {
 
     public function changePlayerColor():Void {
         
+    }
+
+    public function loadBadge():Void {
+
     }
 
 }
