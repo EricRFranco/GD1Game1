@@ -24,8 +24,9 @@ class FinalLevel extends PlayState {
     public override function create() : Void {
         _map = new TiledMap(AssetPaths.newlevel2__tmx);
         var bg = new FlxBackdrop("assets/images/sky.png");
-		add(bg);
-		
+		    add(bg);
+        _currentState = 2;
+
 		FlxG.sound.playMusic("assets/music/synthesize_level_music.wav");
 
         _mDecorations = new FlxTilemap();
