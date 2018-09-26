@@ -82,8 +82,12 @@ class Tutorial extends PlayState {
 		var enemy2 = new Enemy(120, 50, 0);
 		enemy2.scale.set(0.5, 0.5);
 		enemy2.updateHitbox();
+		var enemy3 = new Enemy(150, 300, 2);
+		enemy3.scale.set(0.5, 0.5);
+		enemy3.updateHitbox();
 		_enemies.add(enemy1);
 		_enemies.add(enemy2);
+		_enemies.add(enemy3);
 		add(_enemies);
 		
 		var log1_background = new FlxSprite(25, 500);
@@ -135,7 +139,7 @@ class Tutorial extends PlayState {
 		add(log2_hitbox);
 
 		// Add UI elements
-		var _health = new FlxTypedGroup<Health>();
+		_health = new FlxTypedGroup<Health>();
 		_hp1 = new Health(40, 10);
 		_hp2 = new Health(60, 10);
 		_hp3 = new Health(80, 10);
@@ -147,7 +151,7 @@ class Tutorial extends PlayState {
 		highjump = new HighJump(850, 10, _player);
 
         // camera to scroll with player
-		var _camera = new FlxCamera(0, 0, 925, 750);
+		_camera = new FlxCamera(0, 0, 925, 750);
 		// camera to hold ui components
 		_uicamera = new FlxCamera(0, 0, 925, 750);
 

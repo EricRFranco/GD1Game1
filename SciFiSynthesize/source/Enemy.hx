@@ -76,6 +76,7 @@ class Enemy extends FlxSprite {
   }
   function determineAction(playerX:Float, playerY:Float ) : Void {
       //trace(playerX,x,playerY,y);
+      if(attackCooldown > 120)return;
       var playerOnLeft:Bool = false;
       if ((playerX - x) < 0){
         playerOnLeft = true;
@@ -160,8 +161,7 @@ class Enemy extends FlxSprite {
           }
         }
         else if (enemyType ==1){ // Melee Enemy Attack Close Range Behavior
-          if ((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft)){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
-            seenPlayer = true;
+          if (seenPlayer){ // only attack if facing the player otherwise keep patroling as if the player isn't seen
             if (distanceFromPlayer>200){ // get closer for melee attack
               if ( playerOnLeft){
                 if (x>patrolLeft){
@@ -209,14 +209,10 @@ class Enemy extends FlxSprite {
           }
         }
         else{ // Ranged Enemy Attack Range behavior
-          if ((playerOnLeft && facingLeft) || ((!playerOnLeft) && (!facingLeft))){
-            seenPlayer = true;
-            if((playerY< y+86)&&(playerY>y-34)){
-              attack();
-            }
-            else{
-              move();
-            }
+          if (((playerOnLeft && facingLeft) || (!playerOnLeft && !facingLeft))&&((playerY < y + height)&&(playerY > y -height))){
+            facingLeft = playerOnLeft;
+            attack();
+            move(false,false);
           }
           else{
             if (seenPlayer){
@@ -249,21 +245,25 @@ class Enemy extends FlxSprite {
   }
 
   function move(?_left:Bool = false, _right:Bool = false):Void {
-    if (attackCooldown > 120) return;
+    if (attackCooldown > 120){
+      velocity.set(0,0);
+      acceleration.set(0,0);
+      return;
+    }
     var _oldx:Float = xvel;
     var _oldy:Float = yvel;
     if (_left ){
-      velocity.set(-speed,0);
+      velocity.set(-speed,yvel);
       xvel=-speed;
       //trace ("left");
     }
     else if (_right){
-      velocity.set(speed, 0);
+      velocity.set(speed, yvel);
       xvel = speed;
       //trace("right");
     }
     else {
-      velocity.set(0,0);
+      velocity.set(0,yvel);
       xvel = 0;
       //trace("still");
     }
@@ -283,18 +283,20 @@ class Enemy extends FlxSprite {
         attackCooldown = 240;
       }
       else{ //ranged attack
-        if(enemyType == 2){  // Bullet Type
-          shots = Std.random(5)+1;
+        if (enemyType == 2){  // Bullet Type
+          shots = Std.random(5) + 1;
+		  FlxG.sound.play("assets/sounds/gunshots.wav");
         }
         else if(enemyType == 3){ // Laser Type
           attackCooldown = 420;
           var playState:PlayState = cast FlxG.state;
           var laser = playState._lasers.recycle();
+		  FlxG.sound.play("assets/sounds/laser.wav");
           if (facingLeft){
-            laser.reset(x-1000, y+18);
+            laser.reset(x-1000, y+8);
           }
           else{
-            laser.reset(x+56, y+18);
+            laser.reset(x+28, y+8);
           }
           laser.fullReset(facingLeft);
         }
@@ -309,10 +311,10 @@ class Enemy extends FlxSprite {
         var playState:PlayState = cast FlxG.state;
         var bullet = playState._bullets.recycle();
         if (facingLeft){
-          bullet.reset(x-20,y+18);
+          bullet.reset(x-12,y+9);
         }
         else{
-          bullet.reset(x+56,y+18);
+          bullet.reset(x+24,y+9);
         }
         bullet.fullReset(facingLeft);
         shots -= 1;
@@ -327,13 +329,16 @@ class Enemy extends FlxSprite {
   }
   override public function update(elapsed:Float) : Void {
     super.update(elapsed);
-    attackCooldown -= 1;
-    multiShot();
     facing = 1;
-    if (attackCooldown > 120) return;
     if (facingLeft){
       setFacingFlip(1,true,false);
     }
     else setFacingFlip(1,false,false);
+    attackCooldown -= 1;
+    if (attackCooldown > 120) {
+      move(false,false);
+      return;
+    }
+    multiShot();
   }
 }
