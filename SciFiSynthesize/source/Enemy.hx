@@ -22,6 +22,8 @@ class Enemy extends FlxSprite {
   var researcherDirectionChangeCounter:Int = 0;
   var seenPlayer:Bool = false;
   var shots:Int = 0; // Number of bullets the enemey will shoot at a time;
+  public var paused:Bool = false;
+  
   public function new(?X:Float=0, ?Y:Float=0, ?E:Int = 0, ?R:Int = 0, ?SimpleGraphic:FlxGraphicAsset) { // Give this function x and y coordinates as if the sprites were 100 x 100 the constructor will adjust the values for each sprite
     super(X,Y,SimpleGraphic);
     enemyType = E;
@@ -79,7 +81,11 @@ class Enemy extends FlxSprite {
         playerOnLeft = true;
       }
 
-      if (airborne) {
+	  if (paused) {
+		  velocity.set(0, 0);
+		  return;
+	  }
+      else if (airborne) {
         yvel = yvel + 4;
         velocity.set(xvel, yvel);
       }
