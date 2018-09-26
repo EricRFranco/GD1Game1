@@ -32,8 +32,9 @@ class Player extends FlxSprite  {
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
     super(X, Y, SimpleGraphic);
-	loadGraphic("assets/images/MainCharacterMovement.png", true, 100, 100);
+	loadGraphic("assets/images/MainCharacterMovementRush.png", true, 100, 100);
 	animation.add("Walk", [0, 1, 2, 3] , 15);
+	animation.add("Rush", [4, 5, 6, 7] , 5);
 	setFacingFlip(FlxObject.LEFT, true, false);
 	setFacingFlip(FlxObject.RIGHT, false, false);
     drag.x = 1000;
@@ -141,6 +142,7 @@ class Player extends FlxSprite  {
   function rush(midrush:Bool) : Void {
 	var _rush = FlxG.keys.justPressed.C;
 	if ((_rush || midrush) && !just_rushed && air_rush) {
+		animation.play("Rush");
 		if (xvel > 0) {
 			velocity.set(xvel + 400, 0);
 		}
@@ -165,6 +167,7 @@ class Player extends FlxSprite  {
 
   // Called when timer concludes to stop rushing velocity
   function stop_rush(Timer:FlxTimer) : Void {
+	  animation.stop();
 	  rushing = false;
 	  velocity.set(0, 0);
 	  just_rushed = true;
